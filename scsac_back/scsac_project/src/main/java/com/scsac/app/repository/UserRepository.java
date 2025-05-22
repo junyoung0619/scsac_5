@@ -10,5 +10,5 @@ import com.scsac.app.entity.UserEntity;
 
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, String> {
-	Optional<UserEntity> findById(String id);
+	Optional<UserEntity> findById(String id); 
 }
