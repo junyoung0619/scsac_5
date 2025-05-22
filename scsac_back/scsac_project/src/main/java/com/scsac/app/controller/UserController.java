@@ -1,0 +1,57 @@
+package com.scsac.app.controller;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.scsac.app.dto.User;
+import com.scsac.app.service.UserService;
+
+import lombok.RequiredArgsConstructor;
+
+@CrossOrigin("*")
+@RequestMapping("/user")
+@RestController
+@RequiredArgsConstructor
+public class UserController {
+	private final UserService us;
+	
+	@GetMapping("/user/{id}")
+	public ResponseEntity<?> detail(@PathVariable String id){
+		User user = us.findbyId(id);
+		if(user!=null) {
+			return new ResponseEntity<User>(user,HttpStatus.OK);
+		} else {
+			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+		}
+	}
+	
+	@PostMapping("/user")
+	public ResponseEntity<?> insert(@RequestBody User user){
+		int r = us.insertUser(user);
+		if(r==1){
+			return new ResponseEntity<Integer>(r,HttpStatus.CREATED);
+		}else{
+			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@PutMapping("/user")
+	public ResponseEntity<?> update(@RequestBody User user){
+		int r = us.updateUser(user);
+		if(r==1){
+			return new ResponseEntity<Integer>(r,HttpStatus.OK);
+		}else{
+			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+		}
+	}
+}
