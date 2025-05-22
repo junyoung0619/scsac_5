@@ -1,0 +1,132 @@
+#######################################
+# 🌍 OS 및 에디터 공통 무시 항목
+#######################################
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+
+# 편집기
+.vscode/
+.idea/
+*.swp
+*.swo
+*.bak
+*.tmp
+*.log
+*.orig
+
+#######################################
+# ⚛️ Frontend (React + TypeScript)
+#######################################
+
+# 패키지 의존성
+node_modules/
+
+# 빌드 결과물
+build/
+dist/
+
+# 환경변수
+.env
+.env.*
+!.env.example
+
+# 로그
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# 테스트
+coverage/
+
+#######################################
+# ☕ Backend (Spring Boot + Maven)
+#######################################
+
+# 빌드 디렉토리
+target/
+
+# 로그 및 임시 파일
+*.log
+*.tmp
+*.bak
+*.class
+*.jar
+*.war
+*.ear
+
+# Spring Boot devtools
+.spring-boot-devtools.properties
+
+# H2 DB 파일 (로컬 DB)
+*.h2.db
+*.mv.db
+
+# 환경변수
+.env
+*.env
+
+#######################################
+# 📦 STS / Eclipse 관련
+#######################################
+
+.project
+.classpath
+.settings/
+.metadata/
+
+#######################################
+# 🧪 테스트 및 코드 분석 도구
+#######################################
+
+test-output/
+surefire-reports/
+.eslintcache
+.prettierignore
+.prettiercache
+
+#######################################
+# 🔒 민감정보 및 키 파일
+#######################################
+
+secrets.*
+*.key
+*.pem
+*.crt
+*.p12
+*.jks
+*.keystore
+
+#######################################
+# 🐳 Docker (사용 시)
+#######################################
+
+Dockerfile
+docker-compose.yml
+.dockerignore
+*.tar
+*.tgz
+*.container
+*.image
+
+#######################################
+# 📁 파일 업로드 디렉토리 (사용 시)
+#######################################
+
+uploads/
+static/uploads/
