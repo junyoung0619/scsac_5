@@ -17,15 +17,16 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-            .securityMatcher("/**")
+        	.securityMatcher("/**")
+        	.cors(cors -> {})
+        	.csrf(csrf -> csrf
+        			.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+        			)
             .formLogin(AbstractHttpConfigurer::disable)  // ✅ 기본 로그인 폼 제거
             .httpBasic(AbstractHttpConfigurer::disable)  // ✅ 기본 인증 팝업 제거
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/login", "/").permitAll()
                 .anyRequest().authenticated()
-            )
-            .csrf(csrf -> csrf
-                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
             )
             .sessionManagement(session -> session
                 .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)

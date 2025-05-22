@@ -23,13 +23,12 @@ function LoginPage() {
   const handleLogin = async () => {
     try {
       const csrfToken = getCsrfTokenFromCookie()
-  
       const response = await api.post(
         '/login',
         { id, password },
         {
           headers: {
-            'X-XSRF-TOKEN': csrfToken || '', // ✅ 헤더 이름은 이거!
+            'X-CSRF-TOKEN': csrfToken || '', // ✅ 헤더 이름은 이거!
           },
         }
       )
