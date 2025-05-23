@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.scsac.app.dto.User;
@@ -24,33 +25,56 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserController {
 	private final UserService us;
-	
-	@GetMapping("/user/{id}")
-	public ResponseEntity<?> detail(@PathVariable String id){
+
+	@GetMapping("/{id}")
+	public ResponseEntity<?> detail(@PathVariable String id) {
 		User user = us.findbyId(id);
-		if(user!=null) {
-			return new ResponseEntity<User>(user,HttpStatus.OK);
+		if (user != null) {
+			return new ResponseEntity<User>(user, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+		}
+	}
+
+	@PostMapping("/")
+	public ResponseEntity<?> insert(@RequestParam int num, @RequestParam int generation,
+			@RequestParam String password) {
+		int r = us.insertUser(num, generation, password);
+		if (r == 1) {
+			return new ResponseEntity<Integer>(r, HttpStatus.CREATED);
+		} else {
+			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	@PutMapping("/user")
+	public ResponseEntity<?> update(@RequestBody User user) {
+		int r = us.updateUser(user);
+		if (r == 1) {
+			return new ResponseEntity<Integer>(r, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+		}
+	}
+
+	@PutMapping("/admin")
+	public ResponseEntity<?> update(@RequestParam int generation) {
+		int r = us.updateAuthority(generation);
+		if (r == 1) {
+			return new ResponseEntity<Integer>(r, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		}
 	}
 	
-	@PostMapping("/user")
-	public ResponseEntity<?> insert(@RequestBody User user){
-		int r = us.insertUser(user);
-		if(r==1){
-			return new ResponseEntity<Integer>(r,HttpStatus.CREATED);
-		}else{
-			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
-		}
-	}
-	
-	@PutMapping("/user")
-	public ResponseEntity<?> update(@RequestBody User user){
+	@PutMapping("/admin")
+	public ResponseEntity<?> update(@RequestParam String id) {
+		User user = us.findbyId(id);
+		user.setAuthority(1);
 		int r = us.updateUser(user);
-		if(r==1){
-			return new ResponseEntity<Integer>(r,HttpStatus.OK);
-		}else{
+		if (r == 1) {
+			return new ResponseEntity<Integer>(r, HttpStatus.OK);
+		} else {
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		}
 	}

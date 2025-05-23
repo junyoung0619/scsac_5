@@ -15,17 +15,18 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 public class User {
-	private int id;
+	private String id;
 	private String password;
 	private int authority;
 	private int generation;
-	
+
 	private String affiliate;
 	private String name;
 	private String nickname;
 	private String bojId;
-	
+
 	public static UserEntity toEntity(User u) {
-		return new UserEntity(String.valueOf(u.getId()),u.getPassword(),u.getAuthority(),u.getGeneration(),u.getAffiliate(),u.getName(),u.getNickname(),u.getBojId());
+		return new UserEntity(u.getId(), u.getPassword(), u.getAuthority(), u.getGeneration(), u.getAffiliate(),
+				u.getName(), u.getNickname(), u.getBojId());
 	}
 }
