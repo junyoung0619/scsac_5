@@ -25,7 +25,7 @@ function Header() {
         {isLoggedIn ? (
           <>
             <span className="nickname">{nickname}님</span>
-            <button onClick={() => alert('마이페이지 기능은 추후 추가됩니다.')}>마이페이지</button>
+            <button onClick={() => navigate('/mypage')}>마이페이지</button>
             <button onClick={handleLogout}>로그아웃</button>
           </>
         ) : (
