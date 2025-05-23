@@ -21,7 +21,7 @@ USE `scsac` ;
 -- Table `scsac`.`user`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `scsac`.`user` (
-  `id` INT NOT NULL,
+  `id` varchar(10) NOT NULL,
   `password` VARCHAR(100) NOT NULL,
   `authority` INT NOT NULL DEFAULT 3,
   `generation` INT NOT NULL,

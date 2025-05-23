@@ -23,7 +23,6 @@ function LoginPage() {
   const handleLogin = async () => {
     try {
       const csrfToken = getCsrfTokenFromCookie()
-  
       const response = await api.post(
         '/login',
         { id, password },
@@ -33,7 +32,7 @@ function LoginPage() {
           },
         }
       )
-  
+      setError("로그인성공")
       console.log('로그인 성공', response.data)
       window.location.href = '/'
     } catch (err) {
