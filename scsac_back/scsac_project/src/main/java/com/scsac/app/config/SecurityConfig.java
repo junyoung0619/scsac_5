@@ -9,7 +9,6 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @Configuration
 public class SecurityConfig {
@@ -19,11 +18,9 @@ public class SecurityConfig {
         return http
         	.securityMatcher("/**")
         	.cors(cors -> {})
-        	.csrf(csrf -> csrf
-        			.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-        			)
-            .formLogin(AbstractHttpConfigurer::disable)  // ✅ 기본 로그인 폼 제거
-            .httpBasic(AbstractHttpConfigurer::disable)  // ✅ 기본 인증 팝업 제거
+        	.csrf(AbstractHttpConfigurer::disable)
+            .formLogin(AbstractHttpConfigurer::disable)
+            .httpBasic(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/login", "/").permitAll()
                 .anyRequest().authenticated()

@@ -18,10 +18,10 @@ public class WebConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**") // 모든 URL에 대해
-                    .allowedOrigins("http://localhost:5173") // ✅ React 개발 서버 주소
+                    .allowedOrigins("http://localhost:5173")
                     .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                     .allowedHeaders("*")
-                    .allowCredentials(true); // ✅ withCredentials 대응
+                    .allowCredentials(true);
             }
         };
     }

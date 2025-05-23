@@ -28,11 +28,11 @@ function LoginPage() {
         { id, password },
         {
           headers: {
-            'X-CSRF-TOKEN': csrfToken || '', // ✅ 헤더 이름은 이거!
+            'X-XSRF-TOKEN': csrfToken || '', // ✅ 헤더 이름은 이거!
           },
         }
       )
-  
+      setError("로그인성공")
       console.log('로그인 성공', response.data)
       window.location.href = '/'
     } catch (err) {

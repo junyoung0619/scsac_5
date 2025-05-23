@@ -5,6 +5,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 public class AuthController {
-
+	private final PasswordEncoder pe;
 	private final AuthenticationManager authenticaionManager;
 	
 	@PostMapping("/login")
@@ -27,7 +28,7 @@ public class AuthController {
 			new UsernamePasswordAuthenticationToken(request.getId(), request.getPassword());
 		
 		Authentication authResult = authenticaionManager.authenticate(token);
-		
+				
 		SecurityContextHolder.getContext().setAuthentication(authResult);
 		
 		req.getSession(true);
@@ -35,3 +36,5 @@ public class AuthController {
 		return ResponseEntity.ok("로그인 성공!");
 	}
 }
+
+
