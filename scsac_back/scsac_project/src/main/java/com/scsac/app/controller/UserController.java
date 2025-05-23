@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.scsac.app.dto.User;
+import com.scsac.app.security.UserPrincipal;
 import com.scsac.app.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -40,7 +41,7 @@ public class UserController {
 	
 	@PostMapping("/")
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<?> insert(@AuthenticationPrincipal int authority, @RequestParam int num, @RequestParam int generation,
+	public ResponseEntity<?> insert(@RequestParam int num, @RequestParam int generation,
 			@RequestParam String password) {
 		int r = us.insertUser(num, generation, password);
 		if (r == 1) {
@@ -51,7 +52,13 @@ public class UserController {
 	}
 
 	@PutMapping("/user")
-	public ResponseEntity<?> update(@AuthenticationPrincipal String id,@RequestBody User user) {
+	public ResponseEntity<?> update(@AuthenticationPrincipal UserPrincipal loginUser ,@RequestBody User user) {
+		if(loginUser==null) {
+			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		}
+		
+		String id = loginUser.getUsername();
+		
 		if(!id.equals(user.getId())) {
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 		}
@@ -65,7 +72,7 @@ public class UserController {
 
 	@PutMapping("/admin")
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<?> updateauhthority(@AuthenticationPrincipal int authority, @RequestParam int generation) {
+	public ResponseEntity<?> updateauhthority(@RequestParam int generation) {
 		int r = us.updateAuthority(generation);
 		if (r == 1) {
 			return new ResponseEntity<Integer>(r, HttpStatus.OK);
@@ -76,8 +83,11 @@ public class UserController {
 	
 	@PutMapping("/add_admin")
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<?> updateAdmin(@AuthenticationPrincipal int authority, @RequestParam String id) {
+	public ResponseEntity<?> updateAdmin(@RequestParam String id) {
 		User user = us.findbyId(id);
+		if (user == null) {
+		    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 		user.setAuthority(1);
 		int r = us.updateUser(user);
 		if (r == 1) {
