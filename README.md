@@ -23,8 +23,7 @@ SCSAC의 알고리즘 페이지는 선후배 간 알고리즘 문제 풀이 경�
 ### Backend
 - Spring Boot + Spring Security
 - JPA + MySQL
-- RESTful API
-- Session + Cookie 기반 인증
+
 
 ---
 
@@ -38,7 +37,5 @@ SCSAC의 알고리즘 페이지는 선후배 간 알고리즘 문제 풀이 경�
 | 🧩 유형별 필터 | 그래프, 탐색, DP 등 분류 필터링 |
 | 🧠 선배 의견 보기 | 각 문제에 대한 선배들의 코멘트 열람 가능 |
 
----
 
-## 🗂️ 폴더 구조
 
