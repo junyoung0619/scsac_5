@@ -4,8 +4,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,10 +30,15 @@ public class AuthController {
 			new UsernamePasswordAuthenticationToken(request.getId(), request.getPassword());
 		
 		Authentication authResult = authenticaionManager.authenticate(token);
-				
-		SecurityContextHolder.getContext().setAuthentication(authResult);
-		
-		req.getSession(true);
+	    
+		SecurityContext context = SecurityContextHolder.createEmptyContext();
+	    context.setAuthentication(authResult);
+	    SecurityContextHolder.setContext(context);
+						
+		req.getSession(true).setAttribute(
+		        HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
+		        context
+		    );
 		
 		return ResponseEntity.ok("로그인 성공!");
 	}
