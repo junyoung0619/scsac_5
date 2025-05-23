@@ -22,34 +22,35 @@ import lombok.Setter;
 @Builder
 @Table(name = "user")
 public class UserEntity {
-    
+
 	@Id
-    @Column
-    private String id;
-	
-    @Column(length=100, nullable=false)
-    private String password;
-    
-    @Column(nullable=false, columnDefinition = "INT DEFAULT 3")
-    private int authority;
-    
-    @Column(nullable=false)
+	@Column
+	private String id;
+
+	@Column(length = 100, nullable = false)
+	private String password;
+
+	@Column(nullable = false, columnDefinition = "INT DEFAULT 3")
+	private int authority;
+
+	@Column(nullable = false)
 	private int generation;
-	
-    @Column(length=10)
+
+	@Column(length = 10)
 	private String affiliate;
-    
-    @Column(length=45)
+
+	@Column(length = 45)
 	private String name;
-    
-    @Column(length=45)
+
+	@Column(length = 45)
 	private String nickname;
-    
-    @Column(length=100)
+
+	@Column(length = 100)
 	private String bojId;
-    
-    public static User toDto(UserEntity u) {
-    	return new User(u.getId(),u.getPassword(),u.getAuthority(),u.getGeneration(),u.getAffiliate(),u.getName(),u.getNickname(),u.getBojId());
-    	
-    }
+
+	public static User toDto(UserEntity u) {
+		return new User(u.getId(), u.getPassword(), u.getAuthority(), u.getGeneration(), u.getAffiliate(), u.getName(),
+				u.getNickname(), u.getBojId());
+
+	}
 }
