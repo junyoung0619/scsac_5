@@ -22,7 +22,6 @@ import com.scsac.app.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 
-@CrossOrigin("*")
 @RequestMapping("/user")
 @RestController
 @RequiredArgsConstructor
