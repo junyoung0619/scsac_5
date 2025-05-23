@@ -3,7 +3,9 @@ package com.scsac.app.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,14 +32,16 @@ public class UserController {
 	public ResponseEntity<?> detail(@PathVariable String id) {
 		User user = us.findbyId(id);
 		if (user != null) {
+			user.setPassword("");
 			return new ResponseEntity<User>(user, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		}
 	}
-
+	
 	@PostMapping("/")
-	public ResponseEntity<?> insert(@RequestParam int num, @RequestParam int generation,
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<?> insert(@AuthenticationPrincipal int authority, @RequestParam int num, @RequestParam int generation,
 			@RequestParam String password) {
 		int r = us.insertUser(num, generation, password);
 		if (r == 1) {
@@ -48,7 +52,10 @@ public class UserController {
 	}
 
 	@PutMapping("/user")
-	public ResponseEntity<?> update(@RequestBody User user) {
+	public ResponseEntity<?> update(@AuthenticationPrincipal String id,@RequestBody User user) {
+		if(!id.equals(user.getId())) {
+			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		}
 		int r = us.updateUser(user);
 		if (r == 1) {
 			return new ResponseEntity<Integer>(r, HttpStatus.OK);
@@ -58,7 +65,8 @@ public class UserController {
 	}
 
 	@PutMapping("/admin")
-	public ResponseEntity<?> update(@RequestParam int generation) {
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<?> updateauhthority(@AuthenticationPrincipal int authority, @RequestParam int generation) {
 		int r = us.updateAuthority(generation);
 		if (r == 1) {
 			return new ResponseEntity<Integer>(r, HttpStatus.OK);
@@ -67,8 +75,9 @@ public class UserController {
 		}
 	}
 	
-	@PutMapping("/admin")
-	public ResponseEntity<?> update(@RequestParam String id) {
+	@PutMapping("/add_admin")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<?> updateAdmin(@AuthenticationPrincipal int authority, @RequestParam String id) {
 		User user = us.findbyId(id);
 		user.setAuthority(1);
 		int r = us.updateUser(user);
