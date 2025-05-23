@@ -42,6 +42,17 @@ public class AuthController {
 		
 		return ResponseEntity.ok("로그인 성공!");
 	}
+	
+	@PostMapping("/check")
+	public ResponseEntity<?> check(@RequestBody LoginRequest request, HttpServletRequest req){
+		
+		UsernamePasswordAuthenticationToken token = 
+			new UsernamePasswordAuthenticationToken(request.getId(), request.getPassword());
+		
+		Authentication authResult = authenticaionManager.authenticate(token);
+	    
+		return ResponseEntity.ok("비밀번호 일치!");
+	}
 }
 
 
