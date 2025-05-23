@@ -1,10 +1,9 @@
-// src/store/userSlice.ts
 import { createSlice } from '@reduxjs/toolkit'
 import type {PayloadAction} from '@reduxjs/toolkit'
 
 export type UserState = {
   isLoggedIn: boolean
-  id: number
+  id: string
   password: string
   authority: number
   generation: number
@@ -17,7 +16,7 @@ export type UserState = {
 // 초기 상태
 const initialState: UserState = {
   isLoggedIn: false,
-  id: 0,
+  id: '0',
   password: '',
   authority: 3,
   generation: 0,
