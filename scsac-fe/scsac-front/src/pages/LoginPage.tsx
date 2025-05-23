@@ -3,17 +3,6 @@ import { useState } from 'react'
 import api from '../api/axios'
 import '../components/LoginPage.css'
 
-function getCsrfTokenFromCookie(): string | null {
-  const name = 'XSRF-TOKEN='
-  const decoded = decodeURIComponent(document.cookie)
-  const cookies = decoded.split('; ')
-  for (const cookie of cookies) {
-    if (cookie.startsWith(name)) {
-      return cookie.substring(name.length)
-    }
-  }
-  return null
-}
 
 function LoginPage() {
   const [id, setId] = useState('')

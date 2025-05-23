@@ -15,7 +15,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 public class User {
-	private int id;
+	private String id;
 	private String password;
 	private int authority;
 	private int generation;

@@ -49,7 +49,7 @@ public class UserEntity {
 	private String bojId;
     
     public static User toDto(UserEntity u) {
-    	return new User(Integer.parseInt(u.getId()),u.getPassword(),u.getAuthority(),u.getGeneration(),u.getAffiliate(),u.getName(),u.getNickname(),u.getBojId());
+    	return new User(u.getId(),u.getPassword(),u.getAuthority(),u.getGeneration(),u.getAffiliate(),u.getName(),u.getNickname(),u.getBojId());
     	
     }
 }
