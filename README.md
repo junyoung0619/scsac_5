@@ -1,4 +1,4 @@
-# 🧠 SCSAC - 알고리즘 추천 및 공유 페이지
+# 🧠 팀5 SCSAC - Algorithm
 
 ## 📌 프로젝트 개요
 
