@@ -4,14 +4,18 @@ import type { RootState } from '../store'
 import { logout } from '../store/userSlice'
 import './Header.css'
 
+import { useNavigate } from 'react-router-dom'
+
 function Header() {
   const { isLoggedIn, nickname } = useSelector((state: RootState) => state.user)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const handleLogout = () => {
     dispatch(logout())
-    alert('로그아웃 되었습니다.') // 라우터 없으므로 alert 처리
-  }
+    navigate('/')
+    alert('로그아웃 되었습니다')
+ }
 
   return (
     <header className="header">
