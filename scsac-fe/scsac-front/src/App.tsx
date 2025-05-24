@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import MainPage from './pages/MainPage'
 import MyPage from './pages/MyPage'
 import EditProfile from './pages/EditProfilePage'
+import ProblemListPage from './pages/ProblemListPage'
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
         <Route path="/main" element={<MainPage />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/editProfile" element={<EditProfile />} />
+        <Route path="/problems" element={<ProblemListPage />} />
       </Routes>
     </BrowserRouter>
     </>
