@@ -18,6 +18,9 @@ function LoginPage() {
     try {
       const response = await api.post('/login',{ id, password })
 
+      const token = response.data
+      localStorage.setItem("jwt", token)
+      
       console.log('로그인 성공', response.data) // user 정보 출력
       alert("로그인 성공")
 
