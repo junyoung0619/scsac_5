@@ -56,6 +56,7 @@
   | problem_id       | 연관된 문제의 ID (FK)        |
   | rate             | 사용자가 남긴 별점 (1~5)     |
   | feedback_category| 피드백 분류 (ex. "구현 연습") |
+  | category         | 문제의 카테고리              |
   | comment          | 자유롭게 남긴 의견/조언      |
 
   ---
