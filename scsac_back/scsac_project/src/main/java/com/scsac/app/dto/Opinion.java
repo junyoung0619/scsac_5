@@ -1,5 +1,7 @@
 package com.scsac.app.dto;
 
+import java.util.Set;
+
 import com.scsac.app.entity.OpinionEntity;
 
 import lombok.AllArgsConstructor;
@@ -21,9 +23,6 @@ public class Opinion {
     private String feedbackCategory;
     private String category;
     private String comment;
-    
-    public static OpinionEntity toDto(Opinion o) {
-    	
-    	return new OpinionEntity(o.getId(),new Problem(),o.getRate(),o.getFeedbackCategory(),o.getCategory(),o.getComment());
-    }
+
+
 }
