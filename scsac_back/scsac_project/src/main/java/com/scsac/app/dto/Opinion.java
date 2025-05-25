@@ -2,6 +2,8 @@ package com.scsac.app.dto;
 
 import java.util.Set;
 
+import com.scsac.app.entity.CategoryEntity;
+import com.scsac.app.entity.FeedbackCategoryEntity;
 import com.scsac.app.entity.OpinionEntity;
 
 import lombok.AllArgsConstructor;
@@ -23,6 +25,19 @@ public class Opinion {
     private String feedbackCategory;
     private String category;
     private String comment;
+    public OpinionEntity toEntity(Problem problem,
+            Set<CategoryEntity> categoryEntities,
+            Set<FeedbackCategoryEntity> feedbackCategoryEntities) {
+			return OpinionEntity.builder()
+			.id(this.id)
+			.problem(problem)
+			.rate(this.rate)
+			.comment(this.comment)
+			.categories(categoryEntities)
+			.feedbackCategories(feedbackCategoryEntities)
+			.build();
+	}
+
 
 
 }

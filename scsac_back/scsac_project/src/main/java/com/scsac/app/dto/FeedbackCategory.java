@@ -1,6 +1,7 @@
 package com.scsac.app.dto;
 
 import com.scsac.app.entity.CategoryEntity;
+import com.scsac.app.entity.FeedbackCategoryEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,11 +14,11 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Category {
+public class FeedbackCategory {
 	private int id;
-    private String name;
-    
-    public static CategoryEntity toEntity(Category c) {
-    	return new CategoryEntity(c.getId(),c.getName());
-    }
+	private String name;
+
+	public static FeedbackCategoryEntity toEntity(FeedbackCategory f) {
+		return new FeedbackCategoryEntity(f.getId(), f.getName());
+	}
 }

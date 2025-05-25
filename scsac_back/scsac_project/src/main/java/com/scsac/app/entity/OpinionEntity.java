@@ -57,6 +57,25 @@ public class OpinionEntity {
     @JoinTable(name = "opinion_feedback_category",
         joinColumns = @JoinColumn(name = "opinion_id"),
         inverseJoinColumns = @JoinColumn(name = "feedback_category_id"))
-    private Set<Feedback_categoryEntity> feedbackCategories = new HashSet<>();
+    private Set<FeedbackCategoryEntity> feedbackCategories = new HashSet<>();
 
+    public Opinion toDto() {
+        return Opinion.builder()
+            .id(this.id)
+            .problemId(this.problem != null ? this.problem.getId() : 0)
+            .rate(this.rate)
+            .comment(this.comment)
+            .category(this.categories.stream()
+                .map(CategoryEntity::getName)
+                .reduce((a, b) -> a + ", " + b)
+                .orElse(null))
+            .feedbackCategory(this.feedbackCategories.stream()
+                .map(FeedbackCategoryEntity::getName)
+                .reduce((a, b) -> a + ", " + b)
+                .orElse(null))
+            .build();
+    }
+
+    
 }
+

@@ -1,6 +1,7 @@
 package com.scsac.app.entity;
 
-import com.scsac.app.dto.Category;
+
+import com.scsac.app.dto.FeedbackCategory;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -20,8 +21,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "category")
-public class CategoryEntity {
+@Table(name = "feedback_category")
+public class FeedbackCategoryEntity {
     @Id 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -29,7 +30,7 @@ public class CategoryEntity {
     @Column(length=50)
     private String name;
     
-    public static Category toDto(Category c) {
-    	return new Category(c.getId(),c.getName());
+    public static FeedbackCategory toDto(FeedbackCategoryEntity e) {
+    	return new FeedbackCategory(e.getId(),e.getName());
     }
 }
