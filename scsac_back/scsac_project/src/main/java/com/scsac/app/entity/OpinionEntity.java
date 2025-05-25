@@ -37,7 +37,7 @@ public class OpinionEntity {
 	
 	@ManyToOne
     @JoinColumn(name = "problem_id", nullable = false)
-    private Problem problem;
+    private ProblemEntity problem;
 	
 	private int rate;
 

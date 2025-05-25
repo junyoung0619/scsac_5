@@ -19,7 +19,7 @@ public class Problem {
 	private String url;
 	private int problem_num;
 	private String title;
-	private int rate;
+	private float rate;
 	
 	public static ProblemEntity toDto(Problem p) {
 		return new ProblemEntity(p.getId(),p.getUrl(),p.getProblem_num(),p.getTitle(),p.getRate());

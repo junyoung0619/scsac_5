@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.scsac.app.entity.UserEntity;
 
-public interface OpinionRespository extends JpaRepository<UserEntity, String> {
+public interface CategoryRespository extends JpaRepository<UserEntity, String> {
 
 }

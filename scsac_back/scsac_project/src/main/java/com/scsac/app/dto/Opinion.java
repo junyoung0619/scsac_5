@@ -30,7 +30,7 @@ public class Opinion {
             Set<FeedbackCategoryEntity> feedbackCategoryEntities) {
 			return OpinionEntity.builder()
 			.id(this.id)
-			.problem(problem)
+			.problem(problem.toDto(problem))
 			.rate(this.rate)
 			.comment(this.comment)
 			.categories(categoryEntities)

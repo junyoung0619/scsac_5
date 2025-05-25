@@ -7,7 +7,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema scsac
 -- -----------------------------------------------------useruser
-
+DROP SCHEMA IF EXISTS `scsac`;
 -- -----------------------------------------------------
 -- Schema scsac
 -- -----------------------------------------------------
@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS problem (
   url VARCHAR(50) NOT NULL,
   problem_num INT NOT NULL,
   title VARCHAR(50) NOT NULL,
-  rate INT NOT NULL
+  rate DOUBLE NOT NULL
 ) ENGINE=InnoDB;
 -- -----------------------------------------------------
 -- Table `scsac`.`opinion`

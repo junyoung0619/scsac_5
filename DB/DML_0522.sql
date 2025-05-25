@@ -12,7 +12,7 @@ INSERT INTO `scsac`.`user` (`id`, `password`, `authority`, `generation`, `affili
 INSERT INTO `scsac`.`user` (`id`, `password`, `authority`, `generation`, `affiliate`, `name`, `nickname`) VALUES ('2401', '$2a$12$4Ve5zKH2eFOp4fGHAvv8Q.6qdFZRqsgYKqvuhKacsF0LHU2hWDC56', '2', '25', 'DS', '홍길동', 'cantcallfather');
 INSERT INTO `scsac`.`user` (`id`, `password`, `authority`, `generation`) VALUES ('2500', '$2a$12$4Ve5zKH2eFOp4fGHAvv8Q.6qdFZRqsgYKqvuhKacsF0LHU2hWDC56', '3', '5');
 
--- Table `scsac`.`user`
+-- Table `scsac`.`problem`
 INSERT INTO problem (url, problem_num, title, rate) VALUES
 ('https://www.acmicpc.net/problem/1000', 1000, 'A+B', 4),
 ('https://www.acmicpc.net/problem/1010', 1010, '다리 놓기', 5),
@@ -27,43 +27,44 @@ INSERT INTO opinion (problem_id, rate, comment) VALUES
 -- Table `scsac`.`category`
 INSERT INTO category (name) VALUES
 ('구현'),
-('브루트포스'),
-('DP'),
-('자료구조');
+('백트래킹'),
+('시뮬레이션'),
+('너비 우선 탐색'),
+('깊이 우선 탐색') ;
 
 -- Table `scsac`.`feedback_category`
 INSERT INTO feedback_category (name) VALUES
-('개념 부족'),
-('더 빠른 풀이 필요'),
-('반복 연습 필요'),
-('시간 초과 발생');
+('구현 연습하기 좋아요'),
+('bfs 연습에 좋아요'),
+('문자열 처리에 익숙해질 수 있음'),
+('엣지 케이스 다수');
 
 -- Table `scsac`.`opinion_category`
 -- opinion 1: 구현
 INSERT INTO opinion_category (opinion_id, category_id) VALUES
 (1, 1);
 
--- opinion 2: 브루트포스, DP
+-- opinion 2: 백트래킹, 시뮬레이션
 INSERT INTO opinion_category (opinion_id, category_id) VALUES
 (2, 2),
 (2, 3);
 
--- opinion 3: 자료구조, 구현
+-- opinion 3: 너비 우선 탐색, 구현
 INSERT INTO opinion_category (opinion_id, category_id) VALUES
 (3, 4),
 (3, 1);
 
 -- Table `scsac`.`opinion_feedback_category`
--- opinion 1: 반복 연습 필요
+-- opinion 1
 INSERT INTO opinion_feedback_category (opinion_id, feedback_category_id) VALUES
 (1, 3);
 
--- opinion 2: 개념 부족, 시간 초과 발생
+-- opinion 2
 INSERT INTO opinion_feedback_category (opinion_id, feedback_category_id) VALUES
 (2, 1),
 (2, 4);
 
--- opinion 3: 더 빠른 풀이 필요
+-- opinion 3
 INSERT INTO opinion_feedback_category (opinion_id, feedback_category_id) VALUES
 (3, 2);
 

@@ -1,5 +1,8 @@
 package com.scsac.app.entity;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.scsac.app.dto.Problem;
 
 import jakarta.persistence.Column;
@@ -37,10 +40,16 @@ public class ProblemEntity {
 	private String title;
 	
 	@Column(nullable = false)
-	private int rate;
+	private float rate;
 	
 	public static Problem toDto(ProblemEntity p) {
 		return new Problem(p.getId(),p.getUrl(),p.getProblem_num(),p.getTitle(),p.getRate());
+	}
+	
+	public static List<Problem> toDto(List<ProblemEntity> ps){
+		return ps.stream()
+	             .map(ProblemEntity::toDto)
+	             .collect(Collectors.toList());
 	}
 	
 }
