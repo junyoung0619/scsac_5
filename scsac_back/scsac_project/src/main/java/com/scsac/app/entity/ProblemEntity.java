@@ -36,7 +36,7 @@ public class ProblemEntity {
 	@Column(length=50, nullable = false)
 	private String title;
 	
-	@Column
+	@Column(nullable = false)
 	private int rate;
 	
 	public static Problem toDto(ProblemEntity p) {

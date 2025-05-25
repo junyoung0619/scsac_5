@@ -11,3 +11,59 @@ INSERT INTO `scsac`.`user` (`id`, `password`, `authority`, `generation`, `affili
 INSERT INTO `scsac`.`user` (`id`, `password`, `authority`, `generation`, `affiliate`, `name`, `nickname`, `boj_id`) VALUES ('2400', '$2a$12$4Ve5zKH2eFOp4fGHAvv8Q.6qdFZRqsgYKqvuhKacsF0LHU2hWDC56', '3', '25', 'SDS', '신사임당', '50000', '50000');
 INSERT INTO `scsac`.`user` (`id`, `password`, `authority`, `generation`, `affiliate`, `name`, `nickname`) VALUES ('2401', '$2a$12$4Ve5zKH2eFOp4fGHAvv8Q.6qdFZRqsgYKqvuhKacsF0LHU2hWDC56', '2', '25', 'DS', '홍길동', 'cantcallfather');
 INSERT INTO `scsac`.`user` (`id`, `password`, `authority`, `generation`) VALUES ('2500', '$2a$12$4Ve5zKH2eFOp4fGHAvv8Q.6qdFZRqsgYKqvuhKacsF0LHU2hWDC56', '3', '5');
+
+-- Table `scsac`.`user`
+INSERT INTO problem (url, problem_num, title, rate) VALUES
+('https://www.acmicpc.net/problem/1000', 1000, 'A+B', 4),
+('https://www.acmicpc.net/problem/1010', 1010, '다리 놓기', 5),
+('https://www.acmicpc.net/problem/10828', 10828, '스택', 3);
+
+-- Table `scsac`.`opinion`
+INSERT INTO opinion (problem_id, rate, comment) VALUES
+(1, 5, '문제 설명이 친절하고 입문자에게 좋았어요.'),
+(2, 3, '조합 개념을 잘 알고 풀어야 했습니다.'),
+(3, 4, '스택 동작을 직접 구현해보는 재미가 있었습니다.');
+
+-- Table `scsac`.`category`
+INSERT INTO category (name) VALUES
+('구현'),
+('브루트포스'),
+('DP'),
+('자료구조');
+
+-- Table `scsac`.`feedback_category`
+INSERT INTO feedback_category (name) VALUES
+('개념 부족'),
+('더 빠른 풀이 필요'),
+('반복 연습 필요'),
+('시간 초과 발생');
+
+-- Table `scsac`.`opinion_category`
+-- opinion 1: 구현
+INSERT INTO opinion_category (opinion_id, category_id) VALUES
+(1, 1);
+
+-- opinion 2: 브루트포스, DP
+INSERT INTO opinion_category (opinion_id, category_id) VALUES
+(2, 2),
+(2, 3);
+
+-- opinion 3: 자료구조, 구현
+INSERT INTO opinion_category (opinion_id, category_id) VALUES
+(3, 4),
+(3, 1);
+
+-- Table `scsac`.`opinion_feedback_category`
+-- opinion 1: 반복 연습 필요
+INSERT INTO opinion_feedback_category (opinion_id, feedback_category_id) VALUES
+(1, 3);
+
+-- opinion 2: 개념 부족, 시간 초과 발생
+INSERT INTO opinion_feedback_category (opinion_id, feedback_category_id) VALUES
+(2, 1),
+(2, 4);
+
+-- opinion 3: 더 빠른 풀이 필요
+INSERT INTO opinion_feedback_category (opinion_id, feedback_category_id) VALUES
+(3, 2);
+
