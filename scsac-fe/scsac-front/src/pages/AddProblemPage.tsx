@@ -5,7 +5,6 @@ type ProblemInput = {
   url: string
   problem_num: number
   title: string
-  rate: number
 }
 
 type OpinionInput = {
@@ -20,7 +19,6 @@ const AddProblemPage: React.FC = () => {
     url: '',
     problem_num: 0,
     title: '',
-    rate: 0,
   })
 
   const [currentOpinion, setCurrentOpinion] = useState<OpinionInput>({
@@ -34,7 +32,7 @@ const AddProblemPage: React.FC = () => {
     const { name, value } = e.target
     setProblem(prev => ({
       ...prev,
-      [name]: name === 'problem_num' || name === 'rate' ? Number(value) : value,
+      [name]: name === 'problem_num' ? Number(value) : value,
     }))
   }
 
@@ -63,7 +61,7 @@ const AddProblemPage: React.FC = () => {
     e.preventDefault()
     const payload = {
       problem,
-      opinion: currentOpinion,  // opinions 배열이 아니라 단일 opinion
+      opinion: currentOpinion,
     }
     console.log('등록 데이터:', payload)
     axios.post('/problem', payload)
@@ -106,14 +104,6 @@ const AddProblemPage: React.FC = () => {
           onChange={handleProblemChange}
           className="border p-2 w-full"
           value={problem.title}
-        />
-        <input
-          name="rate"
-          placeholder="난이도 (0~10)"
-          type="number"
-          onChange={handleProblemChange}
-          className="border p-2 w-full"
-          value={problem.rate || ''}
         />
 
         <hr className="my-4" />

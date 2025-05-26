@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+import api from '../api/axios'
 import { Link } from 'react-router-dom'
 
 type Opinion = {
@@ -27,17 +27,16 @@ const ProblemListPage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('')
 
   useEffect(() => {
-    axios.get('/problem')
-    .then(res => {
-      console.log('[GET] problems에 대한 응답:', res.data)
-      // res.data.problems가 배열이 아니면 빈 배열로 대체
-      const problemsData = Array.isArray(res.data.problems) ? res.data.problems : []
-      setProblems(problemsData)
-    })
-    .catch(err => {
-      console.error('문제 목록 불러오기 실패:', err)
-      setProblems([]) // 에러 시 빈 배열 처리
-    })
+    api.get('/problem')
+      .then(res => {
+        console.log('[GET] problems에 대한 응답:', res.data)
+        const problemsData = Array.isArray(res.data) ? res.data : []
+        setProblems(problemsData)
+      })
+      .catch(err => {
+        console.error('문제 목록 불러오기 실패:', err)
+        setProblems([])
+      })
   }, [])
 
   const filteredProblems = Array.isArray(problems)
@@ -79,7 +78,7 @@ const ProblemListPage: React.FC = () => {
               <a href={problem.url} target="_blank" rel="noopener noreferrer">문제 링크</a>
               <div>
                 <strong>분류:</strong>{' '}
-                {Array.from(new Set(problem.opinions.map(op => op.category))).join(', ')}
+                {Array.from(new Set((problem.opinions ?? []).map(op => op.category))).join(', ')}
               </div>
             </Link>
           </li>
