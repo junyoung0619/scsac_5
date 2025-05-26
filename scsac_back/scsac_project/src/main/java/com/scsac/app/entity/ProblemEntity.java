@@ -50,7 +50,7 @@ public class ProblemEntity {
 
 	
 	public static Problem toDto(ProblemEntity p) {
-		return new Problem(p.getId(),p.getUrl(),p.getProblemNum(),p.getTitle(),p.getRate(),null);
+		return new Problem(p.getId(),p.getUrl(),p.getProblemNum(),p.getTitle(),p.getRate(),null,OpinionEntity.toDto(p.getOpinions()));
 	}
 	
 	public static List<Problem> toDto(List<ProblemEntity> ps){

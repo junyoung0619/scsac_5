@@ -14,6 +14,7 @@ import com.scsac.app.entity.ProblemEntity;
 import com.scsac.app.repository.OpinionRespository;
 import com.scsac.app.repository.ProblemRepository;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -56,6 +57,7 @@ public class ProblemServiceImpl implements ProblemService {
 				categories.add(category);
 			}
 		}
+		problem.setOpinions(opinions);
 		problem.setCategories(new ArrayList<>(categories));
 		return problem;
 	}
@@ -92,6 +94,7 @@ public class ProblemServiceImpl implements ProblemService {
 	}
 
 	@Override
+	@Transactional
 	public int insertProblem(Problem problem) {
 		ProblemEntity e = pr.save(problem.toDto(problem));
 		if (e == null) {
@@ -101,6 +104,7 @@ public class ProblemServiceImpl implements ProblemService {
 	}
 
 	@Override
+	@Transactional
 	public int deleteProblem(int id) {
 		try {
 			pr.deleteById(id);
@@ -111,6 +115,20 @@ public class ProblemServiceImpl implements ProblemService {
 	}
 
 	@Override
+	@Transactional
+	public int updateProblem(Problem problem) {
+		ProblemEntity e = pr.findById(problem.getId());
+		if(e==null) return 0;
+		
+		e.setProblemNum(problem.getProblemNum());
+		e.setTitle(problem.getTitle());
+		e.setUrl(problem.getUrl());
+		
+		return 1;
+	}
+	
+	@Override
+	@Transactional
 	public int updateProblemRate(Problem problem) {
 	    List<OpinionEntity> e = or.findByProblemId(problem.getId());
 	    List<Opinion> opinions = OpinionEntity.toDto(e);

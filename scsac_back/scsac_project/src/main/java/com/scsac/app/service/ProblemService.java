@@ -11,5 +11,6 @@ public interface ProblemService {
 	List<Problem> selectBySearchcondition(String condition, String value);
 	int insertProblem(Problem problem);
 	int deleteProblem(int id);
+	int updateProblem(Problem problem);
 	int updateProblemRate(Problem problem);
 }
