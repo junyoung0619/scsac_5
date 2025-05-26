@@ -11,13 +11,12 @@ import com.scsac.app.entity.ProblemEntity;
 @Repository
 public interface ProblemRepository extends JpaRepository<ProblemEntity, Integer> {
 	
-	 // 조건: problemNum으로 찾기
+	ProblemEntity findById(int id);
+	
     List<ProblemEntity> findByProblemNum(int problemNum);
 
-    // 조건: title이 일치하는 문제 찾기
-    List<ProblemEntity> findByTitle(String title);
+    List<ProblemEntity> findByTitleContaining(String title);
 
-    // 조건: rate이 특정 값 이상인 문제들
     List<ProblemEntity> findByRateGreaterThanEqual(int rate);
     
     @Query("""
@@ -27,4 +26,6 @@ public interface ProblemRepository extends JpaRepository<ProblemEntity, Integer>
     	    WHERE c.name = :categoryName
     	""")
     List<ProblemEntity> findProblemsByCategoryName(String categoryName);
+    void deleteById(int id);
+
 }

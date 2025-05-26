@@ -30,7 +30,8 @@ INSERT INTO category (name) VALUES
 ('백트래킹'),
 ('시뮬레이션'),
 ('너비 우선 탐색'),
-('깊이 우선 탐색') ;
+('깊이 우선 탐색'),
+('기타') ;
 
 -- Table `scsac`.`feedback_category`
 INSERT INTO feedback_category (name) VALUES

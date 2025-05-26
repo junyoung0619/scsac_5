@@ -1,6 +1,7 @@
 package com.scsac.app.entity;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.scsac.app.dto.Opinion;
@@ -43,9 +44,7 @@ public class OpinionEntity {
 
 	@Column(columnDefinition = "TEXT")
 	private String comment;
-	
-	@Column(length=50)
-	private String feedbackCategory;
+
 	
 	@ManyToMany
     @JoinTable(name = "opinion_category",
@@ -67,14 +66,19 @@ public class OpinionEntity {
             .comment(this.comment)
             .category(this.categories.stream()
                 .map(CategoryEntity::getName)
-                .reduce((a, b) -> a + ", " + b)
-                .orElse(null))
+                .toList())
             .feedbackCategory(this.feedbackCategories.stream()
                 .map(FeedbackCategoryEntity::getName)
-                .reduce((a, b) -> a + ", " + b)
-                .orElse(null))
+                .toList())
             .build();
     }
+    public static List<Opinion> toDto(List<OpinionEntity> entities) {
+        return entities.stream()
+            .map(OpinionEntity::toDto)
+            .toList();
+    }
+    
+
 
     
 }

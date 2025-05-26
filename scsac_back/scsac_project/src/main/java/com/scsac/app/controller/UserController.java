@@ -1,12 +1,9 @@
 package com.scsac.app.controller;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,7 +27,7 @@ public class UserController {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<?> detail(@PathVariable String id) {
-		User user = us.findbyId(id);
+		User user = us.findById(id);
 		if (user != null) {
 			user.setPassword("");
 			return new ResponseEntity<User>(user, HttpStatus.OK);
@@ -81,10 +78,10 @@ public class UserController {
 		}
 	}
 	
-	@PutMapping("/add_admin")
+	@PutMapping("/addAdmin")
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> updateAdmin(@RequestParam String id) {
-		User user = us.findbyId(id);
+		User user = us.findById(id);
 		if (user == null) {
 		    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}

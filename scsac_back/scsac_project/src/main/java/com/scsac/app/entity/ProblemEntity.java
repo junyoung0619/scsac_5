@@ -34,7 +34,7 @@ public class ProblemEntity {
 	private String url;
 	
 	@Column(nullable = false)
-	private int problem_num;
+	private int problemNum;
 	
 	@Column(length=50, nullable = false)
 	private String title;
@@ -43,7 +43,7 @@ public class ProblemEntity {
 	private float rate;
 	
 	public static Problem toDto(ProblemEntity p) {
-		return new Problem(p.getId(),p.getUrl(),p.getProblem_num(),p.getTitle(),p.getRate());
+		return new Problem(p.getId(),p.getUrl(),p.getProblemNum(),p.getTitle(),p.getRate(),null);
 	}
 	
 	public static List<Problem> toDto(List<ProblemEntity> ps){

@@ -17,7 +17,7 @@ public class UserServiceImpl implements UserService {
 	private final UserRepository ur;
 
 	@Override
-	public User findbyId(String id) {
+	public User findById(String id) {
 		Optional<UserEntity> e = ur.findById(id);
 		if (e.isPresent())
 			return UserEntity.toDto(e.get());

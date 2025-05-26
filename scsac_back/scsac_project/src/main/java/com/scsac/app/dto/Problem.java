@@ -1,5 +1,7 @@
 package com.scsac.app.dto;
 
+import java.util.List;
+
 import com.scsac.app.entity.ProblemEntity;
 
 import lombok.AllArgsConstructor;
@@ -17,11 +19,12 @@ public class Problem {
 	
 	private int id;
 	private String url;
-	private int problem_num;
+	private int problemNum;
 	private String title;
 	private float rate;
+	private List<String> categories;	
 	
 	public static ProblemEntity toDto(Problem p) {
-		return new ProblemEntity(p.getId(),p.getUrl(),p.getProblem_num(),p.getTitle(),p.getRate());
+		return new ProblemEntity(p.getId(),p.getUrl(),p.getProblemNum(),p.getTitle(),p.getRate());
 	}
 }
