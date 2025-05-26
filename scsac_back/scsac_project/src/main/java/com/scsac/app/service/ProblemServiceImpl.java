@@ -44,6 +44,24 @@ public class ProblemServiceImpl implements ProblemService {
 	}
 
 	@Override
+	public Problem selectById(int id) {
+		ProblemEntity pe = pr.findById(id);
+		if(pe==null) return null;
+		Problem problem = ProblemEntity.toDto(pe);
+		List<OpinionEntity> e = or.findByProblemId(problem.getId());
+		List<Opinion> opinions = OpinionEntity.toDto(e);
+		Set<String> categories = new HashSet<>();
+		for (Opinion opinion : opinions) {
+			for (String category : opinion.getCategory()) {
+				categories.add(category);
+			}
+		}
+		problem.setCategories(new ArrayList<>(categories));
+		return null;
+	}
+	
+	
+	@Override
 	public List<Problem> selectBySearchcondition(String condition, String value) {
 		List<ProblemEntity> problems = new ArrayList<>();
 		switch (condition) {
@@ -109,6 +127,7 @@ public class ProblemServiceImpl implements ProblemService {
 
 	    return 1;
 	}
+
 
 
 }

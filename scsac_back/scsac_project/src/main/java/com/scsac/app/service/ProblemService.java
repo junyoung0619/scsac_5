@@ -7,6 +7,7 @@ import com.scsac.app.dto.Problem;
 
 public interface ProblemService {
 	List<Problem> selectAll();
+	Problem selectById(int id);
 	List<Problem> selectBySearchcondition(String condition, String value);
 	int insertProblem(Problem problem);
 	int deleteProblem(int id);

@@ -23,12 +23,18 @@ public class ProblemController {
 	
 	@GetMapping("/")
 	public ResponseEntity<?> selectAll(){
+		System.out.println("문제 목록 접근");
 		List<Problem> problems = ps.selectAll();
 		if(problems!=null) {
 			return new ResponseEntity<List<Problem>>(problems,HttpStatus.OK);
 		} else {
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		}
+	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<?> selectById(){
+		Problem problem = ps.
 	}
 	
 }
