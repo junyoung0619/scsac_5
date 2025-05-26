@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import api from '../api/axios'
 import './ProblemDetailPage.css'
-
+import type { RootState } from '../store'  // 스토어 타입 경로 맞게 바꿔주세요
+import { useSelector } from 'react-redux'
 
 type Opinion = {
   id: number
@@ -10,6 +11,7 @@ type Opinion = {
   feedback: string
   comment: string
   category: string
+  userId: string
 }
 
 type Problem = {
@@ -24,7 +26,9 @@ type Problem = {
 const ProblemDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>()
   const [problem, setProblem] = useState<Problem | null>(null)
+  const userId = useSelector((state: RootState) => state.user.id)
 
+  console.log('현재 userId:', userId)
   useEffect(() => {
     if (id) {
       api.get(`/problem/${id}`)
@@ -65,10 +69,19 @@ const ProblemDetailPage: React.FC = () => {
         <ul className="space-y-4">
           {problem.opinions.map(op => (
             <li key={op.id} className="border rounded-md p-4 shadow-sm bg-gray-50">
-              <p><strong className="text-gray-600">점수:</strong> {op.score}</p>
+              <p><strong className="text-gray-600">점수:</strong> {op.userId} {op.score}</p>
               <p><strong className="text-gray-600">코멘트:</strong> {op.comment}</p>
               <p><strong className="text-gray-600">피드백:</strong> {op.feedback}</p>
               <p><strong className="text-gray-600">카테고리:</strong> <span className="text-green-700 font-medium">{op.category}</span></p>
+              {op.userId === userId && (
+                <button
+                  onClick={() => console.log(`수정 페이지로 이동: opinionId=${op.id}`)}
+                  className="mt-2 text-blue-600 hover:underline"
+                >
+                  ✏️ 수정
+                </button>
+              )}
+            
             </li>
           ))}
         </ul>

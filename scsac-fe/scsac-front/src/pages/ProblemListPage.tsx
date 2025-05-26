@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import api from '../api/axios'
 import { Link } from 'react-router-dom'
 import './ProblemListPage.css'
+import type { RootState } from '../store'  // 스토어 타입 경로 맞게 바꿔주세요
+import { useSelector } from 'react-redux'
 
 type Opinion = {
   id: number
@@ -30,13 +32,15 @@ const conditionMap: { [key: string]: string } = {
   '알고리즘 분류': 'category'
 }
 
-
 const ProblemListPage: React.FC = () => {
   const [problems, setProblems] = useState<Problem[]>([])
   const [selectedCategory, setSelectedCategory] = useState<string>('')
 
-  const [searchCondition, setSearchCondition] = useState<string>('문제 제목')
+  const [searchCondition, setSearchCondition] = useState<string>('문제 번호')
   const [searchValue, setSearchValue] = useState<string>('')
+  const userId = useSelector((state: RootState) => state.user.id)
+
+  console.log('현재 userId:', userId)
 
   useEffect(() => {
     api.get('/problem/')
@@ -46,12 +50,13 @@ const ProblemListPage: React.FC = () => {
         const problemsData = Array.isArray(res.data) ? res.data : []
       
         setProblems(problemsData)
-        console.log('문제 번호 목록:', problemsData.map((p: Problem) => p.problemNum))
       })
       .catch(err => {
         console.error('문제 목록 불러오기 실패:', err)
         setProblems([])
       })
+
+
   }, [])
 
   const filteredProblems = Array.isArray(problems)
