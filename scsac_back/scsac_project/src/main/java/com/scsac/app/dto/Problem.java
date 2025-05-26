@@ -25,6 +25,7 @@ public class Problem {
 	private String title;
 	private float rate;
 	private List<String> categories;	
+	private List<Opinion> opinions;
 	
 	public static ProblemEntity toDto(Problem p) {
 		return new ProblemEntity(p.getId(),p.getUrl(),p.getProblemNum(),p.getTitle(),p.getRate(),null);

@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
 			}
 
 		} catch (Exception ex) {
-			ex.printStackTrace(); // 실제로는 로깅 처리
+			ex.printStackTrace(); 
 			return 0;
 		}
 	}
