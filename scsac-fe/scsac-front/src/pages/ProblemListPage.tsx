@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import axios from 'axios'
 import { Link } from 'react-router-dom'
 
 type Opinion = {
@@ -7,7 +8,7 @@ type Opinion = {
   score: number
   feedback: string
   comment: string
-  category: string // ex. 'bfs', 'dfs'
+  category: string
 }
 
 type Problem = {
@@ -19,61 +20,49 @@ type Problem = {
   opinions: Opinion[]
 }
 
-// 예시 데이터
-const problems: Problem[] = [
-  {
-    id: 1,
-    url: 'https://example.com/1',
-    problem_num: '1001',
-    title: '두 수의 합',
-    rate: 4.5,
-    opinions: [
-      {
-        id: 1,
-        problem_id: 1,
-        score: 5,
-        feedback: '구현 연습하기 좋아요',
-        comment: '기초 구현에 적합',
-        category: '구현',
-      },
-      {
-        id: 2,
-        problem_id: 1,
-        score: 4,
-        feedback: 'bfs 연습에 좋아요',
-        comment: 'bfs로도 풀 수 있음',
-        category: 'bfs',
-      },
-    ],
-  },
-  {
-    id: 2,
-    url: 'https://example.com/2',
-    problem_num: '1002',
-    title: '문자열 뒤집기',
-    rate: 4.2,
-    opinions: [
-      {
-        id: 3,
-        problem_id: 2,
-        score: 4,
-        feedback: '문자열 다루기 연습',
-        comment: '문자열 처리에 익숙해질 수 있음',
-        category: '문자열',
-      },
-    ],
-  },
-]
+const allCategories = ['구현', 'bfs', 'dfs', '백트래킹']
 
 const ProblemListPage: React.FC = () => {
+  const [problems, setProblems] = useState<Problem[]>([])
+  const [selectedCategory, setSelectedCategory] = useState<string>('')
+
+  useEffect(() => {
+    axios.get('/problems')
+    .then(res => {
+      console.log('[GET] problems에 대한 응답:', res.data)
+      setProblems(res.data.problems)
+    })
+  }, [])
+
+  const filteredProblems = selectedCategory
+    ? problems.filter(problem =>
+        problem.opinions.some(op => op.category === selectedCategory)
+      )
+    : problems
+
   return (
     <div>
       <h2>문제 목록</h2>
       <Link to="/add-problem">
         <button>문제 등록</button>
       </Link>
+
+      <div style={{ margin: '1em 0' }}>
+        <label htmlFor="categoryFilter">카테고리 필터: </label>
+        <select
+          id="categoryFilter"
+          value={selectedCategory}
+          onChange={(e) => setSelectedCategory(e.target.value)}
+        >
+          <option value="">전체 보기</option>
+          {allCategories.map(cat => (
+            <option key={cat} value={cat}>{cat}</option>
+          ))}
+        </select>
+      </div>
+
       <ul>
-        {problems.map((problem) => (
+        {filteredProblems.map(problem => (
           <li key={problem.id}>
             <Link to={`/problems/${problem.id}`}>
               <h3>{problem.title}</h3>

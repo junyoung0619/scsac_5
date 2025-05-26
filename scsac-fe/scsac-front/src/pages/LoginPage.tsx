@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { login, logout } from '../store/userSlice'
+import { login } from '../store/userSlice'
 
 import api from '../api/axios'
 import '../components/LoginPage.css'
@@ -18,10 +18,8 @@ function LoginPage() {
     try {
       const response = await api.post('/login',{ id, password })
 
-      console.log('로그인 성공', response.data) // user 정보 출력
+      console.log('로그인 성공', response.data)
       alert("로그인 성공")
-
-      // redux에 사용자 정보를 저장하기 위해 다시 한 번 axios 요청
       const user_infoRes = await api.get(`/user/${id}`)
 
       const userInfo = user_infoRes.data
@@ -40,7 +38,6 @@ function LoginPage() {
 
     } 
     
-    // 로그인 실패했을 경우
     catch (err) {
       setError('아이디 또는 비밀번호가 올바르지 않습니다.')
     }

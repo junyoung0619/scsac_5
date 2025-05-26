@@ -6,6 +6,7 @@ import MainPage from './pages/MainPage'
 import MyPage from './pages/MyPage'
 import EditProfile from './pages/EditProfilePage'
 import ProblemListPage from './pages/ProblemListPage'
+import AddProblemPage from './pages/AddProblemPage'
 
 
 function App() {
@@ -19,6 +20,8 @@ function App() {
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/editProfile" element={<EditProfile />} />
         <Route path="/problems" element={<ProblemListPage />} />
+        <Route path="/add-problem" element={<AddProblemPage />} />
+
       </Routes>
     </BrowserRouter>
     </>

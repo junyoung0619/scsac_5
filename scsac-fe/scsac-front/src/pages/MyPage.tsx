@@ -4,6 +4,8 @@ import type { RootState } from '../store'
 import { useNavigate } from 'react-router-dom'
 import axios from '../api/axios'
 
+// ... 생략된 import 부분 동일
+
 const MyPage: React.FC = () => {
   const user = useSelector((state: RootState) => state.user)
   const navigate = useNavigate()
@@ -20,7 +22,7 @@ const MyPage: React.FC = () => {
       })
       if (res.status === 200) {
         setShowModal(false)
-        navigate('/editProfile')
+        navigate('/editProfile', { state: { password: passwordInput } }) // ✅ 비밀번호 전달
       } else {
         setError('비밀번호가 일치하지 않습니다.')
       }
@@ -41,7 +43,6 @@ const MyPage: React.FC = () => {
           <button onClick={() => setShowModal(true)}>
             회원정보 수정
           </button>
-
 
           {showModal && (
             <div style={{
