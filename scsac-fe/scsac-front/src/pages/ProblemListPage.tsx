@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import api from '../api/axios'
 import { Link } from 'react-router-dom'
+import './ProblemListPage.css'
 
 type Opinion = {
   id: number
@@ -48,13 +49,12 @@ const ProblemListPage: React.FC = () => {
     : []
 
   return (
-    <div>
-      <h2>문제 목록</h2>
-      <Link to="/add-problem">
-        <button>문제 등록</button>
-      </Link>
+<div className="problem-list-container">
+  <h2 className="problem-list-title">문제 목록</h2>
 
-      <div style={{ margin: '1em 0' }}>
+    <div className="problem-list-controls">
+      <Link to="/add-problem" className="add-problem-button">문제 등록</Link>
+      <div className="category-filter">
         <label htmlFor="categoryFilter">카테고리 필터: </label>
         <select
           id="categoryFilter"
@@ -67,10 +67,11 @@ const ProblemListPage: React.FC = () => {
           ))}
         </select>
       </div>
+    </div>
 
-      <ul>
+      <ul className="problem-list">
         {filteredProblems.map(problem => (
-          <li key={problem.id}>
+          <li key={problem.id} className="problem-item">
           <Link to={`/problems/${problem.id}`}>
             <h3>{problem.title}</h3>
           </Link>
