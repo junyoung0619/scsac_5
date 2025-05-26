@@ -58,7 +58,9 @@ public class ProblemServiceImpl implements ProblemService {
 			}
 		}
 		problem.setOpinions(opinions);
-		problem.setCategories(new ArrayList<>(categories));
+		List categoriesList = new ArrayList<>(categories);
+		categoriesList.sort(null);
+		problem.setCategories(categoriesList);
 		return problem;
 	}
 	
@@ -69,6 +71,7 @@ public class ProblemServiceImpl implements ProblemService {
 		try {
 			switch (condition) {
 				case ("problemNum"):
+					System.out.println(Integer.parseInt(value));
 					problems = pr.findByProblemNum(Integer.parseInt(value));
 					break;
 				case ("title"):

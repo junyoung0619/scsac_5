@@ -67,7 +67,8 @@ const ProblemListPage: React.FC = () => {
           params: {
             searchCondition: backendKey,
             value: searchValue
-          }
+          },
+          withCredentials: true 
         })
         if (Array.isArray(res.data)) {
           setProblems(res.data)

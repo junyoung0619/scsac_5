@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -51,6 +52,7 @@ public class ProblemController {
 	public ResponseEntity<?> searchProblems(@RequestParam String searchCondition, @RequestParam String value) {
 
 		List<Problem> problems = ps.selectBySearchcondition(searchCondition, value);
+
 		if (problems != null) {
 			return new ResponseEntity<List<Problem>>(problems, HttpStatus.OK);
 		} else {
@@ -59,7 +61,7 @@ public class ProblemController {
 	}
 
 	@PostMapping("/")
-	public ResponseEntity<?> insertProblem(Problem problem) {
+	public ResponseEntity<?> insertProblem(@RequestBody Problem problem) {
 		int r = ps.insertProblem(problem);
 		if (r == 1) {
 			return new ResponseEntity<Problem>(problem, HttpStatus.OK);
@@ -69,7 +71,7 @@ public class ProblemController {
 	}
 	
 	@PutMapping("/")
-	public ResponseEntity<?> updateProblem(Problem problem){
+	public ResponseEntity<?> updateProblem(@RequestBody Problem problem){
 		int r = ps.updateProblem(problem);
 		if (r == 1) {
 			return new ResponseEntity<Problem>(problem, HttpStatus.OK);
