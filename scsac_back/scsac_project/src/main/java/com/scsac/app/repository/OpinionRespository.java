@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.scsac.app.entity.OpinionEntity;
 import com.scsac.app.entity.UserEntity;
 
-public interface OpinionRespository extends JpaRepository<UserEntity, String> {
+public interface OpinionRespository extends JpaRepository<OpinionEntity, Integer> {
 	List<OpinionEntity> findByProblemId(int problemId);
 }
