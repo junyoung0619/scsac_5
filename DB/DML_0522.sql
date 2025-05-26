@@ -27,11 +27,12 @@ INSERT INTO opinion (problem_id, rate, comment,user_id) VALUES
 -- Table `scsac`.`category`
 INSERT INTO category (name) VALUES
 ('구현'),
-('백트래킹'),
 ('시뮬레이션'),
-('너비 우선 탐색'),
-('깊이 우선 탐색'),
+('BFS'),
+('DFS'),
+('백트래킹'),
 ('기타') ;
+
 
 -- Table `scsac`.`feedback_category`
 INSERT INTO feedback_category (name) VALUES
