@@ -22,9 +22,9 @@ type Problem = {
 }
 
 const allCategories = ['구현', 'bfs', 'dfs', '백트래킹']
-const searchConditions = ['문제 ID', '문제 제목', '평점', '알고리즘 분류']
+const searchConditions = ['문제 번호', '문제 제목', '평점', '알고리즘 분류']
 const conditionMap: { [key: string]: string } = {
-  '문제 ID': 'problemNum',
+  '문제 번호': 'problemNum',
   '문제 제목': 'title',
   '평점': 'rate',
   '알고리즘 분류': 'category'
