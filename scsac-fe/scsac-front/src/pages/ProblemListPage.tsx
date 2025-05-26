@@ -15,7 +15,7 @@ type Opinion = {
 type Problem = {
   id: number
   url: string
-  problem_num: string
+  problemNum: number
   title: string
   rate: number
   opinions: Opinion[]
@@ -35,15 +35,18 @@ const ProblemListPage: React.FC = () => {
   const [problems, setProblems] = useState<Problem[]>([])
   const [selectedCategory, setSelectedCategory] = useState<string>('')
 
-  const [searchCondition, setSearchCondition] = useState<string>('title')
+  const [searchCondition, setSearchCondition] = useState<string>('문제 제목')
   const [searchValue, setSearchValue] = useState<string>('')
 
   useEffect(() => {
     api.get('/problem/')
       .then(res => {
         console.log('[GET] problems에 대한 응답:', res.data)
+
         const problemsData = Array.isArray(res.data) ? res.data : []
+      
         setProblems(problemsData)
+        console.log('문제 번호 목록:', problemsData.map((p: Problem) => p.problemNum))
       })
       .catch(err => {
         console.error('문제 목록 불러오기 실패:', err)
@@ -112,6 +115,9 @@ const ProblemListPage: React.FC = () => {
             type="text"
             value={searchValue}
             onChange={(e) => setSearchValue(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') { handleSearch(); }
+            }}
             placeholder="검색어 입력"
           />
           <button onClick={handleSearch}>검색</button>
@@ -121,24 +127,34 @@ const ProblemListPage: React.FC = () => {
 
     </div>
 
-      <ul className="problem-list">
-        {filteredProblems.map(problem => (
-          <li key={problem.id} className="problem-item">
-          <Link to={`/problems/${problem.id}`}>
-            <h3>{problem.title}</h3>
-          </Link>
-          <p>문제 번호: {problem.problem_num}</p>
-          <p>평점: {problem.rate}</p>
-          <a href={problem.url} target="_blank" rel="noopener noreferrer">
-            문제 링크
-          </a>
-          <div>
-            <strong>분류:</strong>{' '}
-            {Array.from(new Set((problem.opinions ?? []).map(op => op.category))).join(', ')}
-          </div>
-        </li>
-        ))}
-      </ul>
+    <ul className="problem-list">
+  {filteredProblems.map(problem => (
+    <li key={problem.id} className="problem-item">
+      <Link to={`/problems/${problem.id}`}>
+        <h3 className="text-lg font-semibold text-blue-800">{problem.title}</h3>
+      </Link>
+
+      <p><strong>문제 번호:</strong> <span className="text-gray-700">{problem.problemNum}</span></p>
+      <p><strong>평점:</strong> <span className="text-yellow-600 font-semibold">{problem.rate}</span></p>
+
+      <a
+        href={problem.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-blue-500 underline"
+      >
+        문제 링크
+      </a>
+
+      <div className="mt-1">
+        <strong>분류:</strong>{' '}
+        <span className="text-green-700 font-medium">
+          {Array.from(new Set((problem.opinions ?? []).map(op => op.category))).join(', ')}
+        </span>
+      </div>
+    </li>
+  ))}
+</ul>
     </div>
   )
 }

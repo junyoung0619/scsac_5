@@ -45,7 +45,9 @@ function LoginPage() {
 
 
   return (
+
     <div className="login-container">
+    <h1 style={{ fontSize: '64px', textAlign: 'center', marginBottom: '20px' }}>🌅</h1>
       <h2>로그인</h2>
       <input type="text" placeholder="아이디" value={id} 
         onChange={(e) => setId(e.target.value)}/>

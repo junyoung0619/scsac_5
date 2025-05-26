@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux'
 import type { RootState } from '../store'
 import { logout } from '../store/userSlice'
 import './Header.css'
-
 import { useNavigate } from 'react-router-dom'
 
 function Header() {
@@ -19,7 +18,9 @@ function Header() {
 
   return (
     <header className="header">
-      <div className="header-title">SCSAC</div>
+      <div className="header-title" 
+  style={{ cursor: 'pointer' }} 
+  onClick={() => navigate('/problems')}>SCSAC: Algorithm</div>
 
       <div className="header-buttons">
         {isLoggedIn ? (
