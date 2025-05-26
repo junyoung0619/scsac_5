@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,8 +34,13 @@ public class ProblemController {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<?> selectById(){
-		Problem problem = ps.
+	public ResponseEntity<?> selectById(@PathVariable int id){
+		Problem problem = ps.selectById(id);
+		if(problem!=null) {
+			return new ResponseEntity<Problem>(problem,HttpStatus.OK);
+		} else {
+			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+		}
 	}
 	
 }
