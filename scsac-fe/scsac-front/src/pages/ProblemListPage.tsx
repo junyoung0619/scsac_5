@@ -22,10 +22,21 @@ type Problem = {
 }
 
 const allCategories = ['구현', 'bfs', 'dfs', '백트래킹']
+const searchConditions = ['문제 ID', '문제 제목', '평점', '알고리즘 분류']
+const conditionMap: { [key: string]: string } = {
+  '문제 ID': 'problemNum',
+  '문제 제목': 'title',
+  '평점': 'rate',
+  '알고리즘 분류': 'category'
+}
+
 
 const ProblemListPage: React.FC = () => {
   const [problems, setProblems] = useState<Problem[]>([])
   const [selectedCategory, setSelectedCategory] = useState<string>('')
+
+  const [searchCondition, setSearchCondition] = useState<string>('title')
+  const [searchValue, setSearchValue] = useState<string>('')
 
   useEffect(() => {
     api.get('/problem/')
@@ -48,6 +59,26 @@ const ProblemListPage: React.FC = () => {
         : problems)
     : []
 
+
+    const handleSearch = async () => {
+      const backendKey = conditionMap[searchCondition]
+      try {
+        const res = await api.get('/problem/search', {
+          params: {
+            searchCondition: backendKey,
+            value: searchValue
+          }
+        })
+        if (Array.isArray(res.data)) {
+          setProblems(res.data)
+        } else {
+          setProblems([])
+        }
+      } catch (err) {
+        console.error('검색 실패:', err)
+      }
+    }
+
   return (
 <div className="problem-list-container">
   <h2 className="problem-list-title">문제 목록</h2>
@@ -67,6 +98,27 @@ const ProblemListPage: React.FC = () => {
           ))}
         </select>
       </div>
+
+      <div className="problem-search">
+          <select
+            value={searchCondition}
+            onChange={(e) => setSearchCondition(e.target.value)}
+          >
+            {searchConditions.map(cond => (
+              <option key={cond} value={cond}>{cond}</option>
+            ))}
+          </select>
+          <input
+            type="text"
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
+            placeholder="검색어 입력"
+          />
+          <button onClick={handleSearch}>검색</button>
+        </div>
+
+
+
     </div>
 
       <ul className="problem-list">
