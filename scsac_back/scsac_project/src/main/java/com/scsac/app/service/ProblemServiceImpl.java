@@ -57,7 +57,7 @@ public class ProblemServiceImpl implements ProblemService {
 			}
 		}
 		problem.setCategories(new ArrayList<>(categories));
-		return null;
+		return problem;
 	}
 	
 	
@@ -65,7 +65,7 @@ public class ProblemServiceImpl implements ProblemService {
 	public List<Problem> selectBySearchcondition(String condition, String value) {
 		List<ProblemEntity> problems = new ArrayList<>();
 		switch (condition) {
-		case ("problem_num"):
+		case ("problemNum"):
 			problems = pr.findByProblemNum(Integer.parseInt(value));
 			break;
 		case ("title"):
@@ -73,6 +73,9 @@ public class ProblemServiceImpl implements ProblemService {
 			break;
 		case ("rate"):
 			problems = pr.findByRateGreaterThanEqual(Integer.parseInt(value));
+			break;
+		case ("category"):
+			problems = pr.findProblemsByCategoryName(value);
 			break;
 		default:
 			problems = null;

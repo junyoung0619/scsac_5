@@ -9,6 +9,7 @@ import com.scsac.app.entity.OpinionEntity;
 import com.scsac.app.repository.OpinionRespository;
 
 import lombok.RequiredArgsConstructor;
+
 @Service
 @RequiredArgsConstructor
 public class OpinionServiceImpl implements OpinionService {

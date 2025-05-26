@@ -9,11 +9,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString	
 @Builder
 public class Problem {
 	
@@ -25,6 +27,6 @@ public class Problem {
 	private List<String> categories;	
 	
 	public static ProblemEntity toDto(Problem p) {
-		return new ProblemEntity(p.getId(),p.getUrl(),p.getProblemNum(),p.getTitle(),p.getRate());
+		return new ProblemEntity(p.getId(),p.getUrl(),p.getProblemNum(),p.getTitle(),p.getRate(),null);
 	}
 }
