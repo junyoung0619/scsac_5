@@ -7,6 +7,7 @@ import com.scsac.app.entity.CategoryEntity;
 import com.scsac.app.entity.FeedbackCategoryEntity;
 import com.scsac.app.entity.OpinionEntity;
 import com.scsac.app.entity.ProblemEntity;
+import com.scsac.app.entity.UserEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,6 +24,7 @@ public class Opinion {
 
     private int id;
     private int problemId;
+    private String userId;
     private int rate;
     private List<String> feedbackCategory;
     private List<String> category;
@@ -30,6 +32,7 @@ public class Opinion {
     public static OpinionEntity fromDto(
     	    Opinion dto,
     	    ProblemEntity problem,
+    	    UserEntity user,
     	    Set<CategoryEntity> categoryEntities,
     	    Set<FeedbackCategoryEntity> feedbackCategoryEntities
     	) {
@@ -37,6 +40,7 @@ public class Opinion {
     	        .id(dto.getId())
     	        .problem(problem)
     	        .rate(dto.getRate())
+    	        .user(user)
     	        .comment(dto.getComment())
     	        .categories(categoryEntities)
     	        .feedbackCategories(feedbackCategoryEntities)

@@ -19,10 +19,10 @@ INSERT INTO problem (url, problem_num, title, rate) VALUES
 ('https://www.acmicpc.net/problem/10828', 10828, '스택', 3);
 
 -- Table `scsac`.`opinion`
-INSERT INTO opinion (problem_id, rate, comment) VALUES
-(1, 5, '문제 설명이 친절하고 입문자에게 좋았어요.'),
-(2, 3, '조합 개념을 잘 알고 풀어야 했습니다.'),
-(3, 4, '스택 동작을 직접 구현해보는 재미가 있었습니다.');
+INSERT INTO opinion (problem_id, rate, comment,user_id) VALUES
+(1, 5, '문제 설명이 친절하고 입문자에게 좋았어요.','2406'),
+(2, 3, '조합 개념을 잘 알고 풀어야 했습니다.','2402'),
+(3, 4, '스택 동작을 직접 구현해보는 재미가 있었습니다.','2411');
 
 -- Table `scsac`.`category`
 INSERT INTO category (name) VALUES

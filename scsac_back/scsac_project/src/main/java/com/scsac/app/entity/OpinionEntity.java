@@ -40,6 +40,10 @@ public class OpinionEntity {
     @JoinColumn(name = "problem_id", nullable = false)
     private ProblemEntity problem;
 	
+	@ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserEntity user;
+	
 	private int rate;
 
 	@Column(columnDefinition = "TEXT")
@@ -62,6 +66,7 @@ public class OpinionEntity {
         return Opinion.builder()
             .id(this.id)
             .problemId(this.problem != null ? this.problem.getId() : 0)
+            .userId(this.user != null ? this.user.getId() : null)
             .rate(this.rate)
             .comment(this.comment)
             .category(this.categories.stream()

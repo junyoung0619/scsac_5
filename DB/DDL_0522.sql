@@ -49,7 +49,9 @@ CREATE TABLE IF NOT EXISTS opinion (
   problem_id INT,
   rate INT NOT NULL,
   comment TEXT,
-  FOREIGN KEY (problem_id) REFERENCES problem(id) ON DELETE CASCADE
+  user_id varchar(10),
+  FOREIGN KEY (problem_id) REFERENCES problem(id) ON DELETE CASCADE,
+  FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
 -- -----------------------------------------------------
