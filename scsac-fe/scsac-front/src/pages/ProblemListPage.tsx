@@ -27,18 +27,26 @@ const ProblemListPage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('')
 
   useEffect(() => {
-    axios.get('/problems')
+    axios.get('/problem')
     .then(res => {
       console.log('[GET] problems에 대한 응답:', res.data)
-      setProblems(res.data.problems)
+      // res.data.problems가 배열이 아니면 빈 배열로 대체
+      const problemsData = Array.isArray(res.data.problems) ? res.data.problems : []
+      setProblems(problemsData)
+    })
+    .catch(err => {
+      console.error('문제 목록 불러오기 실패:', err)
+      setProblems([]) // 에러 시 빈 배열 처리
     })
   }, [])
 
-  const filteredProblems = selectedCategory
-    ? problems.filter(problem =>
-        problem.opinions.some(op => op.category === selectedCategory)
-      )
-    : problems
+  const filteredProblems = Array.isArray(problems)
+    ? (selectedCategory
+        ? problems.filter(problem =>
+            problem.opinions.some(op => op.category === selectedCategory)
+          )
+        : problems)
+    : []
 
   return (
     <div>

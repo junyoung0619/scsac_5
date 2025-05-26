@@ -34,7 +34,7 @@ function LoginPage() {
         boj_id: userInfo.boj_id,
       }))
       
-      navigate('/main')      
+      navigate('/problems')      
 
     } 
     
