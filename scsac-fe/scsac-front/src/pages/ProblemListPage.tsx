@@ -21,7 +21,8 @@ type Problem = {
   opinions: Opinion[]
 }
 
-const allCategories = ['구현', 'BFS', 'DFS', '백트래킹', '기타']
+
+const allCategories = ['구현', '시뮬레이션',  'BFS', 'DFS', '백트래킹', '기타']
 const searchConditions = ['문제 번호', '문제 제목', '평점', '알고리즘 분류']
 const conditionMap: { [key: string]: string } = {
   '문제 번호': 'problemNum',
