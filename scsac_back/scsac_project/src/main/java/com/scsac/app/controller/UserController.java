@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.scsac.app.dto.User;
-import com.scsac.app.security.UserPrincipal;
 import com.scsac.app.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -52,12 +52,9 @@ public class UserController {
 	}
 
 	@PutMapping("/user")
-	public ResponseEntity<?> update(@AuthenticationPrincipal UserPrincipal loginUser ,@RequestBody User user) {
-		if(loginUser==null) {
-			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
-		}
-		
-		String id = loginUser.getUsername();
+	public ResponseEntity<?> update(@RequestBody User user) {
+		var auth = SecurityContextHolder.getContext().getAuthentication();
+	    String id = (String) auth.getPrincipal();
 		
 		if(!id.equals(user.getId())) {
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);

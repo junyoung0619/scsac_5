@@ -1,4 +1,4 @@
-package com.scsac.app.security;
+package com.scsac.app.dto;
 
 import lombok.Getter;
 import lombok.Setter;

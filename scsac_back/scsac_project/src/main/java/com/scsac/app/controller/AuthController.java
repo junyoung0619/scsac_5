@@ -6,6 +6,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -13,7 +14,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.scsac.app.security.LoginRequest;
+import com.scsac.app.dto.LoginRequest;
+import com.scsac.app.entity.UserEntity;
+import com.scsac.app.entity.UserRole;
+import com.scsac.app.repository.UserRepository;
+import com.scsac.app.security.JwtTokenProvider;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -21,35 +26,31 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 public class AuthController {
-	private final PasswordEncoder pe;
-	private final AuthenticationManager authenticaionManager;
+	
+	private final AuthenticationManager authManager;
+	private final JwtTokenProvider tokenProvider;
+	private final UserRepository userRepository;
 	
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody LoginRequest request, HttpServletRequest req){
-		UsernamePasswordAuthenticationToken token = 
-			new UsernamePasswordAuthenticationToken(request.getId(), request.getPassword());
+		Authentication authentication = authManager.authenticate(
+			new UsernamePasswordAuthenticationToken(request.getId(), request.getPassword()));
 		
-		Authentication authResult = authenticaionManager.authenticate(token);
-	    
-		SecurityContext context = SecurityContextHolder.createEmptyContext();
-	    context.setAuthentication(authResult);
-	    SecurityContextHolder.setContext(context);
-						
-		req.getSession(true).setAttribute(
-		        HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
-		        context
-		    );
+		UserEntity user = userRepository.findById(request.getId())
+							.orElseThrow(()-> new UsernameNotFoundException("사용자 없음"));
 		
-		return ResponseEntity.ok("로그인 성공!");
+		String role = UserRole.transform(user.getAuthority(), user.getName()).name();
+		
+		String token = tokenProvider.generateToken(user.getId(), role);
+		
+		return ResponseEntity.ok().body("Bearer "+ token);
 	}
 	
 	@PostMapping("/check")
 	public ResponseEntity<?> check(@RequestBody LoginRequest request, HttpServletRequest req){
 		
-		UsernamePasswordAuthenticationToken token = 
-			new UsernamePasswordAuthenticationToken(request.getId(), request.getPassword());
-		
-		Authentication authResult = authenticaionManager.authenticate(token);
+		Authentication authentication = authManager.authenticate(
+				new UsernamePasswordAuthenticationToken(request.getId(), request.getPassword()));
 	    
 		return ResponseEntity.ok("비밀번호 일치!");
 	}
