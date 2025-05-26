@@ -64,24 +64,29 @@ public class ProblemServiceImpl implements ProblemService {
 	@Override
 	public List<Problem> selectBySearchcondition(String condition, String value) {
 		List<ProblemEntity> problems = new ArrayList<>();
-		switch (condition) {
-		case ("problemNum"):
-			problems = pr.findByProblemNum(Integer.parseInt(value));
-			break;
-		case ("title"):
-			problems = pr.findByTitleContaining(value);
-			break;
-		case ("rate"):
-			problems = pr.findByRateGreaterThanEqual(Integer.parseInt(value));
-			break;
-		case ("category"):
-			problems = pr.findProblemsByCategoryName(value);
-			break;
-		default:
-			problems = null;
+		try {
+			switch (condition) {
+				case ("problemNum"):
+					problems = pr.findByProblemNum(Integer.parseInt(value));
+					break;
+				case ("title"):
+					problems = pr.findByTitleContaining(value);
+					break;
+				case ("rate"):
+					problems = pr.findByRateGreaterThanEqual(Integer.parseInt(value));
+					break;
+				case ("category"):
+					problems = pr.findProblemsByCategoryName(value);
+					break;
+				default:
+					problems = null;
+			} 
+			if (problems == null)
+				return null;
+		}catch (Exception e){
+			return selectAll();
 		}
-		if (problems == null)
-			return null;
+
 		List<Problem> ans = ProblemEntity.toDto(problems);
 		return ans;
 	}
@@ -130,7 +135,5 @@ public class ProblemServiceImpl implements ProblemService {
 
 	    return 1;
 	}
-
-
 
 }

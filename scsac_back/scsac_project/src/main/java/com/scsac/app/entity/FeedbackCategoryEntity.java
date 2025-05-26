@@ -1,6 +1,9 @@
 package com.scsac.app.entity;
 
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.scsac.app.dto.FeedbackCategory;
 
 import jakarta.persistence.Column;
@@ -32,5 +35,11 @@ public class FeedbackCategoryEntity {
     
     public static FeedbackCategory toDto(FeedbackCategoryEntity e) {
     	return new FeedbackCategory(e.getId(),e.getName());
+    }
+    
+    public static List<FeedbackCategory> toDto(List<FeedbackCategoryEntity> fe) {
+    	return fe.stream()
+    			.map(FeedbackCategoryEntity::toDto)
+    			.collect(Collectors.toList());
     }
 }

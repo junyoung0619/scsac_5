@@ -1,5 +1,8 @@
 package com.scsac.app.entity;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.scsac.app.dto.Category;
 
 import jakarta.persistence.Column;
@@ -29,7 +32,13 @@ public class CategoryEntity {
     @Column(length=50)
     private String name;
     
-    public static Category toDto(Category c) {
+    public static Category toDto(CategoryEntity c) {
     	return new Category(c.getId(),c.getName());
+    }
+    
+    public static List<Category> toDto(List<CategoryEntity> cs) {
+    	return cs.stream()
+    			.map(CategoryEntity::toDto)
+    			.collect(Collectors.toList());
     }
 }
