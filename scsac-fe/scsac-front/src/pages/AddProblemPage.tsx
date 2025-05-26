@@ -1,5 +1,5 @@
-import axios from 'axios'
 import React, { useState } from 'react'
+import api from '../api/axios'
 
 type ProblemInput = {
   url: string
@@ -14,6 +14,17 @@ type OpinionInput = {
   feedbackCategoryIds: number[]
 }
 
+const allCategories = [
+  { id: 1, name: 'bfs' },
+  { id: 2, name: 'dfs' },
+  { id: 3, name: 'dp' },
+]
+
+const allFeedbackCategories = [
+  { id: 1, name: '어렵다' },
+  { id: 2, name: '깔끔하다' },
+]
+
 const AddProblemPage: React.FC = () => {
   const [problem, setProblem] = useState<ProblemInput>({
     url: '',
@@ -21,7 +32,7 @@ const AddProblemPage: React.FC = () => {
     title: '',
   })
 
-  const [currentOpinion, setCurrentOpinion] = useState<OpinionInput>({
+  const [opinion, setOpinion] = useState<OpinionInput>({
     rate: 0,
     comment: '',
     categoryIds: [],
@@ -38,122 +49,122 @@ const AddProblemPage: React.FC = () => {
 
   const handleOpinionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
-    setCurrentOpinion(prev => ({
+    setOpinion(prev => ({
       ...prev,
       [name]: name === 'rate' ? Number(value) : value,
     }))
   }
 
-  const handleCategoryToggle = (id: number, type: 'category' | 'feedback') => {
-    setCurrentOpinion(prev => {
-      const key = type === 'category' ? 'categoryIds' : 'feedbackCategoryIds'
-      const list = prev[key]
+  const toggleCategory = (id: number, type: 'category' | 'feedback') => {
+    const key = type === 'category' ? 'categoryIds' : 'feedbackCategoryIds'
+    setOpinion(prev => {
+      const current = prev[key]
       return {
         ...prev,
-        [key]: list.includes(id)
-          ? list.filter(cid => cid !== id)
-          : [...list, id],
+        [key]: current.includes(id)
+          ? current.filter(cid => cid !== id)
+          : [...current, id],
       }
     })
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     const payload = {
       problem,
-      opinion: currentOpinion,
+      opinion,
     }
-    console.log('등록 데이터:', payload)
-    axios.post('/problem', payload)
+
+    try {
+      await api.post('/problem', payload)
+      alert('문제가 성공적으로 등록되었습니다!')
+      // 초기화할 수도 있음
+      setProblem({ url: '', problem_num: 0, title: '' })
+      setOpinion({ rate: 0, comment: '', categoryIds: [], feedbackCategoryIds: [] })
+    } catch (err) {
+      console.error('등록 실패:', err)
+      alert('등록 중 오류가 발생했습니다.')
+    }
   }
 
-  const allCategories = [
-    { id: 1, name: 'bfs' },
-    { id: 2, name: 'dfs' },
-    { id: 3, name: 'dp' },
-  ]
-
-  const allFeedbackCategories = [
-    { id: 1, name: '어렵다' },
-    { id: 2, name: '깔끔하다' },
-  ]
-
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <h1 className="text-2xl font-bold mb-4">문제 등록 페이지</h1>
-      <form onSubmit={handleSubmit} className="space-y-4 bg-white shadow p-6 rounded-lg">
-        <h2 className="text-xl font-semibold">문제 정보</h2>
+    <div className="max-w-3xl mx-auto p-6 bg-white shadow rounded-lg">
+      <h1 className="text-2xl font-bold mb-6">문제 등록</h1>
+      <form onSubmit={handleSubmit} className="space-y-4">
         <input
+          type="text"
           name="url"
-          placeholder="문제 URL"
-          onChange={handleProblemChange}
-          className="border p-2 w-full"
           value={problem.url}
+          onChange={handleProblemChange}
+          placeholder="문제 URL"
+          className="border p-2 w-full"
         />
         <input
-          name="problem_num"
-          placeholder="문제 번호"
           type="number"
-          onChange={handleProblemChange}
-          className="border p-2 w-full"
+          name="problem_num"
           value={problem.problem_num || ''}
+          onChange={handleProblemChange}
+          placeholder="문제 번호"
+          className="border p-2 w-full"
         />
         <input
+          type="text"
           name="title"
-          placeholder="문제 제목"
-          onChange={handleProblemChange}
-          className="border p-2 w-full"
           value={problem.title}
+          onChange={handleProblemChange}
+          placeholder="문제 제목"
+          className="border p-2 w-full"
         />
 
         <hr className="my-4" />
-        <h3 className="text-lg font-semibold">의견 입력</h3>
+
         <input
-          name="rate"
-          placeholder="의견 점수"
           type="number"
-          value={currentOpinion.rate || ''}
+          name="rate"
+          value={opinion.rate || ''}
           onChange={handleOpinionChange}
+          placeholder="평점 (0~10)"
           className="border p-2 w-full"
         />
         <input
+          type="text"
           name="comment"
-          placeholder="의견 코멘트"
-          value={currentOpinion.comment}
+          value={opinion.comment}
           onChange={handleOpinionChange}
+          placeholder="의견 코멘트"
           className="border p-2 w-full"
         />
 
         <div>
-          <p className="font-medium">카테고리</p>
+          <p className="font-medium mb-1">카테고리 선택</p>
           {allCategories.map(cat => (
-            <label key={cat.id} className="mr-2">
+            <label key={cat.id} className="mr-4">
               <input
                 type="checkbox"
-                checked={currentOpinion.categoryIds.includes(cat.id)}
-                onChange={() => handleCategoryToggle(cat.id, 'category')}
+                checked={opinion.categoryIds.includes(cat.id)}
+                onChange={() => toggleCategory(cat.id, 'category')}
               />
-              {cat.name}
+              {' '}{cat.name}
             </label>
           ))}
         </div>
 
         <div>
-          <p className="font-medium">피드백 카테고리</p>
+          <p className="font-medium mb-1">피드백 카테고리 선택</p>
           {allFeedbackCategories.map(fc => (
-            <label key={fc.id} className="mr-2">
+            <label key={fc.id} className="mr-4">
               <input
                 type="checkbox"
-                checked={currentOpinion.feedbackCategoryIds.includes(fc.id)}
-                onChange={() => handleCategoryToggle(fc.id, 'feedback')}
+                checked={opinion.feedbackCategoryIds.includes(fc.id)}
+                onChange={() => toggleCategory(fc.id, 'feedback')}
               />
-              {fc.name}
+              {' '}{fc.name}
             </label>
           ))}
         </div>
 
         <button type="submit" className="bg-green-700 text-white px-4 py-2 rounded">
-          문제 등록
+          등록하기
         </button>
       </form>
     </div>
