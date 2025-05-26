@@ -3,8 +3,18 @@ import { useSelector } from 'react-redux'
 import type { RootState } from '../store'
 import { useNavigate } from 'react-router-dom'
 import axios from '../api/axios'
-import './MyPage.css' // Assuming you have some styles for MyPage
+import './MyPage.css'
 
+const fieldNameMap: { [key: string]: string } = {
+  id: '학번',
+  name: '이름',
+  affiliate: '계열사',
+  nickname: '닉네임',
+  boj_id: 'BOJ 아이디',
+  // 필요시 다른 필드도 추가
+}
+
+const excludedKeys = ['isLoggedIn', 'authority', 'password', 'generation']
 
 const MyPage: React.FC = () => {
   const user = useSelector((state: RootState) => state.user)
@@ -36,9 +46,13 @@ const MyPage: React.FC = () => {
       <h2>마이페이지</h2>
       {user.isLoggedIn ? (
         <div className="mypage-info">
-          <p><strong>이름:</strong> {user.name}</p>
-          <p><strong>학번:</strong> {user.id}</p>
-          <p><strong>계열사:</strong> {user.affiliate}</p>
+          {Object.entries(user)
+            .filter(([key]) => !excludedKeys.includes(key))
+            .map(([key, value]) => (
+              <p key={key}>
+                <strong>{fieldNameMap[key] || key}:</strong> {value}
+              </p>
+            ))}
 
           <button className="edit-button" onClick={() => setShowModal(true)}>
             회원정보 수정

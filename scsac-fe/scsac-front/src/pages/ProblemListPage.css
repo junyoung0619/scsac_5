@@ -1,131 +1,135 @@
 .problem-list-container {
-  max-width: 900px;
+  max-width: 1000px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 32px 20px;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #ffffff;
 }
 
 .problem-list-title {
   text-align: center;
-  font-size: 1.8rem;
-  margin-bottom: 20px;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: #1e293b;
 }
 
 .problem-list-controls {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 12px; /* 문제 등록 버튼과 필터 간 간격 */
-  margin-bottom: 20px;
+  gap: 16px;
+  margin-bottom: 24px;
 }
 
 .add-problem-button {
-  padding: 6px 12px;
-  background-color: #2563eb;
+  padding: 8px 16px;
+  background-color: #1d4ed8;
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   text-decoration: none;
-  font-size: 0.9rem;
-  transition: background-color 0.2s ease;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background-color 0.25s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
 .add-problem-button:hover {
-  background-color: #1d4ed8;
+  background-color: #1e3a8a;
 }
 
-.category-filter label {
-  margin-right: 8px;
-  font-weight: 500;
-}
-
-.category-filter select {
-  padding: 4px 8px;
-  border: 1px solid #ccc;
+.problem-search select,
+.problem-search input {
+  padding: 6px 10px;
+  font-size: 0.95rem;
+  border: 1px solid #cbd5e1;
   border-radius: 6px;
-  font-size: 0.9rem;
+  margin-right: 8px;
 }
 
-.problem-list {
+.problem-search button {
+  padding: 6px 12px;
+  background-color: #0ea5e9;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.problem-search button:hover {
+  background-color: #0284c7;
+}
+
+.problem-table {
   list-style: none;
   padding: 0;
   margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.problem-item {
   width: 100%;
-  max-width: 850px;
-  margin: 0 auto;
-  display: flex;
-  flex-wrap: wrap;
+  border-top: 2px solid #cbd5e1;
+}
+
+.problem-row {
+  display: grid;
+  grid-template-columns: 3fr 1fr 1fr 2fr 1fr;
   align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  padding: 14px 16px;
-  background-color: #f9fafb;
-  border-radius: 12px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
-  transition: box-shadow 0.2s ease;
+  padding: 14px 10px;
+  border-bottom: 1px solid #e2e8f0;
+  transition: background-color 0.2s ease;
 }
 
-.problem-item:hover {
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+.problem-row:hover {
+  background-color: #f1f5f9;
 }
 
-.problem-item h3 {
-  margin: 0;
-  font-size: 1rem;
-  color: #2563eb;
-  flex: 2;
-  min-width: 150px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  cursor: pointer;
-}
-
-.problem-item p,
-.problem-item div {
-  margin: 0;
-  flex: 1;
-  min-width: 80px;
-  color: #374151;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.problem-item a {
-  flex: 1;
-  min-width: 100px;
-  color: #10b981;
+.problem-title {
+  font-weight: 600;
+  color: #1d4ed8;
   text-decoration: none;
+  font-size: 1rem;
+}
+
+.problem-title:hover {
+  text-decoration: underline;
+}
+
+.problem-col {
+  color: #334155;
+  font-size: 0.95rem;
   font-weight: 500;
+  padding-left: 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.problem-link {
+  color: #0ea5e9;
+  font-weight: 600;
+  text-decoration: underline;
   text-align: right;
 }
 
-.problem-item a:hover {
-  text-decoration: underline;
+.problem-link:hover {
+  color: #0284c7;
 }
 
 /* 반응형 */
 @media (max-width: 600px) {
-  .problem-item {
-    flex-direction: column;
-    align-items: flex-start;
+  .problem-row {
+    grid-template-columns: 1fr;
+    row-gap: 4px;
   }
 
-  .problem-item h3,
-  .problem-item p,
-  .problem-item div,
-  .problem-item a {
-    flex: none;
-    width: 100%;
+  .problem-col,
+  .problem-title,
+  .problem-link {
+    padding-left: 0;
   }
 
-  .problem-item a {
+  .problem-link {
     text-align: left;
   }
 

@@ -28,6 +28,8 @@ const ProblemDetailPage: React.FC = () => {
   const [problem, setProblem] = useState<Problem | null>(null)
   const userId = useSelector((state: RootState) => state.user.id)
 
+  const hasUserOpinion = problem?.opinions.some(op => op.userId === userId)
+
   console.log('현재 userId:', userId)
   useEffect(() => {
     if (id) {
@@ -63,23 +65,41 @@ const ProblemDetailPage: React.FC = () => {
       </div>
 
       {/* 의견 목록 */}
+
+
       <h3 className="text-2xl font-semibold border-b pb-1 border-gray-300 mb-4">의견 목록</h3>
 
+      {!hasUserOpinion && (
+        <button
+          onClick={() => console.log('작성 페이지로 이동')}
+          className="mb-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+        >
+          의견 작성하기
+        </button>
+      )}
+      
       {problem.opinions && problem.opinions.length > 0 ? (
         <ul className="space-y-4">
           {problem.opinions.map(op => (
             <li key={op.id} className="border rounded-md p-4 shadow-sm bg-gray-50">
-              <p><strong className="text-gray-600">점수:</strong> {op.userId} {op.score}</p>
+              <p><strong className="text-gray-600">점수:</strong> {op.score}</p>
               <p><strong className="text-gray-600">코멘트:</strong> {op.comment}</p>
               <p><strong className="text-gray-600">피드백:</strong> {op.feedback}</p>
-              <p><strong className="text-gray-600">카테고리:</strong> <span className="text-green-700 font-medium">{op.category}</span></p>
+              <p><strong className="text-gray-600">카테고리:</strong> <span className="text-green-700 font-medium"> {op.category}</span></p>
               {op.userId === userId && (
+                <div>
                 <button
                   onClick={() => console.log(`수정 페이지로 이동: opinionId=${op.id}`)}
                   className="mt-2 text-blue-600 hover:underline"
                 >
-                  ✏️ 수정
+                  수정
                 </button>
+                  <button
+                  onClick={() => console.log(`삭제 페이지로 이동: opinionId=${op.id}`)}
+                  className="mt-2 text-blue-600 hover:underline"
+                > 삭제
+                </button>
+                </div>
               )}
             
             </li>

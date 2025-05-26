@@ -19,7 +19,7 @@ function LoginPage() {
       const response = await api.post('/login',{ id, password })
 
       console.log('로그인 성공', response.data)
-      alert("로그인 성공")
+      // alert("로그인 성공")
       const user_infoRes = await api.get(`/user/${id}`)
 
       const userInfo = user_infoRes.data

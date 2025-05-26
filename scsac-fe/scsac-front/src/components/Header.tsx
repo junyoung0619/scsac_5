@@ -30,7 +30,7 @@ function Header() {
             <button onClick={handleLogout}>로그아웃</button>
           </>
         ) : (
-          <button onClick={() => alert('이미 로그인 화면입니다.')}>로그인</button>
+          <button onClick={() => navigate('/login')}>로그인</button>
         )}
       </div>
     </header>

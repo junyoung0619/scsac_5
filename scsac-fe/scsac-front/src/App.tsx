@@ -9,6 +9,7 @@ import ProblemListPage from './pages/ProblemListPage'
 import AddProblemPage from './pages/AddProblemPage'
 import ProblemDetailPage from './pages/ProblemDetailPage'
 
+
 function App() {
   return (
     <>
@@ -22,6 +23,8 @@ function App() {
         <Route path="/problems" element={<ProblemListPage />} />
         <Route path="/add-problem" element={<AddProblemPage />} />
         <Route path="/problems/:id" element={<ProblemDetailPage />} />
+        <Route path="/login" element={<LoginPage />} />
+
       </Routes>
     </BrowserRouter>
     </>
