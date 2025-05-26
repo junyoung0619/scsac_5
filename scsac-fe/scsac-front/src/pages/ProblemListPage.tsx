@@ -27,7 +27,7 @@ const ProblemListPage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('')
 
   useEffect(() => {
-    api.get('/problem')
+    api.get('/problem/')
       .then(res => {
         console.log('[GET] problems에 대한 응답:', res.data)
         const problemsData = Array.isArray(res.data) ? res.data : []
@@ -71,17 +71,19 @@ const ProblemListPage: React.FC = () => {
       <ul>
         {filteredProblems.map(problem => (
           <li key={problem.id}>
-            <Link to={`/problems/${problem.id}`}>
-              <h3>{problem.title}</h3>
-              <p>문제 번호: {problem.problem_num}</p>
-              <p>평점: {problem.rate}</p>
-              <a href={problem.url} target="_blank" rel="noopener noreferrer">문제 링크</a>
-              <div>
-                <strong>분류:</strong>{' '}
-                {Array.from(new Set((problem.opinions ?? []).map(op => op.category))).join(', ')}
-              </div>
-            </Link>
-          </li>
+          <Link to={`/problems/${problem.id}`}>
+            <h3>{problem.title}</h3>
+          </Link>
+          <p>문제 번호: {problem.problem_num}</p>
+          <p>평점: {problem.rate}</p>
+          <a href={problem.url} target="_blank" rel="noopener noreferrer">
+            문제 링크
+          </a>
+          <div>
+            <strong>분류:</strong>{' '}
+            {Array.from(new Set((problem.opinions ?? []).map(op => op.category))).join(', ')}
+          </div>
+        </li>
         ))}
       </ul>
     </div>

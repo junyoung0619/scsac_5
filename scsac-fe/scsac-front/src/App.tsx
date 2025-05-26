@@ -7,7 +7,7 @@ import MyPage from './pages/MyPage'
 import EditProfile from './pages/EditProfilePage'
 import ProblemListPage from './pages/ProblemListPage'
 import AddProblemPage from './pages/AddProblemPage'
-
+import ProblemDetailPage from './pages/ProblemDetailPage'
 
 function App() {
   return (
@@ -21,7 +21,7 @@ function App() {
         <Route path="/editProfile" element={<EditProfile />} />
         <Route path="/problems" element={<ProblemListPage />} />
         <Route path="/add-problem" element={<AddProblemPage />} />
-
+        <Route path="/problems/:id" element={<ProblemDetailPage />} />
       </Routes>
     </BrowserRouter>
     </>
