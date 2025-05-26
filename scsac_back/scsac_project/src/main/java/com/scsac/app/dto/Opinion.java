@@ -29,7 +29,7 @@ public class Opinion {
     private List<String> feedbackCategory;
     private List<String> category;
     private String comment;
-    public static OpinionEntity fromDto(
+    public static OpinionEntity toEntity(
     	    Opinion dto,
     	    ProblemEntity problem,
     	    UserEntity user,

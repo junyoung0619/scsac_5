@@ -1,4 +1,4 @@
-package com.scsac.app.entity;
+	package com.scsac.app.entity;
 
 import java.util.HashSet;
 import java.util.List;
