@@ -8,7 +8,7 @@ import EditProfile from './pages/EditProfilePage'
 import ProblemListPage from './pages/ProblemListPage'
 import AddProblemPage from './pages/AddProblemPage'
 import ProblemDetailPage from './pages/ProblemDetailPage'
-
+//import AdminPage from './pages/AdminPage'
 
 function App() {
   return (

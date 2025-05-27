@@ -19,6 +19,7 @@ type Problem = {
   title: string
   rate: number
   opinions: Opinion[]
+  categories: string[]
 }
 
 
@@ -46,6 +47,7 @@ const ProblemListPage: React.FC = () => {
         const problemsData = Array.isArray(res.data) ? res.data : []
       
         setProblems(problemsData)
+        console.log('문제 목록:', problemsData)
       })
       .catch(err => {
         console.error('문제 목록 불러오기 실패:', err)
@@ -86,19 +88,6 @@ const ProblemListPage: React.FC = () => {
     <div className="problem-list-controls">
       <Link to="/add-problem" className="add-problem-button">문제 등록</Link>
 
-      {/* <div className="category-filter">
-        <label htmlFor="categoryFilter">카테고리 필터: </label>
-        <select
-          id="categoryFilter"
-          value={selectedCategory}
-          onChange={(e) => setSelectedCategory(e.target.value)}
-        >
-          <option value="">전체 보기</option>
-          {allCategories.map(cat => (
-            <option key={cat} value={cat}>{cat}</option>
-          ))}
-        </select>
-      </div> */}
 
 <div className="problem-search">
   <select
@@ -148,7 +137,7 @@ const ProblemListPage: React.FC = () => {
       <span className="problem-col">{problem.problemNum}</span>
       <span className="problem-col">{problem.rate}</span>
       <span className="problem-col">
-        {Array.from(new Set(problem.opinions.map(op => op.category))).join(', ')}
+        {problem.categories.join(', ')}
       </span>
       <a
         href={problem.url}

@@ -58,6 +58,12 @@ const MyPage: React.FC = () => {
             회원정보 수정
           </button>
 
+          {user.authority === 1 && (
+            <div className="admin-buttons">
+              <button onClick={() => navigate('/admin')}>어드민 페이지</button>
+            </div>
+          )}
+
           {showModal && (
             <div className="modal-overlay">
               <div className="modal-content">
