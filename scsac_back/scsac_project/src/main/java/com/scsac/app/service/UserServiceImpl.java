@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
 		try {
 			for (int i = 1; i <= num; i++) {
 				UserEntity e = new UserEntity();
-				e.setId(String.format("%02d", generation) + String.format("%02d", num));
+				e.setId(String.format("%02d", generation) + String.format("%02d", i));
 				e.setPassword(password);
 				e.setAuthority(3);
 				e.setGeneration(generation);

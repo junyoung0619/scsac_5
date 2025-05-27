@@ -1,7 +1,5 @@
 package com.scsac.app.entity;
 
-import org.antlr.v4.runtime.misc.NotNull;
-
 import com.scsac.app.dto.User;
 
 import jakarta.persistence.Column;
@@ -24,7 +22,7 @@ import lombok.Setter;
 public class UserEntity {
 
 	@Id
-	@Column
+	@Column(length=10)
 	private String id;
 
 	@Column(length = 100, nullable = false)
