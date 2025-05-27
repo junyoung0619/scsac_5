@@ -43,7 +43,7 @@ public class AuthController {
 		
 		String token = tokenProvider.generateToken(user.getId(), role);
 		
-		return ResponseEntity.ok().body("Bearer "+ token);
+		return ResponseEntity.ok().body(token);
 	}
 	
 	@PostMapping("/check")
