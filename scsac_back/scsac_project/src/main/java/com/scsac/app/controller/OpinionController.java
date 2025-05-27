@@ -72,13 +72,20 @@ public class OpinionController {
 		int problemId = optional.get();
 		int r = os.deleteOpinion(id);
 		if (r == 1) {
+			System.out.println("왔니");
 			List<Opinion> opinions = os.findByProblemId(problemId);
-			if (opinions == null) {
+			System.out.println(opinions==null);
+			System.out.println(opinions.isEmpty());
+			for(Opinion opinion:opinions) {
+				System.out.println(opinion.getComment());
+			}
+			if (opinions.isEmpty()) {
 				ps.deleteProblem(problemId);
+				return new ResponseEntity<Integer>(0, HttpStatus.OK);
 			} else {
 				ps.updateProblemRate(ps.selectById(problemId));
+				return new ResponseEntity<Integer>(1, HttpStatus.OK);
 			}
-			return new ResponseEntity<Integer>(1, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		}
