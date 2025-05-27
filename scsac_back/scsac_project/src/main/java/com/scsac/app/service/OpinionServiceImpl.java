@@ -72,6 +72,7 @@ public class OpinionServiceImpl implements OpinionService {
 	@Override
 	@Transactional
 	public int updateOpinion(Opinion opinion) {
+		System.out.println(10000);
 		OpinionEntity e = or.findById(opinion.getId());
 		if (e == null)
 			return 0;
@@ -80,15 +81,16 @@ public class OpinionServiceImpl implements OpinionService {
 			    .map(cr::findByName)
 			    .flatMap(Optional::stream)
 			    .collect(Collectors.toSet());
-			e.setCategories(categories);
+		e.setCategories(categories);
 
-			Set<FeedbackCategoryEntity> feedbackCategories = opinion.getFeedbackCategory().stream()
-			    .map(fcr::findByName)
-			    .flatMap(Optional::stream)
-			    .collect(Collectors.toSet());
-			e.setFeedbackCategories(feedbackCategories);
-
-
+		Set<FeedbackCategoryEntity> feedbackCategories = opinion.getFeedbackCategory().stream()
+		    .map(fcr::findByName)
+		    .flatMap(Optional::stream)
+		    .collect(Collectors.toSet());
+		e.setFeedbackCategories(feedbackCategories);
+	
+		e.setRate(opinion.getRate());
+		e.setComment(opinion.getComment());
 		return 1;
 	}
 

@@ -39,7 +39,7 @@ INSERT INTO feedback_category (name) VALUES
 ('구현 연습하기 좋아요'),
 ('bfs 연습에 좋아요'),
 ('문자열 처리에 익숙해질 수 있음'),
-('엣지 케이스 다수');
+('엣지 케이스 다수');opinion
 
 -- Table `scsac`.`opinion_category`
 -- opinion 1: 구현

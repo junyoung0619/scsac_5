@@ -2,6 +2,8 @@ package com.scsac.app.service;
 
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +18,9 @@ import lombok.RequiredArgsConstructor;
 public class UserServiceImpl implements UserService {
 	private final UserRepository ur;
 
+	@Autowired
+	private final PasswordEncoder passwordEncoder;
+	
 	@Override
 	public User findById(String id) {
 		Optional<UserEntity> e = ur.findById(id);
@@ -33,7 +38,7 @@ public class UserServiceImpl implements UserService {
 			for (int i = 1; i <= num; i++) {
 				UserEntity e = new UserEntity();
 				e.setId(String.format("%02d", generation) + String.format("%02d", i));
-				e.setPassword(password);
+				e.setPassword(passwordEncoder.encode(password));
 				e.setAuthority(3);
 				e.setGeneration(generation);
 
@@ -60,7 +65,7 @@ public class UserServiceImpl implements UserService {
 			return 0;
 
 		UserEntity tmp_user = e.get();
-		tmp_user.setPassword(user.getPassword());
+		tmp_user.setPassword(passwordEncoder.encode(user.getPassword()));
 		tmp_user.setAuthority(user.getAuthority());
 		tmp_user.setAffiliate(user.getAffiliate());
 		tmp_user.setName(user.getName());
