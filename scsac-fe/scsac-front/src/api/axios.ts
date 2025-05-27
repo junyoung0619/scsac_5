@@ -3,6 +3,7 @@ import axios from 'axios'
 
 const api = axios.create({
   baseURL: 'http://localhost:8080',   // 공통 prefix
+
 })
 
 api.interceptors.request.use((config) => {
