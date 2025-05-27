@@ -39,7 +39,12 @@ public class ProblemServiceImpl implements ProblemService {
 					categories.add(category);
 				}
 			}
-			problem.setCategories(new ArrayList<>(categories));
+			List<String> categoriesList = new ArrayList<>(categories);
+			categoriesList.sort(null);
+			for(String category:categoriesList) {
+				System.out.println(category);
+			}
+			problem.setCategories(categoriesList);
 		}
 		return problems;
 	}
@@ -58,7 +63,7 @@ public class ProblemServiceImpl implements ProblemService {
 			}
 		}
 		problem.setOpinions(opinions);
-		List categoriesList = new ArrayList<>(categories);
+		List<String> categoriesList = new ArrayList<>(categories);
 		categoriesList.sort(null);
 		problem.setCategories(categoriesList);
 		return problem;
