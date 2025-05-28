@@ -9,15 +9,14 @@ import ProblemListPage from './pages/ProblemListPage'
 import AddProblemPage from './pages/AddProblemPage'
 import ProblemDetailPage from './pages/ProblemDetailPage'
 import AdminPage from './pages/AdminPage'
-import { useEffect } from 'react'
+import { useEffect,useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { login } from './store/userSlice'
+import { login, logout } from './store/userSlice'
 import api from './api/axios'
 
 function App() {
-  console.log("App mounted")
   const dispatch = useDispatch()
-  // const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true)
 
 
   useEffect(() => {
@@ -25,14 +24,9 @@ function App() {
       const token = localStorage.getItem("jwt")
       if (token) {
         try {
-          const res = await api.get("/user/me", {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          })
-
-          const user = res.data;
-
+          const res = await api.get("/user/me")
+          const user = res.data
+          console.log("사용자 정보 복구 성공", user)
           dispatch(login({
             id: user.id,
             password: user.password,
@@ -46,13 +40,18 @@ function App() {
         } catch (err) {
           console.error("사용자 정보 복구 실패", err)
           localStorage.removeItem("jwt")
+          dispatch(logout())
         }
       }
+      setIsLoading(false)
     }
 
     restoreUser()
-  }, [])
+  }, [dispatch])
 
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
 
   return (
     <>
