@@ -1,23 +1,26 @@
 import React, { useState } from 'react'
 import api from '../api/axios'
 
-type ProblemInput = {
+type Problem = {
   url: string
-  problem_num: number
+  problemNum: number
   title: string
-}
-
-type OpinionInput = {
   rate: number
-  comment: string
-  categoryIds: number[]
-  feedbackCategoryIds: number[]
+  categories?: string[] // 사용 안함
+  opinions: {
+    comment: string
+    category: string[]
+    feedbackCategory: string[]
+  }[]
 }
 
 const allCategories = [
-  { id: 1, name: 'bfs' },
-  { id: 2, name: 'dfs' },
-  { id: 3, name: 'dp' },
+  { id: 1, name: '구현' },
+  { id: 2, name: '시뮬레이션' },
+  { id: 3, name: 'BFS' },
+  { id: 4, name: 'DFS' },
+  { id: 5, name: '백트래킹' },
+  { id: 6, name: '기타' }
 ]
 
 const allFeedbackCategories = [
@@ -26,61 +29,57 @@ const allFeedbackCategories = [
 ]
 
 const AddProblemPage: React.FC = () => {
-  const [problem, setProblem] = useState<ProblemInput>({
+  const [problem, setProblem] = useState<Omit<Problem, 'opinions'>>({
     url: '',
-    problem_num: 0,
+    problemNum: 0,
     title: '',
+    rate: 0,
   })
 
-  const [opinion, setOpinion] = useState<OpinionInput>({
-    rate: 0,
-    comment: '',
-    categoryIds: [],
-    feedbackCategoryIds: [],
-  })
+  const [comment, setComment] = useState('')
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([])
+  const [selectedFeedbackCategories, setSelectedFeedbackCategories] = useState<string[]>([])
 
   const handleProblemChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setProblem(prev => ({
       ...prev,
-      [name]: name === 'problem_num' ? Number(value) : value,
+      [name]: name === 'problemNum' || name === 'rate' ? Number(value) : value
     }))
   }
 
-  const handleOpinionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setOpinion(prev => ({
-      ...prev,
-      [name]: name === 'rate' ? Number(value) : value,
-    }))
-  }
-
-  const toggleCategory = (id: number, type: 'category' | 'feedback') => {
-    const key = type === 'category' ? 'categoryIds' : 'feedbackCategoryIds'
-    setOpinion(prev => {
-      const current = prev[key]
-      return {
-        ...prev,
-        [key]: current.includes(id)
-          ? current.filter(cid => cid !== id)
-          : [...current, id],
-      }
-    })
+  const toggleSelection = (name: string, type: 'category' | 'feedback') => {
+    if (type === 'category') {
+      setSelectedCategories(prev =>
+        prev.includes(name) ? prev.filter(c => c !== name) : [...prev, name]
+      )
+    } else {
+      setSelectedFeedbackCategories(prev =>
+        prev.includes(name) ? prev.filter(c => c !== name) : [...prev, name]
+      )
+    }
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    const payload = {
-      problem,
-      opinion,
+
+    const payload: Problem = {
+      ...problem,
+      opinions: [{
+        comment: comment,
+        category: selectedCategories,
+        feedbackCategory: selectedFeedbackCategories
+      }]
     }
 
     try {
-      await api.post('/problem', payload)
+      console.log('등록할 데이터:', payload)
+      await api.post('/problem/', payload)
       alert('문제가 성공적으로 등록되었습니다!')
-      // 초기화할 수도 있음
-      setProblem({ url: '', problem_num: 0, title: '' })
-      setOpinion({ rate: 0, comment: '', categoryIds: [], feedbackCategoryIds: [] })
+      setProblem({ url: '', problemNum: 0, title: '', rate: 0 })
+      setComment('')
+      setSelectedCategories([])
+      setSelectedFeedbackCategories([])
     } catch (err) {
       console.error('등록 실패:', err)
       alert('등록 중 오류가 발생했습니다.')
@@ -101,8 +100,8 @@ const AddProblemPage: React.FC = () => {
         />
         <input
           type="number"
-          name="problem_num"
-          value={problem.problem_num || ''}
+          name="problemNum"
+          value={problem.problemNum || ''}
           onChange={handleProblemChange}
           placeholder="문제 번호"
           className="border p-2 w-full"
@@ -115,22 +114,19 @@ const AddProblemPage: React.FC = () => {
           placeholder="문제 제목"
           className="border p-2 w-full"
         />
-
-        <hr className="my-4" />
-
         <input
           type="number"
           name="rate"
-          value={opinion.rate || ''}
-          onChange={handleOpinionChange}
-          placeholder="평점 (0~10)"
+          value={problem.rate || ''}
+          onChange={handleProblemChange}
+          placeholder="평점 (0~5)"
           className="border p-2 w-full"
         />
         <input
           type="text"
           name="comment"
-          value={opinion.comment}
-          onChange={handleOpinionChange}
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
           placeholder="의견 코멘트"
           className="border p-2 w-full"
         />
@@ -141,8 +137,8 @@ const AddProblemPage: React.FC = () => {
             <label key={cat.id} className="mr-4">
               <input
                 type="checkbox"
-                checked={opinion.categoryIds.includes(cat.id)}
-                onChange={() => toggleCategory(cat.id, 'category')}
+                checked={selectedCategories.includes(cat.name)}
+                onChange={() => toggleSelection(cat.name, 'category')}
               />
               {' '}{cat.name}
             </label>
@@ -155,8 +151,8 @@ const AddProblemPage: React.FC = () => {
             <label key={fc.id} className="mr-4">
               <input
                 type="checkbox"
-                checked={opinion.feedbackCategoryIds.includes(fc.id)}
-                onChange={() => toggleCategory(fc.id, 'feedback')}
+                checked={selectedFeedbackCategories.includes(fc.name)}
+                onChange={() => toggleSelection(fc.name, 'feedback')}
               />
               {' '}{fc.name}
             </label>
