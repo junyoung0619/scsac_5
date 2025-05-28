@@ -13,6 +13,9 @@ import com.scsac.app.entity.UserEntity;
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, String> {
 	Optional<UserEntity> findById(String id); 
+	Optional<UserEntity> findByNickname(String nickname);
+	Optional<UserEntity> findBybojId(String bojId);	
+	
 	List<UserEntity> findBygeneration(int generation);
 	
 	@Modifying(clearAutomatically = true)
@@ -22,4 +25,5 @@ public interface UserRepository extends JpaRepository<UserEntity, String> {
 	@Modifying(clearAutomatically = true)
 	@Query("UPDATE UserEntity u SET u.authority= 1 WHERE u.id = :id")
 	int addAdmin(String id);
+	
 }

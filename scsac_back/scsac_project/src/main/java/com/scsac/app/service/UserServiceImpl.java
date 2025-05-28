@@ -72,11 +72,18 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public int updateUser(User user) {
-		Optional<UserEntity> e = ur.findById(String.valueOf(user.getId()));
+		Optional<UserEntity> e = ur.findById(user.getId());
 		if (e.isEmpty())
 			return 0;
 
 		UserEntity tmp_user = e.get();
+		
+		Optional<UserEntity> user1 = ur.findByNickname(user.getNickname());
+		Optional<UserEntity> user2 = ur.findBybojId(user.getBojId());
+		
+		if(!tmp_user.getNickname().equals(user.getNickname()) && !user1.isEmpty()) return 0;
+		if(!tmp_user.getBojId().equals(user.getBojId())&&!user2.isEmpty()) return 0;
+		
 		tmp_user.setPassword(passwordEncoder.encode(user.getPassword()));
 		tmp_user.setAuthority(user.getAuthority());
 		tmp_user.setAffiliate(user.getAffiliate());
