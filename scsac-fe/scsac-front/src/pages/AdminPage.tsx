@@ -30,7 +30,7 @@ const AdminPage: React.FC = () => {
 
   const handleUpdateAdminAuthority = async () => {
     try {
-      await api.put(`/user/admin?generation=${generation}`)
+      await api.put(`/user/admin?generation=${parseInt(updateGen)}`)
       alert('기수 권한 수정 완료')
     } catch (err) {
       alert('권한 수정 실패')
