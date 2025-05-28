@@ -36,12 +36,16 @@ public class UserController {
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		}
 	}
-	
+
 	@PostMapping("/")
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> insert(@RequestParam int num, @RequestParam int generation,
 			@RequestParam String password) {
-		System.out.println(num+generation+password);
+		int check = us.isExist(generation);
+		System.out.println(generation + "은 있나?" + check);
+		if (check == 1) {
+			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		}
 		int r = us.insertUser(num, generation, password);
 		if (r == 1) {
 			return new ResponseEntity<Integer>(r, HttpStatus.CREATED);
@@ -49,19 +53,19 @@ public class UserController {
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 		}
 	}
-	
+
 	@GetMapping("/me")
-	public ResponseEntity<?> me(){
-	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	    return detail(auth.getName());
+	public ResponseEntity<?> me() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		return detail(auth.getName());
 	}
 
 	@PutMapping("/user")
 	public ResponseEntity<?> update(@RequestBody User user) {
 		var auth = SecurityContextHolder.getContext().getAuthentication();
-	    String id = (String) auth.getPrincipal();
-		
-		if(!id.equals(user.getId())) {
+		String id = (String) auth.getPrincipal();
+
+		if (!id.equals(user.getId())) {
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 		}
 		int r = us.updateUser(user);
@@ -75,6 +79,7 @@ public class UserController {
 	@PutMapping("/admin")
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> updateauhthority(@RequestParam int generation) {
+
 		int r = us.updateAuthority(generation);
 		if (r == 1) {
 			return new ResponseEntity<Integer>(r, HttpStatus.OK);
@@ -82,16 +87,11 @@ public class UserController {
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		}
 	}
-	
+
 	@PutMapping("/addAdmin")
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> updateAdmin(@RequestParam String id) {
-		User user = us.findById(id);
-		if (user == null) {
-		    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-		user.setAuthority(1);
-		int r = us.updateUser(user);
+		int r = us.addAdmin(id);
 		if (r == 1) {
 			return new ResponseEntity<Integer>(r, HttpStatus.OK);
 		} else {

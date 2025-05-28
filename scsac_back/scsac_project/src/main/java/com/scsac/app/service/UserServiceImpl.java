@@ -1,5 +1,6 @@
 package com.scsac.app.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,17 @@ public class UserServiceImpl implements UserService {
 		else
 			return null;
 	}
-
+	
+	@Override
+	public int isExist(int generation) {
+		
+		List<UserEntity> e = ur.findBygeneration(generation);
+		if(e.isEmpty()) {
+			return 0;
+		}
+		return 1;
+	}
+	
 	@Override
 	@Transactional
 	public int insertUser(int num, int generation, String password) {
@@ -72,7 +83,7 @@ public class UserServiceImpl implements UserService {
 		tmp_user.setName(user.getName());
 		tmp_user.setNickname(user.getNickname());
 		tmp_user.setBojId(user.getBojId());
-
+		System.out.println("ServiceImpl"+tmp_user.getPassword());
 		return 1;
 	}
 
@@ -83,6 +94,13 @@ public class UserServiceImpl implements UserService {
 		if (r == 0)
 			return 0;
 		return 1;
+	}
+
+	@Override
+	@Transactional
+	public int addAdmin(String id) {
+		int r = ur.addAdmin(id);
+		return r;
 	}
 
 }
