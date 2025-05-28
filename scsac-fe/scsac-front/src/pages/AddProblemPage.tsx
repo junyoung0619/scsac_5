@@ -62,11 +62,11 @@ const AddProblemPage: React.FC = () => {
       )
     }
   }
-
+  const user = useSelector((state: RootState) => state.user)
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    const user = useSelector((state: RootState) => state.user)
+    
     const payload: Problem = {
       ...problem,
       opinions: [{

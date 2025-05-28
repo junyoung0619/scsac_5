@@ -71,9 +71,13 @@ public class ProblemController {
 
 	@PostMapping("/")
 	public ResponseEntity<?> insertProblem(@RequestBody Problem problem) {
-
+		System.out.println("여기는 왔니?");
 		Opinion opinion = problem.getOpinions().get(0);
+		opinion.setProblemId(problem.getId());
+		opinion.setRate((int)problem.getRate());
+		System.out.println(opinion);
 		int r = pos.addProblemWithOpinion(problem, opinion);
+		System.out.println("여기는?");
 		if (r == 1) {
 			return new ResponseEntity<Problem>(problem, HttpStatus.OK);
 		} else {

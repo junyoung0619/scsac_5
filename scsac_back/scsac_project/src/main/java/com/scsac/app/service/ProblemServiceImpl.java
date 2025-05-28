@@ -121,9 +121,10 @@ public class ProblemServiceImpl implements ProblemService {
 	@Transactional
 	public int insertProblem(Problem problem) {
 		ProblemEntity e = pr.save(problem.toEntity(problem));
-		if (e == null) {
-			return 0;
-		}
+		ProblemEntity saved = pr.save(e);
+	    
+	    problem.setId(saved.getId()); 
+
 		return 1;
 	}
 

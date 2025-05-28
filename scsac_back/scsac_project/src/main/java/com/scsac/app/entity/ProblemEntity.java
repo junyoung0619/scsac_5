@@ -36,7 +36,7 @@ public class ProblemEntity {
 	@Column(length=50, nullable = false)
 	private String url;
 	
-	@Column(nullable = false)
+	@Column(nullable = false,unique = true)
 	private int problemNum;
 	
 	@Column(length=50, nullable = false)
