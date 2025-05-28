@@ -41,9 +41,6 @@ public class ProblemServiceImpl implements ProblemService {
 			}
 			List<String> categoriesList = new ArrayList<>(categories);
 			categoriesList.sort(null);
-			for(String category:categoriesList) {
-				System.out.println(category);
-			}
 			problem.setCategories(categoriesList);
 		}
 		return problems;
@@ -74,6 +71,7 @@ public class ProblemServiceImpl implements ProblemService {
 	public List<Problem> selectBySearchcondition(String condition, String value) {
 		List<ProblemEntity> problems = new ArrayList<>();
 		try {
+			System.out.println(condition+value);
 			switch (condition) {
 				case ("problemNum"):
 					System.out.println(Integer.parseInt(value));
@@ -96,8 +94,22 @@ public class ProblemServiceImpl implements ProblemService {
 		}catch (Exception e){
 			return selectAll();
 		}
-
+		
 		List<Problem> ans = ProblemEntity.toDto(problems);
+		for (Problem problem : ans) {
+			List<OpinionEntity> e = or.findByProblemId(problem.getId());
+			List<Opinion> opinions = OpinionEntity.toDto(e);
+			Set<String> categories = new HashSet<>();
+			for (Opinion opinion : opinions) {
+				for (String category : opinion.getCategory()) {
+					categories.add(category);
+				}
+			}
+			List<String> categoriesList = new ArrayList<>(categories);
+			categoriesList.sort(null);
+			problem.setCategories(categoriesList);
+		}
+		
 		return ans;
 	}
 

@@ -36,9 +36,6 @@ public class OpinionServiceImpl implements OpinionService {
 	@Override
 	public List<Opinion> findByProblemId(int problemId) {
 		List<OpinionEntity> opinions = or.findByProblemId(problemId);
-		if (opinions == null) {
-			return null;
-		}
 		return OpinionEntity.toDto(opinions);
 	}
 	

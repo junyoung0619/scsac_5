@@ -52,7 +52,10 @@ public class ProblemController {
 	public ResponseEntity<?> searchProblems(@RequestParam String searchCondition, @RequestParam String value) {
 
 		List<Problem> problems = ps.selectBySearchcondition(searchCondition, value);
-
+		System.out.println("서비스");
+		for(Problem problem:problems) {
+			System.out.println(problem);
+		}
 		if (problems != null) {
 			return new ResponseEntity<List<Problem>>(problems, HttpStatus.OK);
 		} else {

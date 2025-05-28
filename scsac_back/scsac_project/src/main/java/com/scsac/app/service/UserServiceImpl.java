@@ -24,8 +24,9 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User findById(String id) {
 		Optional<UserEntity> e = ur.findById(id);
-		if (e.isPresent())
-			return UserEntity.toDto(e.get());
+		if (e.isPresent()) {
+			System.out.println(UserEntity.toDto(e.get()).getBojId());
+			return UserEntity.toDto(e.get());}
 		else
 			return null;
 	}

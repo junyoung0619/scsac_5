@@ -37,7 +37,7 @@ function LoginPage() {
         affiliate: userInfo.affiliate,
         name: userInfo.name,
         nickname: userInfo.nickname,
-        boj_id: userInfo.boj_id,
+        boj_id: userInfo.bojId,
       }))
       
       navigate('/problems')      
