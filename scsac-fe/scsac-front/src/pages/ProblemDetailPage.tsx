@@ -4,6 +4,7 @@ import api from '../api/axios'
 import './ProblemDetailPage.css'
 import type { RootState } from '../store'
 import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 type Opinion = {
   id: number
@@ -31,6 +32,7 @@ const ProblemDetailPage: React.FC = () => {
   const [problem, setProblem] = useState<Problem | null>(null)
   const userId = useSelector((state: RootState) => state.user.id)
   const [showForm, setShowForm] = useState(false)
+  const navigate = useNavigate()
 
   // 작성 및 수정용 state
   const [rate, setRate] = useState<number>(0)
@@ -125,8 +127,20 @@ const ProblemDetailPage: React.FC = () => {
   const handleDelete = (opinionId: number) => {
     if (window.confirm('정말로 삭제하시겠습니까?')) {
       api.delete(`/opinion/${opinionId}`)
-        .then(() => fetchProblem())
-        .catch(err => console.error('삭제 실패:', err))
+        .then((res) => {
+          const result = res.data  // 응답 값이 0 또는 1이라고 가정
+          if (result === 0) {
+            navigate('/problems')
+          } else if (result === 1) {
+            navigate('/tmp')
+          } else {
+            fetchProblem()
+          }
+        })
+        .catch(err => {
+          console.error('삭제 실패:', err)
+          alert('삭제 중 오류가 발생했습니다.')
+        })
     }
   }
 
