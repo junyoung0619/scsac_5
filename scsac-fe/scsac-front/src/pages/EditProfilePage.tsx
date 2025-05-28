@@ -13,12 +13,6 @@ const EditProfile: React.FC = () => {
   const location = useLocation()
   const passwordFromPrev = location.state?.password || ''
 
-  const handleLogout = () => {
-    dispatch(logout())
-    navigate('/')
-    alert('로그아웃 되었습니다')
- }
-
 
   const [form, setForm] = useState({
     id: user.id || '',

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import api from '../api/axios'
 import type { RootState } from '../store'
 import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 type Problem = {
   url: string
@@ -42,7 +43,7 @@ const AddProblemPage: React.FC = () => {
   const [comment, setComment] = useState('')
   const [selectedCategories, setSelectedCategories] = useState<string[]>([])
   const [selectedFeedbackCategories, setSelectedFeedbackCategories] = useState<string[]>([])
-
+  const navigate = useNavigate()
   const handleProblemChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setProblem(prev => ({
@@ -85,6 +86,7 @@ const AddProblemPage: React.FC = () => {
       setComment('')
       setSelectedCategories([])
       setSelectedFeedbackCategories([])
+      navigate("/problems")
     } catch (err) {
       console.error('등록 실패:', err)
       alert('등록 중 오류가 발생했습니다.')
