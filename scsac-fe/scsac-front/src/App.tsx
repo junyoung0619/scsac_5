@@ -15,8 +15,10 @@ import { login } from './store/userSlice'
 import api from './api/axios'
 
 function App() {
-
+  console.log("App mounted")
   const dispatch = useDispatch()
+  // const [isLoading, setIsLoading] = useState(true)
+
 
   useEffect(() => {
     const restoreUser = async () => {
@@ -29,7 +31,8 @@ function App() {
             },
           })
 
-          const user = res.data.user
+          const user = res.data;
+
           dispatch(login({
             id: user.id,
             password: user.password,

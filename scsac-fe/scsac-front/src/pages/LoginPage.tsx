@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useState, useEffect } from 'react'
+import { useDispatch,useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { login } from '../store/userSlice'
 
@@ -8,12 +8,13 @@ import '../components/LoginPage.css'
 
 
 function LoginPage() {
+  const user = useSelector((state:any) => state.user)
   const [id, setId] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  65;
+
   const handleLogin = async () => {
     try {
       const response = await api.post('/login',{ id, password })
@@ -52,6 +53,14 @@ function LoginPage() {
       setError('아이디 또는 비밀번호가 올바르지 않습니다.')
     }
   }
+  useEffect(() => {
+    if (user.isLoggedIn) {
+      alert("메인 페이지인 문제 목록으로 이동합니다.")
+      navigate('/problems')
+
+    }
+
+  }, [user.isLoggedIn, navigate])
 
 
   return (
