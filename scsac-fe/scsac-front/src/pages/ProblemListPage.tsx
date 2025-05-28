@@ -129,9 +129,17 @@ const ProblemListPage: React.FC = () => {
     </div>
 
     <ul className="problem-table">
+  <li className="problem-row problem-header">
+    <span className="problem-col">제목</span>
+    <span className="problem-col">문제 번호</span>
+    <span className="problem-col">평점</span>
+    <span className="problem-col">분류</span>
+    <span className="problem-col">링크</span>
+  </li>
+
   {filteredProblems.map(problem => (
     <li key={problem.id} className="problem-row">
-      <Link to={`/problems/${problem.id}`} className="problem-title">
+      <Link to={`/problems/${problem.id}`} className="problem-col problem-title">
         {problem.title}
       </Link>
       <span className="problem-col">{problem.problemNum}</span>
@@ -150,6 +158,8 @@ const ProblemListPage: React.FC = () => {
     </li>
   ))}
 </ul>
+
+
     </div>
   )
 }
