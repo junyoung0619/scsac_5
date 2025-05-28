@@ -40,8 +40,12 @@ function LoginPage() {
         boj_id: userInfo.bojId,
       }))
       
-      navigate('/problems')      
-
+      if (!userInfo.name || !userInfo.nickname) {
+        navigate('/editProfile', { state: { password: password} })
+      } else {
+        navigate('/problems')
+      }
+  
     } 
     
     catch (err) {
