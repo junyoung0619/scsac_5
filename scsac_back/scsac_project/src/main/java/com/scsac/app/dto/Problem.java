@@ -27,7 +27,7 @@ public class Problem {
 	private List<String> categories;	
 	private List<Opinion> opinions;
 	
-	public static ProblemEntity toDto(Problem p) {
+	public static ProblemEntity toEntity(Problem p) {
 		return new ProblemEntity(p.getId(),p.getUrl(),p.getProblemNum(),p.getTitle(),p.getRate(),null);
 	}
 }

@@ -15,6 +15,7 @@ import com.scsac.app.entity.OpinionEntity;
 import com.scsac.app.entity.ProblemEntity;
 import com.scsac.app.repository.OpinionRespository;
 import com.scsac.app.repository.ProblemRepository;
+import com.scsac.app.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,7 @@ public class ProblemServiceImpl implements ProblemService {
 
 	private final ProblemRepository pr;
 	private final OpinionRespository or;
+	private final UserRepository ur;
 
 	@Override
 	public List<Problem> selectAll() {
@@ -118,7 +120,7 @@ public class ProblemServiceImpl implements ProblemService {
 	@Override
 	@Transactional
 	public int insertProblem(Problem problem) {
-		ProblemEntity e = pr.save(problem.toDto(problem));
+		ProblemEntity e = pr.save(problem.toEntity(problem));
 		if (e == null) {
 			return 0;
 		}

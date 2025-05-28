@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.scsac.app.dto.Opinion;
 import com.scsac.app.dto.Problem;
 import com.scsac.app.service.OpinionService;
+import com.scsac.app.service.ProblemOpinionFacadeService;
 import com.scsac.app.service.ProblemService;
 
 import lombok.RequiredArgsConstructor;
@@ -23,8 +27,10 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 public class ProblemController {
+
 	private final ProblemService ps;
 	private final OpinionService os;
+	private final ProblemOpinionFacadeService pos;
 
 	@GetMapping("/")
 	public ResponseEntity<?> selectAll() {
@@ -53,7 +59,7 @@ public class ProblemController {
 
 		List<Problem> problems = ps.selectBySearchcondition(searchCondition, value);
 		System.out.println("서비스");
-		for(Problem problem:problems) {
+		for (Problem problem : problems) {
 			System.out.println(problem);
 		}
 		if (problems != null) {
@@ -65,23 +71,25 @@ public class ProblemController {
 
 	@PostMapping("/")
 	public ResponseEntity<?> insertProblem(@RequestBody Problem problem) {
-		int r = ps.insertProblem(problem);
+
+		Opinion opinion = problem.getOpinions().get(0);
+		int r = pos.addProblemWithOpinion(problem, opinion);
 		if (r == 1) {
 			return new ResponseEntity<Problem>(problem, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 		}
 	}
-	
+
 	@PutMapping("/")
-	public ResponseEntity<?> updateProblem(@RequestBody Problem problem){
+	public ResponseEntity<?> updateProblem(@RequestBody Problem problem) {
 		int r = ps.updateProblem(problem);
 		if (r == 1) {
 			return new ResponseEntity<Problem>(problem, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 		}
-		
+
 	}
 
 }
