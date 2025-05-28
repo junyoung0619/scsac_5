@@ -60,9 +60,6 @@ const EditProfile: React.FC = () => {
         <label>계열사</label><br />
         <input type="text" name="affiliate" value={form.affiliate} onChange={handleChange} /><br />
 
-        <label>기수</label><br />
-        <input type="number" name="generation" value={form.generation} onChange={handleChange} /><br />
-
         <label>닉네임</label><br />
         <input type="text" name="nickname" value={form.nickname} onChange={handleChange} /><br />
 
