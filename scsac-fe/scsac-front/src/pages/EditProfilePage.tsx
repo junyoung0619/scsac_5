@@ -1,14 +1,24 @@
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch} from 'react-redux'
 import { useNavigate, useLocation } from 'react-router-dom'
 import type { RootState } from '../store'
 import api from '../api/axios'
+import { logout } from '../store/userSlice'
+
 
 const EditProfile: React.FC = () => {
   const user = useSelector((state: RootState) => state.user)
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   const location = useLocation()
   const passwordFromPrev = location.state?.password || ''
+
+  const handleLogout = () => {
+    dispatch(logout())
+    navigate('/')
+    alert('로그아웃 되었습니다')
+ }
+
 
   const [form, setForm] = useState({
     id: user.id || '',
@@ -41,7 +51,9 @@ const EditProfile: React.FC = () => {
     try {
       await api.put(`/user/user`, form)
       alert('회원정보가 수정되었습니다.')
-      navigate('/mypage')
+      alert('다시 로그인 해주세요.')
+      dispatch(logout())
+      navigate('/')
     } catch (err) {
       setError('수정 중 오류가 발생했습니다.')
     }

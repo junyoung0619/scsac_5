@@ -5,6 +5,7 @@ import { logout } from '../store/userSlice'
 import './Header.css'
 import { useNavigate } from 'react-router-dom'
 
+
 function Header() {
   const { isLoggedIn, nickname } = useSelector((state: RootState) => state.user)
   const dispatch = useDispatch()
