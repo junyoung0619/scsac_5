@@ -1,5 +1,7 @@
 package com.scsac.app.service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -164,9 +166,10 @@ public class ProblemServiceImpl implements ProblemService {
 	    if (cnt == 0) {
 	        return 0;
 	    } else {
-	        problem.setRate((float) sum / cnt);
+	    	BigDecimal avg = BigDecimal.valueOf((float) sum / cnt);
+	    	avg = avg.setScale(2, RoundingMode.HALF_UP);
+	    	problem.setRate(avg.floatValue());
 	    }
-
 	    ProblemEntity entity = pr.findById(problem.getId());
 	    entity.setRate(problem.getRate());
 	    pr.save(entity);
