@@ -13,7 +13,7 @@ const AdminPage: React.FC = () => {
   const [updateGen, setUpdateGen] = useState('')
 
   // 관리자 추가
-  const [adminId, setAdminId] = useState('')
+  const [toBeAdminId, setAdminId] = useState('')
 
 
   const user = useSelector((state: RootState) => state.user)
@@ -39,9 +39,7 @@ const AdminPage: React.FC = () => {
 
   const handleAddAdmin = async () => {
     try {
-      await api.put('/user/addAdmin', {
-        id: adminId
-      })
+      await api.put(`/user/addAdmin?id=${toBeAdminId}`)
       alert('관리자 추가 완료')
     } catch (err) {
       alert('관리자 추가 실패')
@@ -94,7 +92,7 @@ const AdminPage: React.FC = () => {
         <input
           type="text"
           placeholder="관리자 ID"
-          value={adminId}
+          value={toBeAdminId}
           onChange={(e) => setAdminId(e.target.value)}
         />
         <button onClick={handleAddAdmin}>추가</button>
