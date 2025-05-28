@@ -9,8 +9,48 @@ import ProblemListPage from './pages/ProblemListPage'
 import AddProblemPage from './pages/AddProblemPage'
 import ProblemDetailPage from './pages/ProblemDetailPage'
 import AdminPage from './pages/AdminPage'
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { login } from './store/userSlice'
+import api from './api/axios'
 
 function App() {
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    const restoreUser = async () => {
+      const token = localStorage.getItem("jwt")
+      if (token) {
+        try {
+          const res = await api.get("/user/me", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+
+          const user = res.data.user
+          dispatch(login({
+            id: user.id,
+            password: user.password,
+            authority: user.authority,
+            generation: user.generation,
+            affiliate: user.affiliate,
+            name: user.name,
+            nickname: user.nickname,
+            boj_id: user.boj_id,
+          }))
+        } catch (err) {
+          console.error("사용자 정보 복구 실패", err)
+          localStorage.removeItem("jwt")
+        }
+      }
+    }
+
+    restoreUser()
+  }, [])
+
+
   return (
     <>
     <BrowserRouter>
