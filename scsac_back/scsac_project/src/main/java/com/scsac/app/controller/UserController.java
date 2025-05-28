@@ -41,6 +41,7 @@ public class UserController {
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> insert(@RequestParam int num, @RequestParam int generation,
 			@RequestParam String password) {
+		System.out.println(num+generation+password);
 		int r = us.insertUser(num, generation, password);
 		if (r == 1) {
 			return new ResponseEntity<Integer>(r, HttpStatus.CREATED);
