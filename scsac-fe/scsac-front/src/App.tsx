@@ -8,7 +8,7 @@ import EditProfile from './pages/EditProfilePage'
 import ProblemListPage from './pages/ProblemListPage'
 import AddProblemPage from './pages/AddProblemPage'
 import ProblemDetailPage from './pages/ProblemDetailPage'
-//import AdminPage from './pages/AdminPage'
+import AdminPage from './pages/AdminPage'
 
 function App() {
   return (
@@ -24,7 +24,7 @@ function App() {
         <Route path="/add-problem" element={<AddProblemPage />} />
         <Route path="/problems/:id" element={<ProblemDetailPage />} />
         <Route path="/login" element={<LoginPage />} />
-
+        <Route path="/admin" element={<AdminPage />} />
       </Routes>
     </BrowserRouter>
     </>
