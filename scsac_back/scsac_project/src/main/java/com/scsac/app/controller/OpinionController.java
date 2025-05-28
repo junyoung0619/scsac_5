@@ -32,7 +32,7 @@ public class OpinionController {
 	public ResponseEntity<?> selectbyProblemId(@PathVariable int id) {
 		List<Opinion> opinions = os.findByProblemId(id);
 
-		if (opinions == null) {
+		if (opinions.isEmpty()) {
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		} else {
 			return new ResponseEntity<List<Opinion>>(opinions, HttpStatus.OK);
@@ -75,9 +75,6 @@ public class OpinionController {
 
 			List<Opinion> opinions = os.findByProblemId(problemId);
 
-			for(Opinion opinion:opinions) {
-				System.out.println(opinion.getComment());
-			}
 			if (opinions.isEmpty()) {
 				ps.deleteProblem(problemId);
 				return new ResponseEntity<Integer>(0, HttpStatus.OK);

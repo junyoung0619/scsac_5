@@ -5,6 +5,7 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.stereotype.Service;
@@ -13,7 +14,7 @@ import com.scsac.app.dto.Opinion;
 import com.scsac.app.dto.Problem;
 import com.scsac.app.entity.OpinionEntity;
 import com.scsac.app.entity.ProblemEntity;
-import com.scsac.app.repository.OpinionRespository;
+import com.scsac.app.repository.OpinionRepository;
 import com.scsac.app.repository.ProblemRepository;
 import com.scsac.app.repository.UserRepository;
 
@@ -25,7 +26,7 @@ import lombok.RequiredArgsConstructor;
 public class ProblemServiceImpl implements ProblemService {
 
 	private final ProblemRepository pr;
-	private final OpinionRespository or;
+	private final OpinionRepository or;
 	private final UserRepository ur;
 
 	@Override
@@ -52,9 +53,9 @@ public class ProblemServiceImpl implements ProblemService {
 
 	@Override
 	public Problem selectById(int id) {
-		ProblemEntity pe = pr.findById(id);
-		if(pe==null) return null;
-		Problem problem = ProblemEntity.toDto(pe);
+		Optional<ProblemEntity> pe = pr.findById(id);
+		if(pe.isEmpty()) return null;
+		Problem problem = ProblemEntity.toDto(pe.get());
 		List<OpinionEntity> e = or.findByProblemId(problem.getId());
 		List<Opinion> opinions = OpinionEntity.toDto(e);
 		Set<String> categories = new HashSet<>();
@@ -75,7 +76,6 @@ public class ProblemServiceImpl implements ProblemService {
 	public List<Problem> selectBySearchcondition(String condition, String value) {
 		List<ProblemEntity> problems = new ArrayList<>();
 		try {
-			System.out.println(condition+value);
 			switch (condition) {
 				case ("problemNum"):
 					System.out.println(Integer.parseInt(value));
@@ -142,8 +142,9 @@ public class ProblemServiceImpl implements ProblemService {
 	@Override
 	@Transactional
 	public int updateProblem(Problem problem) {
-		ProblemEntity e = pr.findById(problem.getId());
-		if(e==null) return 0;
+		Optional<ProblemEntity> pe = pr.findById(problem.getId());
+		if(pe.isEmpty()) return 0;
+		ProblemEntity e = pe.get();
 		
 		e.setProblemNum(problem.getProblemNum());
 		e.setTitle(problem.getTitle());
@@ -173,7 +174,9 @@ public class ProblemServiceImpl implements ProblemService {
 	    	avg = avg.setScale(2, RoundingMode.HALF_UP);
 	    	problem.setRate(avg.floatValue());
 	    }
-	    ProblemEntity entity = pr.findById(problem.getId());
+	    Optional<ProblemEntity> pe = pr.findById(problem.getId());
+		if(pe.isPresent()) return 0;
+	    ProblemEntity entity = pe.get();
 	    entity.setRate(problem.getRate());
 	    pr.save(entity);
 

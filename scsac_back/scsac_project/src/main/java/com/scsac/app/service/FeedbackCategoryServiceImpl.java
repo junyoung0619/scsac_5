@@ -19,9 +19,7 @@ public class FeedbackCategoryServiceImpl implements FeedbackCategoryService {
 	@Override
 	public List<FeedbackCategory> selectAll() {
 		List<FeedbackCategoryEntity> fe = fr.findAll();
-		
-		if (fe==null) return null;
-		
+
 		return FeedbackCategoryEntity.toDto(fe);
 	}
 

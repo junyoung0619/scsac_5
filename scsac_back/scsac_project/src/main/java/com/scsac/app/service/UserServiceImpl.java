@@ -19,14 +19,12 @@ import lombok.RequiredArgsConstructor;
 public class UserServiceImpl implements UserService {
 	private final UserRepository ur;
 
-	@Autowired
 	private final PasswordEncoder passwordEncoder;
 	
 	@Override
 	public User findById(String id) {
 		Optional<UserEntity> e = ur.findById(id);
 		if (e.isPresent()) {
-			System.out.println(UserEntity.toDto(e.get()).getBojId());
 			return UserEntity.toDto(e.get());}
 		else
 			return null;
@@ -35,7 +33,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public int isExist(int generation) {
 		
-		List<UserEntity> e = ur.findBygeneration(generation);
+		List<UserEntity> e = ur.findByGeneration(generation);
 		if(e.isEmpty()) {
 			return 0;
 		}
@@ -90,7 +88,7 @@ public class UserServiceImpl implements UserService {
 		tmp_user.setName(user.getName());
 		tmp_user.setNickname(user.getNickname());
 		tmp_user.setBojId(user.getBojId());
-		System.out.println("ServiceImpl"+tmp_user.getPassword());
+
 		return 1;
 	}
 

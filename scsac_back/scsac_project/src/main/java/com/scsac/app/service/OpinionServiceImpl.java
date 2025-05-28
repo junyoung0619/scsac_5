@@ -16,7 +16,7 @@ import com.scsac.app.entity.ProblemEntity;
 import com.scsac.app.entity.UserEntity;
 import com.scsac.app.repository.CategoryRepository;
 import com.scsac.app.repository.FeedbackCategoryRepository;
-import com.scsac.app.repository.OpinionRespository;
+import com.scsac.app.repository.OpinionRepository;
 import com.scsac.app.repository.ProblemRepository;
 import com.scsac.app.repository.UserRepository;
 
@@ -27,7 +27,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class OpinionServiceImpl implements OpinionService {
 
-	private final OpinionRespository or;
+	private final OpinionRepository or;
 	private final ProblemRepository pr;
 	private final UserRepository ur;
 	private final CategoryRepository cr;
@@ -38,18 +38,19 @@ public class OpinionServiceImpl implements OpinionService {
 		List<OpinionEntity> opinions = or.findByProblemId(problemId);
 		return OpinionEntity.toDto(opinions);
 	}
-	
+
 	@Override
 	public Optional<Integer> getProblemIdByOpinionId(int opinionId) {
-	    return or.findProblemIdByOpinionId(opinionId);
+		return or.findProblemIdByOpinionId(opinionId);
 	}
 
 	@Override
 	@Transactional
 	public int insertOpinion(Opinion opinion) {
-		ProblemEntity problem = pr.findById(opinion.getProblemId());
-		if (problem == null)
+		Optional<ProblemEntity> pe = pr.findById(opinion.getProblemId());
+		if (pe.isEmpty())
 			return 0;
+		ProblemEntity problem = pe.get();
 
 		UserEntity user = ur.findById(opinion.getUserId()).orElse(null);
 		if (user == null)
@@ -69,23 +70,21 @@ public class OpinionServiceImpl implements OpinionService {
 	@Override
 	@Transactional
 	public int updateOpinion(Opinion opinion) {
-		System.out.println(10000);
-		OpinionEntity e = or.findById(opinion.getId());
-		if (e == null)
+
+		Optional<OpinionEntity> oe = or.findById(opinion.getId());
+		if (oe.isPresent())
 			return 0;
 
-		Set<CategoryEntity> categories = opinion.getCategory().stream()
-			    .map(cr::findByName)
-			    .flatMap(Optional::stream)
-			    .collect(Collectors.toSet());
+		OpinionEntity e = oe.get();
+
+		Set<CategoryEntity> categories = opinion.getCategory().stream().map(cr::findByName).flatMap(Optional::stream)
+				.collect(Collectors.toSet());
 		e.setCategories(categories);
 
-		Set<FeedbackCategoryEntity> feedbackCategories = opinion.getFeedbackCategory().stream()
-		    .map(fcr::findByName)
-		    .flatMap(Optional::stream)
-		    .collect(Collectors.toSet());
+		Set<FeedbackCategoryEntity> feedbackCategories = opinion.getFeedbackCategory().stream().map(fcr::findByName)
+				.flatMap(Optional::stream).collect(Collectors.toSet());
 		e.setFeedbackCategories(feedbackCategories);
-	
+
 		e.setRate(opinion.getRate());
 		e.setComment(opinion.getComment());
 		return 1;

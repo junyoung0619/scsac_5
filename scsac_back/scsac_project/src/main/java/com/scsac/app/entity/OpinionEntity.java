@@ -56,7 +56,7 @@ public class OpinionEntity {
     @JoinTable(name = "opinion_category",
         joinColumns = @JoinColumn(name = "opinion_id"),
         inverseJoinColumns = @JoinColumn(name = "category_id"))
-    private Set<CategoryEntity> categories = new HashSet();
+    private Set<CategoryEntity> categories = new HashSet<>();
 
     @ManyToMany
     @JoinTable(name = "opinion_feedback_category",

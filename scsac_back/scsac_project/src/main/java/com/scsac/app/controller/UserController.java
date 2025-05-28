@@ -42,15 +42,14 @@ public class UserController {
 	public ResponseEntity<?> insert(@RequestParam int num, @RequestParam int generation,
 			@RequestParam String password) {
 		int check = us.isExist(generation);
-		System.out.println(generation + "은 있나?" + check);
 		if (check == 1) {
-			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
 		}
 		int r = us.insertUser(num, generation, password);
 		if (r == 1) {
 			return new ResponseEntity<Integer>(r, HttpStatus.CREATED);
 		} else {
-			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -66,13 +65,13 @@ public class UserController {
 		String id = (String) auth.getPrincipal();
 
 		if (!id.equals(user.getId())) {
-			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Void>(HttpStatus.FORBIDDEN);
 		}
 		int r = us.updateUser(user);
 		if (r == 1) {
 			return new ResponseEntity<Integer>(r, HttpStatus.OK);
 		} else {
-			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -84,7 +83,7 @@ public class UserController {
 		if (r == 1) {
 			return new ResponseEntity<Integer>(r, HttpStatus.OK);
 		} else {
-			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 		}
 	}
 
@@ -95,7 +94,7 @@ public class UserController {
 		if (r == 1) {
 			return new ResponseEntity<Integer>(r, HttpStatus.OK);
 		} else {
-			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 		}
 	}
 }

@@ -23,7 +23,7 @@ public class FeedbackCategoryController {
 	@GetMapping("/")
 	public ResponseEntity<?> selectAll(){
 		List<FeedbackCategory> fcs = fs.selectAll();
-		if(fcs==null) {
+		if(fcs.isEmpty()) {
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		} else {
 			return new ResponseEntity<List<FeedbackCategory>>(fcs,HttpStatus.OK);

@@ -1,5 +1,6 @@
 package com.scsac.app.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.scsac.app.dto.User;
 
 import jakarta.persistence.Column;
@@ -26,6 +27,7 @@ public class UserEntity {
 	private String id;
 
 	@Column(length = 100, nullable = false)
+	@JsonIgnore
 	private String password;
 
 	@Column(nullable = false, columnDefinition = "INT DEFAULT 3")
@@ -34,16 +36,16 @@ public class UserEntity {
 	@Column(nullable = false)
 	private int generation;
 
-	@Column(length = 10)
+	@Column(length = 10, nullable= true)
 	private String affiliate;
 
-	@Column(length = 45)
+	@Column(length = 45, nullable= true)
 	private String name;
 
-	@Column(length = 45)
+	@Column(length = 45, nullable= true)
 	private String nickname;
 
-	@Column(length = 100)
+	@Column(length = 100, nullable= true)
 	private String bojId;
 
 	public static User toDto(UserEntity u) {

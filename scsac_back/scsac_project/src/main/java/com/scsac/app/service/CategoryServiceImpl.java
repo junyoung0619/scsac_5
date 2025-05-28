@@ -20,8 +20,6 @@ public class CategoryServiceImpl implements CategoryService {
 	public List<Category> selectAll() {
 		List<CategoryEntity> e = cr.findAll();
 		
-		if (e==null) return null;
-		
 		return CategoryEntity.toDto(e);
 	}
 	

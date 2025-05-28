@@ -23,7 +23,7 @@ public class CategoryController {
 	@GetMapping("/")
 	public ResponseEntity<?> selectAll(){
 		List<Category> categories = cs.selectAll();
-		if(categories==null) {
+		if(categories.isEmpty()) {
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<List<Category>>(categories,HttpStatus.OK);

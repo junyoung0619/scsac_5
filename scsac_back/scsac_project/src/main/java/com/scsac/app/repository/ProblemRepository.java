@@ -12,7 +12,7 @@ import com.scsac.app.entity.ProblemEntity;
 @Repository
 public interface ProblemRepository extends JpaRepository<ProblemEntity, Integer> {
 	
-	ProblemEntity findById(int id);
+	Optional<ProblemEntity> findById(int id);
 	
     List<ProblemEntity> findByProblemNum(int problemNum);
 

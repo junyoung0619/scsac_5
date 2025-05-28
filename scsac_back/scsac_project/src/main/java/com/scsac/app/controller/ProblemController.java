@@ -34,7 +34,6 @@ public class ProblemController {
 
 	@GetMapping("/")
 	public ResponseEntity<?> selectAll() {
-		System.out.println("문제 목록 접근");
 		List<Problem> problems = ps.selectAll();
 		if (problems != null) {
 			return new ResponseEntity<List<Problem>>(problems, HttpStatus.OK);
@@ -46,7 +45,6 @@ public class ProblemController {
 	@GetMapping("/{id}")
 	public ResponseEntity<?> selectById(@PathVariable int id) {
 		Problem problem = ps.selectById(id);
-		System.out.println("문제는" + problem);
 		if (problem != null) {
 			return new ResponseEntity<Problem>(problem, HttpStatus.OK);
 		} else {
@@ -58,7 +56,6 @@ public class ProblemController {
 	public ResponseEntity<?> searchProblems(@RequestParam String searchCondition, @RequestParam String value) {
 
 		List<Problem> problems = ps.selectBySearchcondition(searchCondition, value);
-		System.out.println("서비스");
 		for (Problem problem : problems) {
 			System.out.println(problem);
 		}
@@ -71,13 +68,15 @@ public class ProblemController {
 
 	@PostMapping("/")
 	public ResponseEntity<?> insertProblem(@RequestBody Problem problem) {
-		System.out.println("여기는 왔니?");
+		if (problem.getOpinions() == null || problem.getOpinions().isEmpty()) {
+		    return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		}
 		Opinion opinion = problem.getOpinions().get(0);
 		opinion.setProblemId(problem.getId());
 		opinion.setRate((int)problem.getRate());
 		System.out.println(opinion);
 		int r = pos.addProblemWithOpinion(problem, opinion);
-		System.out.println("여기는?");
+
 		if (r == 1) {
 			return new ResponseEntity<Problem>(problem, HttpStatus.OK);
 		} else {

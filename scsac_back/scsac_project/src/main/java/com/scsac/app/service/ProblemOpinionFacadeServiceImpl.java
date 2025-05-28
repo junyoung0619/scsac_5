@@ -22,7 +22,6 @@ public class ProblemOpinionFacadeServiceImpl implements ProblemOpinionFacadeServ
 		int r1 = ps.insertProblem(problem);
 		opinion.setProblemId(problem.getId());
 		int r2 = os.insertOpinion(opinion);
-		System.out.println("serviceImpl"+r1+r2);
 		return r1 * r2;
 	}
 
