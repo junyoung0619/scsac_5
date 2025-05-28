@@ -14,9 +14,9 @@ INSERT INTO `scsac`.`user` (`id`, `password`, `authority`, `generation`) VALUES 
 
 -- Table `scsac`.`problem`
 INSERT INTO problem (url, problem_num, title, rate) VALUES
-('https://www.acmicpc.net/problem/1000', 1000, 'A+B', 4),
-('https://www.acmicpc.net/problem/1010', 1010, '다리 놓기', 5),
-('https://www.acmicpc.net/problem/10828', 10828, '스택', 3);
+('https://www.acmicpc.net/problem/1000', 1000, 'A+B', 5),
+('https://www.acmicpc.net/problem/1010', 1010, '다리 놓기', 3),
+('https://www.acmicpc.net/problem/10828', 10828, '스택', 4);
 
 -- Table `scsac`.`opinion`
 INSERT INTO opinion (problem_id, rate, comment,user_id) VALUES
