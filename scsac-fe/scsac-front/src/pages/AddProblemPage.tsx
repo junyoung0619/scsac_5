@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import api from '../api/axios'
+import type { RootState } from '../store'
+import { useSelector } from 'react-redux'
 
 type Problem = {
   url: string
@@ -8,6 +10,7 @@ type Problem = {
   rate: number
   categories?: string[] // 사용 안함
   opinions: {
+    userId: string
     comment: string
     category: string[]
     feedbackCategory: string[]
@@ -63,9 +66,11 @@ const AddProblemPage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
+    const user = useSelector((state: RootState) => state.user)
     const payload: Problem = {
       ...problem,
       opinions: [{
+        userId: user.id,
         comment: comment,
         category: selectedCategories,
         feedbackCategory: selectedFeedbackCategories
