@@ -85,10 +85,13 @@ public class ProblemController {
 
 	@PostMapping("/")
 	public ResponseEntity<?> insertProblem(@RequestBody Problem problem) {
+
 		if (problem.getOpinions() == null || problem.getOpinions().isEmpty()) {
 		    return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 		}
 		Opinion opinion = problem.getOpinions().get(0);
+		System.out.println("의견의 피드백");
+		System.out.println(opinion.getFeedbackCategory().get(0));
 		opinion.setProblemId(problem.getId());
 		opinion.setRate((int)problem.getRate());
 		System.out.println(opinion);
@@ -103,6 +106,8 @@ public class ProblemController {
 
 	@PutMapping("/")
 	public ResponseEntity<?> updateProblem(@RequestBody Problem problem) {
+		System.out.println("왔니");
+		System.out.println(problem.getRate());
 		int r = ps.updateProblem(problem);
 		if (r == 1) {
 			return new ResponseEntity<Problem>(problem, HttpStatus.OK);

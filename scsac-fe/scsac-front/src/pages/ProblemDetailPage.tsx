@@ -25,7 +25,7 @@ type Problem = {
 }
 
 const categoryOptions = ['구현', '시뮬레이션', 'BFS', 'DFS', '백트래킹', '기타']
-const feedbackCategoryOptions = ['불명확한 조건', '풀이 유도 부족', '문장 이해 어려움', '기타']
+const feedbackCategoryOptions = ['구현 많음', '실수하기 쉬운', '기발한', '교육적인']
 
 const ProblemDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>()

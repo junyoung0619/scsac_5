@@ -41,6 +41,7 @@ public class OpinionController {
 
 	@PostMapping("/")
 	public ResponseEntity<?> insertOpinion(@RequestBody Opinion opinion) {
+
 		int r = os.insertOpinion(opinion);
 		if (r == 1) {
 			ps.updateProblemRate(ps.selectById(opinion.getProblemId()));
@@ -52,8 +53,11 @@ public class OpinionController {
 
 	@PutMapping("/")
 	public ResponseEntity<?> updateOpinion(@RequestBody Opinion opinion) {
+		System.out.println("여기 왔냐고");
 		int r = os.updateOpinion(opinion);
 		if (r == 1) {
+			System.out.println("이거함?");
+			System.out.println(opinion.getProblemId());
 			ps.updateProblemRate(ps.selectById(opinion.getProblemId()));
 			return new ResponseEntity<Opinion>(opinion, HttpStatus.OK);
 		} else {

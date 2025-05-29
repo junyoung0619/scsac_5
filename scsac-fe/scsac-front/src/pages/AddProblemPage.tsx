@@ -29,8 +29,10 @@ const allCategories = [
 ]
 
 const allFeedbackCategories = [
-  { id: 1, name: '어렵다' },
-  { id: 2, name: '깔끔하다' },
+  { id: 1, name: '구현 많음' },
+  { id: 2, name: '실수하기 쉬운' },
+  { id: 3, name: '기발한' },
+  { id: 4, name: '교육적인' },
 ]
 
 const AddProblemPage: React.FC = () => {

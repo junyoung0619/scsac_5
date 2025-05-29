@@ -15,7 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
+import com.scsac.app.controller.AuthController;
 import com.scsac.app.dto.Opinion;
 import com.scsac.app.dto.Problem;
 import com.scsac.app.entity.OpinionEntity;
@@ -31,9 +31,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ProblemServiceImpl implements ProblemService {
 
+    private final AuthController authController;
+
 	private final ProblemRepository pr;
 	private final OpinionRepository or;
 	private final UserRepository ur;
+
+
 
 	@Override
 	public List<Problem> selectAll() {
@@ -100,6 +104,7 @@ public class ProblemServiceImpl implements ProblemService {
 			for (String category : opinion.getCategory()) {
 				categories.add(category);
 			}
+			System.out.println("피드백"+opinion.getFeedbackCategory());
 		}
 		problem.setOpinions(opinions);
 		List<String> categoriesList = new ArrayList<>(categories);
@@ -125,6 +130,7 @@ public class ProblemServiceImpl implements ProblemService {
 	                problemsPage = pr.findByRateGreaterThanEqual(rate, pageable);
 	                break;
 	            case "category":
+	            	if(value.isEmpty()) return selectPagedProblems(pageable);
 	            	Pageable unsortedPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.unsorted());
 	                problemsPage = pr.findProblemsByCategoryName(value, unsortedPageable);
 	                break;
@@ -199,6 +205,8 @@ public class ProblemServiceImpl implements ProblemService {
 	    List<OpinionEntity> e = or.findByProblemId(problem.getId());
 	    List<Opinion> opinions = OpinionEntity.toDto(e);
 
+	    System.out.println("점수");
+	    System.out.println(opinions.get(0).getRate());
 	    int cnt = 0;
 	    int sum = 0;
 
@@ -206,16 +214,18 @@ public class ProblemServiceImpl implements ProblemService {
 	        cnt += 1;
 	        sum += opinion.getRate();
 	    }
-
+	    System.out.println(cnt);
 	    if (cnt == 0) {
 	        return 0;
 	    } else {
 	    	BigDecimal avg = BigDecimal.valueOf((float) sum / cnt);
 	    	avg = avg.setScale(2, RoundingMode.HALF_UP);
+	    	System.out.println("평균 점수");
+	    	System.out.println(avg);
 	    	problem.setRate(avg.floatValue());
 	    }
 	    Optional<ProblemEntity> pe = pr.findById(problem.getId());
-		if(pe.isPresent()) return 0;
+		if(pe.isEmpty()) return 0;
 	    ProblemEntity entity = pe.get();
 	    entity.setRate(problem.getRate());
 	    pr.save(entity);

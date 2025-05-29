@@ -79,8 +79,8 @@ public class UserServiceImpl implements UserService {
 		Optional<UserEntity> user1 = ur.findByNickname(user.getNickname());
 		Optional<UserEntity> user2 = ur.findBybojId(user.getBojId());
 		
-		if(!tmp_user.getNickname().equals(user.getNickname()) && !user1.isEmpty()) return 0;
-		if(!tmp_user.getBojId().equals(user.getBojId())&&!user2.isEmpty()) return 0;
+		if(!user.getNickname().equals(tmp_user.getNickname()) && !user1.isEmpty()) return 0;
+		if(!user.getBojId().equals(tmp_user.getBojId())&&!user2.isEmpty()) return 0;
 		
 		tmp_user.setPassword(passwordEncoder.encode(user.getPassword()));
 		tmp_user.setAuthority(user.getAuthority());
