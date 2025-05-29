@@ -7,6 +7,8 @@
   background-color: #007bff;
   color: white;
   font-family: 'Pretendard', sans-serif;
+  border-top-left-radius:1.5rem;
+  border-top-right-radius:1.5rem;
 }
 
 .header-title {
