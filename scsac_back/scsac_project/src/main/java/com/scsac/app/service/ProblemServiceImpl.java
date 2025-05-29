@@ -53,10 +53,33 @@ public class ProblemServiceImpl implements ProblemService {
 		return problems;
 	}
 
+	@Override
 	public Page<Problem> selectPagedProblems(Pageable pageable) {
 	    Page<ProblemEntity> entities = pr.findAll(pageable);
-	    return entities.map(ProblemEntity::toDto);
+
+	    return entities.map(entity -> {
+	        Problem problem = ProblemEntity.toDto(entity);
+
+	        // 1. 해당 문제에 연결된 OpinionEntity 목록 가져오기
+	        List<OpinionEntity> e = or.findByProblemId(problem.getId());
+	        List<Opinion> opinions = OpinionEntity.toDto(e);
+
+	        // 2. 카테고리 추출
+	        Set<String> categories = new HashSet<>();
+	        for (Opinion opinion : opinions) {
+	            for (String category : opinion.getCategory()) {
+	                categories.add(category);
+	            }
+	        }
+
+	        List<String> categoriesList = new ArrayList<>(categories);
+	        categoriesList.sort(null);
+	        problem.setCategories(categoriesList);
+
+	        return problem;
+	    });
 	}
+
 
 
 	@Override

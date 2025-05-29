@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.scsac.app.dto.Opinion;
 import com.scsac.app.dto.Problem;
-import com.scsac.app.dto.ProblemPageResponse;
 import com.scsac.app.service.OpinionService;
 import com.scsac.app.service.ProblemOpinionFacadeService;
 import com.scsac.app.service.ProblemService;
