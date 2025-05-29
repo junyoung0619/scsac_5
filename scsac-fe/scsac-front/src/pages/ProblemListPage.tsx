@@ -75,43 +75,44 @@ const ProblemListPage: React.FC = () => {
   return (
     <div className="problem-list-container">
       <h2 className="problem-list-title">문제 목록</h2>
-      <div className="problem-list-controls">
-        <Link to="/add-problem" className="add-problem-button">문제 등록</Link>
-      </div>
 
       <div className="problem-search">
-        <select
-          value={searchCondition}
-          onChange={(e) => setSearchCondition(e.target.value)}
-        >
-          {searchConditions.map(cond => (
-            <option key={cond} value={cond}>{cond}</option>
-          ))}
-        </select>
-
-        {searchCondition === '알고리즘 분류' ? (
+        <div className="search-controls">
           <select
-            value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}
+            value={searchCondition}
+            onChange={(e) => setSearchCondition(e.target.value)}
           >
-            <option value="">전체</option>
-            {allCategories.map(cat => (
-              <option key={cat} value={cat}>{cat}</option>
+            {searchConditions.map(cond => (
+              <option key={cond} value={cond}>{cond}</option>
             ))}
           </select>
-        ) : (
-          <input
-            type="text"
-            value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') fetchSearchedProblems()
-            }}
-            placeholder="검색어 입력"
-          />
-        )}
 
-        <button onClick={fetchSearchedProblems}>검색</button>
+          {searchCondition === '알고리즘 분류' ? (
+            <select
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
+            >
+              <option value="">전체</option>
+              {allCategories.map(cat => (
+                <option key={cat} value={cat}>{cat}</option>
+              ))}
+            </select>
+          ) : (
+            <input
+              type="text"
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') fetchSearchedProblems()
+              }}
+              placeholder="검색어 입력"
+            />
+          )}
+
+          <button onClick={fetchSearchedProblems}>검색</button>
+        </div>
+
+        <Link to="/problems/add" className="add-problem-button">문제 등록</Link>
       </div>
 
       <ul className="problem-table">

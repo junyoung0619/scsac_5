@@ -184,3 +184,54 @@
   text-decoration: underline;
 }
 
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 24px;
+  gap: 12px;
+}
+
+.pagination-controls button {
+  padding: 8px 14px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  background-color: #1d4ed8;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.pagination-controls button:hover:not(:disabled) {
+  background-color: #1e3a8a;
+}
+
+.pagination-controls button:disabled {
+  background-color: #94a3b8;
+  cursor: not-allowed;
+}
+
+.pagination-controls span {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #334155;
+}
+
+.problem-search {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.search-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
