@@ -13,6 +13,7 @@ import { useEffect,useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { login, logout } from './store/userSlice'
 import api from './api/axios'
+import ScrollToTop from './components/ScrollToTop'
 
 function App() {
   const dispatch = useDispatch()
@@ -54,9 +55,11 @@ function App() {
   }
 
   return (
-    <div className="page-wrapper">
+
     <HashRouter>
+      <ScrollToTop/>
       <Header />
+      <div className="page-wrapper">
       <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route path="/main" element={<MainPage />} />
@@ -68,8 +71,9 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/admin" element={<AdminPage />} />
       </Routes>
+      </div>
     </HashRouter>
-    </div>
+
   )
 }
 

@@ -1,7 +1,7 @@
 #root {
   /* max-width: 100%; */
-  margin: 0 auto;
-  padding: 2rem;
+  /* margin: 0 auto;
+  padding: 2rem; */
   text-align: center;
 }
 
@@ -42,8 +42,7 @@
 }
 
 .page-wrapper {
-  max-width: 100%;
-  /* margin: 0 auto; */
-  padding-top: 80px; /* header 높이만큼 여백 확보 */
-  padding: 0 24px;
+  padding-top: 60px; /* Header 높이 만큼 */
+  min-height: calc(100vh - 60px); /* Header 공간 빼고 컨텐츠가 채워지도록 */
+  background-color: #E6ECFF;
 }

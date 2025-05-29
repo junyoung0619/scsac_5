@@ -12,8 +12,8 @@
   text-align: center;
   font-size: 2rem;
   font-weight: 700;
-  margin-bottom: 9px;
-  margin-top:9px;
+  margin-bottom: 4px;
+  margin-top: 4px;
   color: #1e293b;
 }
 
@@ -22,7 +22,7 @@
   flex-direction: column;
   align-items: flex-end;
   gap: 16px;
-  margin-bottom: 24px;
+  margin-bottom: 12px;
 }
 
 .add-problem-button {
@@ -43,6 +43,11 @@
 }
 .problem-search {
   min-width: 700px;
+  display: flex;
+  justify-content: flex-end; /* 오른쪽 정렬 */
+  align-items: center;        /* 수직 가운데 정렬 (선택) */
+  gap: 8px;                   /* 요소 간 간격 (원하는 대로 조절) */
+  margin-bottom: 20px;        /* 아래 여백도 필요하다면 추가 */
 }
 
 .problem-search select,
@@ -228,14 +233,6 @@
   color: #334155;
 }
 
-.problem-search {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 24px;
-}
 
 .search-controls {
   display: flex;
