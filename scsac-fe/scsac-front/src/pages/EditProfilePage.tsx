@@ -4,6 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import type { RootState } from '../store'
 import api from '../api/axios'
 import { logout } from '../store/userSlice'
+import './EditProfilePage.css'
 
 
 const EditProfile: React.FC = () => {
@@ -54,28 +55,38 @@ const EditProfile: React.FC = () => {
   }
 
   return (
-    <div>
+    <div className="edit-profile-container">
       <h2>회원정보 수정</h2>
-      <div>
-        <label>비밀번호</label><br />
-        <input type="password" name="password" value={form.password} onChange={handleChange} /><br />
+      <div className="edit-profile-form">
+  <div className="form-item">
+    <label>비밀번호</label>
+    <input type="password" name="password" value={form.password} onChange={handleChange} />
+  </div>
 
-        <label>이름</label><br />
-        <input type="text" name="name" value={form.name} onChange={handleChange} /><br />
+  <div className="form-item">
+    <label>이름</label>
+    <input type="text" name="name" value={form.name} onChange={handleChange} />
+  </div>
 
-        <label>계열사</label><br />
-        <input type="text" name="affiliate" value={form.affiliate} onChange={handleChange} /><br />
+  <div className="form-item">
+    <label>계열사</label>
+    <input type="text" name="affiliate" value={form.affiliate} onChange={handleChange} />
+  </div>
 
-        <label>닉네임</label><br />
-        <input type="text" name="nickname" value={form.nickname} onChange={handleChange} /><br />
+  <div className="form-item">
+    <label>닉네임</label>
+    <input type="text" name="nickname" value={form.nickname} onChange={handleChange} />
+  </div>
 
-        <label>BOJ 아이디</label><br />
-        <input type="text" name="bojId" value={form.bojId} onChange={handleChange} /><br />
+  <div className="form-item">
+    <label>BOJ 아이디</label>
+    <input type="text" name="bojId" value={form.bojId} onChange={handleChange} />
+  </div>
 
-        {error && <p style={{ color: 'red' }}>{error}</p>}
+  {error && <p className="error-message">{error}</p>}
 
-        <button onClick={handleSubmit}>수정 완료</button>
-      </div>
+  <button className="edit-profile-button" onClick={handleSubmit}>수정 완료</button>
+</div>
     </div>
   )
 }

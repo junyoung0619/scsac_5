@@ -2,26 +2,20 @@ import React, { useState } from 'react'
 import api from '../api/axios'
 import type { RootState } from '../store'
 import { useSelector } from 'react-redux'
+import './adminPage.css'
 
 const AdminPage: React.FC = () => {
-  // 기수 일괄 등록
   const [num, setNum] = useState('')
   const [generation, setGeneration] = useState('')
   const [initialPassword, setInitialPassword] = useState('')
-
-  // 기수 권한 수정
   const [updateGen, setUpdateGen] = useState('')
-
-  // 관리자 추가
   const [toBeAdminId, setAdminId] = useState('')
 
 
   const user = useSelector((state: RootState) => state.user)
-
   const handleBatchInsert = async () => {
     try {
-      console.log(user);
-      await api.post(`/user/?num=${num}&generation=${generation}&password=${encodeURIComponent(initialPassword)}`);
+      await api.post(`/user/?num=${num}&generation=${generation}&password=${encodeURIComponent(initialPassword)}`)
       alert('기수 일괄 등록 완료')
     } catch (err) {
       alert('기수 등록 실패')
@@ -47,20 +41,19 @@ const AdminPage: React.FC = () => {
   }
 
   return (
-    <div style={{ padding: '20px' }}>
+    <div className="admin-page-container">
       <h2>관리자 페이지</h2>
 
-      {/* 기수 일괄 등록 */}
-      <div style={{ marginBottom: '20px' }}>
+      <section className="admin-section">
         <h3>1. 기수 일괄 등록</h3>
         <input
-          type="num"
+          type="number"
           placeholder="등록할 수"
           value={num}
           onChange={(e) => setNum(e.target.value)}
         />
         <input
-          type="generation"
+          type="number"
           placeholder="기수"
           value={generation}
           onChange={(e) => setGeneration(e.target.value)}
@@ -72,22 +65,20 @@ const AdminPage: React.FC = () => {
           onChange={(e) => setInitialPassword(e.target.value)}
         />
         <button onClick={handleBatchInsert}>등록</button>
-      </div>
+      </section>
 
-      {/* 기수 권한 수정 */}
-      <div style={{ marginBottom: '20px' }}>
+      <section className="admin-section">
         <h3>2. 기수 권한 수정</h3>
         <input
-          type="generation"
+          type="number"
           placeholder="권한 부여할 기수"
           value={updateGen}
           onChange={(e) => setUpdateGen(e.target.value)}
         />
         <button onClick={handleUpdateAdminAuthority}>수정</button>
-      </div>
+      </section>
 
-      {/* 관리자 추가 */}
-      <div style={{ marginBottom: '20px' }}>
+      <section className="admin-section">
         <h3>3. 관리자 추가</h3>
         <input
           type="text"
@@ -96,7 +87,7 @@ const AdminPage: React.FC = () => {
           onChange={(e) => setAdminId(e.target.value)}
         />
         <button onClick={handleAddAdmin}>추가</button>
-      </div>
+      </section>
     </div>
   )
 }
