@@ -54,7 +54,7 @@ function App() {
   }
 
   return (
-    <>
+    <div className="page-wrapper">
     <HashRouter>
       <Header />
       <Routes>
@@ -69,7 +69,7 @@ function App() {
         <Route path="/admin" element={<AdminPage />} />
       </Routes>
     </HashRouter>
-    </>
+    </div>
   )
 }
 

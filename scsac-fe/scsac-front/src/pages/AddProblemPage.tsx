@@ -3,6 +3,7 @@ import api from '../api/axios'
 import type { RootState } from '../store'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import './AddProblemPage.css'
 
 type Problem = {
   url: string
@@ -67,7 +68,6 @@ const AddProblemPage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    
     const payload: Problem = {
       ...problem,
       opinions: [{
@@ -94,16 +94,16 @@ const AddProblemPage: React.FC = () => {
   }
 
   return (
-    <div className="max-w-3xl mx-auto p-6 bg-white shadow rounded-lg">
-      <h1 className="text-2xl font-bold mb-6">문제 등록</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
+    <div className="add-problem-container">
+      <h1 className="page-title">문제 등록</h1>
+      <form onSubmit={handleSubmit} className="form-container">
         <input
           type="text"
           name="url"
           value={problem.url}
           onChange={handleProblemChange}
           placeholder="문제 URL"
-          className="border p-2 w-full"
+          className="input-box"
         />
         <input
           type="number"
@@ -111,7 +111,8 @@ const AddProblemPage: React.FC = () => {
           value={problem.problemNum || ''}
           onChange={handleProblemChange}
           placeholder="문제 번호"
-          className="border p-2 w-full"
+          className="input-box"
+          min={0}
         />
         <input
           type="text"
@@ -119,7 +120,7 @@ const AddProblemPage: React.FC = () => {
           value={problem.title}
           onChange={handleProblemChange}
           placeholder="문제 제목"
-          className="border p-2 w-full"
+          className="input-box"
         />
         <input
           type="number"
@@ -127,7 +128,9 @@ const AddProblemPage: React.FC = () => {
           value={problem.rate || ''}
           onChange={handleProblemChange}
           placeholder="평점 (0~5)"
-          className="border p-2 w-full"
+          className="input-box"
+          min={0}
+          max={5}
         />
         <input
           type="text"
@@ -135,40 +138,42 @@ const AddProblemPage: React.FC = () => {
           value={comment}
           onChange={(e) => setComment(e.target.value)}
           placeholder="의견 코멘트"
-          className="border p-2 w-full"
+          className="input-box-comment"
         />
 
-        <div>
-          <p className="font-medium mb-1">카테고리 선택</p>
-          {allCategories.map(cat => (
-            <label key={cat.id} className="mr-4">
-              <input
-                type="checkbox"
-                checked={selectedCategories.includes(cat.name)}
-                onChange={() => toggleSelection(cat.name, 'category')}
-              />
-              {' '}{cat.name}
-            </label>
-          ))}
-        </div>
+        <section className="checkbox-section">
+          <p className="label-title">카테고리 선택</p>
+          <div className="checkbox-group">
+            {allCategories.map(cat => (
+              <label key={cat.id} className="checkbox-label">
+                <input
+                  type="checkbox"
+                  checked={selectedCategories.includes(cat.name)}
+                  onChange={() => toggleSelection(cat.name, 'category')}
+                />
+                {cat.name}
+              </label>
+            ))}
+          </div>
+        </section>
 
-        <div>
-          <p className="font-medium mb-1">피드백 카테고리 선택</p>
-          {allFeedbackCategories.map(fc => (
-            <label key={fc.id} className="mr-4">
-              <input
-                type="checkbox"
-                checked={selectedFeedbackCategories.includes(fc.name)}
-                onChange={() => toggleSelection(fc.name, 'feedback')}
-              />
-              {' '}{fc.name}
-            </label>
-          ))}
-        </div>
+        <section className="checkbox-section">
+          <p className="label-title">피드백 카테고리 선택</p>
+          <div className="checkbox-group">
+            {allFeedbackCategories.map(fc => (
+              <label key={fc.id} className="checkbox-label">
+                <input
+                  type="checkbox"
+                  checked={selectedFeedbackCategories.includes(fc.name)}
+                  onChange={() => toggleSelection(fc.name, 'feedback')}
+                />
+                {fc.name}
+              </label>
+            ))}
+          </div>
+        </section>
 
-        <button type="submit" className="bg-green-700 text-white px-4 py-2 rounded">
-          등록하기
-        </button>
+        <button type="submit" className="submit-button">등록하기</button>
       </form>
     </div>
   )

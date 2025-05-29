@@ -1,0 +1,111 @@
+/* AddProblemPage 스타일 - 로그인 페이지 컨셉과 일치하도록 수정 */
+
+.add-problem-container {
+  width: 100%;
+  background: white;
+  padding: 3rem 2.5rem;
+  border-bottom-left-radius: 1.5rem;
+  border-bottom-right-radius: 1.5rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  margin: 0 auto;
+  max-height: calc(100vh - 6rem);
+  overflow-y: auto;
+  text-align: center;
+}
+
+.page-title {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: #333;
+  font-weight: 700;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  text-align: left;
+}
+
+.input-box {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 0.75rem;
+  transition: border-color 0.2s ease;
+  box-sizing: border-box;
+  height: 1rem; /* 높이를 고정하여 일관성 유지 */
+}
+
+.input-box-comment {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 0.75rem;
+  transition: border-color 0.2s ease;
+  box-sizing: border-box;
+  height: 10rem; /* 높이를 고정하여 일관성 유지 */
+}
+
+.input-box:focus {
+  border-color: #6366f1; /* 로그인 페이지 포커스 컬러 */
+  outline: none;
+}
+
+.checkbox-section {
+  margin-top: 1rem;
+}
+
+.label-title {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #333;
+  font-size: 1rem;
+}
+
+.checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.checkbox-label {
+  font-size: 1rem;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: 1.2rem;
+  height: 1.0rem;
+  cursor: pointer;
+}
+
+
+.submit-button {
+  margin-top: 2rem;
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  background-color: #6366f1; /* 로그인 버튼 색상과 일치 */
+  color: white;
+  border: none;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: #4f46e5;
+}
+
+.submit-button:active {
+  background-color: #4338ca;
+}
