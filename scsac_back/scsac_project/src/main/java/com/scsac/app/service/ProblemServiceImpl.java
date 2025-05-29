@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.scsac.app.dto.Opinion;
@@ -50,6 +52,12 @@ public class ProblemServiceImpl implements ProblemService {
 		}
 		return problems;
 	}
+
+	public Page<Problem> selectPagedProblems(Pageable pageable) {
+	    Page<ProblemEntity> entities = pr.findAll(pageable);
+	    return entities.map(ProblemEntity::toDto);
+	}
+
 
 	@Override
 	public Problem selectById(int id) {

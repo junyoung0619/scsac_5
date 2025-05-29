@@ -2,6 +2,9 @@ package com.scsac.app.controller;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.scsac.app.dto.Opinion;
 import com.scsac.app.dto.Problem;
+import com.scsac.app.dto.ProblemPageResponse;
 import com.scsac.app.service.OpinionService;
 import com.scsac.app.service.ProblemOpinionFacadeService;
 import com.scsac.app.service.ProblemService;
@@ -32,16 +36,25 @@ public class ProblemController {
 	private final OpinionService os;
 	private final ProblemOpinionFacadeService pos;
 
-	@GetMapping("/")
-	public ResponseEntity<?> selectAll() {
-		System.out.println("문제목록");
-		List<Problem> problems = ps.selectAll();
-		if (problems != null) {
-			return new ResponseEntity<List<Problem>>(problems, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
-		}
+	@GetMapping
+	public ResponseEntity<Page<Problem>> getProblems(
+	        @RequestParam(defaultValue = "0") int page,
+	        @RequestParam(defaultValue = "10") int size) {
+	    Page<Problem> problems = ps.selectPagedProblems(PageRequest.of(page, size));
+	    return ResponseEntity.ok(problems);
 	}
+	
+	
+//	@GetMapping("/")
+//	public ResponseEntity<?> selectAll() {
+//		System.out.println("문제목록");
+//		List<Problem> problems = ps.selectAll();
+//		if (problems != null) {
+//			return new ResponseEntity<List<Problem>>(problems, HttpStatus.OK);
+//		} else {
+//			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+//		}
+//	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<?> selectById(@PathVariable int id) {
