@@ -10,7 +10,7 @@ const fieldNameMap: { [key: string]: string } = {
   name: '이름',
   affiliate: '계열사',
   nickname: '닉네임',
-  bojId: 'BOJ 아이디',
+  boj_id: 'BOJ 아이디',
   // 필요시 다른 필드도 추가
 }
 
