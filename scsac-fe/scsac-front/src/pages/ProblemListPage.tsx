@@ -75,6 +75,9 @@ const ProblemListPage: React.FC = () => {
   return (
     <div className="problem-list-container">
       <h2 className="problem-list-title">문제 목록</h2>
+      <div className="problem-list-controls">
+        <Link to="/add-problem" className="add-problem-button">문제 등록</Link>
+      </div>
 
       <div className="problem-search">
         <select
