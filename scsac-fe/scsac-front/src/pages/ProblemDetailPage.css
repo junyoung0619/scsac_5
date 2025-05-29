@@ -1,9 +1,183 @@
+/* ProblemDetailPage.css */
+
 .problem-detail-container {
-  padding-top: 100px; /* 헤더 높이와 같게 설정 */
-  width: 800px;
-  margin: 0 auto;
-  padding: 5px;
+  max-width: 700px;
+  min-width: 600px;  /* 원하는 최대 너비 */
+  padding: 24px;
   background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+.problem-detail-container h2 {
+  font-size: 28px;
+  color: #1e40af;
+  margin-bottom: 16px;
+}
+
+.problem-detail-container p {
+  font-size: 16px;
+  color: #333;
+}
+
+.problem-detail-container a {
+  color: #2563eb;
+  text-decoration: underline;
+}
+
+button {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.problem-detail-container button {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.problem-detail-container button:hover {
+  background-color: #1d4ed8;
+}
+
+.problem-detail-container .text-center {
+  text-align: center;
+}
+
+textarea,
+input[type="number"] {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-top: 4px;
+}
+
+label {
+  font-weight: 500;
+  margin-bottom: 4px;
+  display: block;
+  color: #111827;
+}
+
+input[type="checkbox"] {
+  margin-right: 6px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 16px;
+}
+
+li p {
+  margin-bottom: 6px;
+  color: #374151;
+}
+
+li button {
+  background: none;
+  color: #2563eb;
+  padding: 0;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+li button:hover {
+  text-decoration: underline;
+}
+
+li button:last-child {
+  color: #dc2626;
+}
+
+.flex {
+  display: flex;
+  gap: 12px;
+}
+
+.space-y-4 > * + * {
+  margin-top: 16px;
+}
+
+.mb-4 {
+  margin-bottom: 16px;
+}
+
+.mb-6 {
+  margin-bottom: 24px;
+}
+
+.mt-10 {
+  margin-top: 40px;
+}
+
+.text-gray-500 {
+  color: #6b7280;
+}
+
+/* 공통 스타일 */
+.tag {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin: 2px;
+  border: 1px solid transparent;
+  background-color: #dfdfc7;
+  color: #333;
+}
+
+/* 카테고리 색상 */
+.tag.구현 {
+  background-color: #e0f7fa;
+  color: #00796b;
+}
+.tag.시뮬레이션 {
+  background-color: #fff3e0;
+  color: #ef6c00;
+}
+.tag.BFS {
+  background-color: #ede7f6;
+  color: #5e35b1;
+}
+.tag.DFS {
+  background-color: #f3e5f5;
+  color: #8e24aa;
+}
+.tag.백트래킹 {
+  background-color: #e1f5fe;
+  color: #0288d1;
+}
+.tag.기타 {
+  background-color: #fbe9e7;
+  color: #d84315;
+}
+
+/* 피드백 카테고리 색상 */
+.tag.구현\:많음 {
+  background-color: #f1f8e9;
+  color: #689f38;
+}
+.tag.실수하기\:쉬운 {
+  background-color: #000000;
+  color: #c2185b;
+}
+.tag.기발한 {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+.tag.교육적인 {
+  background-color: #e3f2fd;
+  color: #1565c0;
 }

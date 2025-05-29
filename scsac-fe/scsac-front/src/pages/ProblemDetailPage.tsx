@@ -5,6 +5,7 @@ import './ProblemDetailPage.css'
 import type { RootState } from '../store'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import './ProblemDetailPage.css'
 
 type Opinion = {
   id: number
@@ -261,9 +262,17 @@ const ProblemDetailPage: React.FC = () => {
           {problem.opinions.map(op => (
             <li key={op.id} className="border rounded-md p-4 shadow-sm bg-gray-50">
               <p><strong>점수:</strong> {op.rate}</p>
-              <p><strong>코멘트:</strong> {op.comment}</p>
-              <p><strong>피드백 카테고리:</strong> {op.feedbackCategory.join(', ')}</p>
-              <p><strong>카테고리:</strong> {op.category.join(', ')}</p>
+              <p><strong>의견:</strong> {op.comment}</p>
+              <p>
+              {op.feedbackCategory.map(cat => (
+                <span key={cat} className={`tag ${cat.replace(/\s/g, '\\ ')}`}>{cat}</span>
+              ))}
+            </p>
+            <p>
+              {op.category.map(cat => (
+                <span key={cat} className={`tag ${cat}`}>{cat}</span>
+              ))}
+            </p>
               {op.userId === userId && (
                 <div className="mt-2 space-x-4">
                   <button

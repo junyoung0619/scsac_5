@@ -11,6 +11,8 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  scroll-behavior: smooth; /* 부드러운 스크롤 */
 }
 
 a {
@@ -28,6 +30,7 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100%;
+  scroll-behavior: smooth; /* 부드러운 스크롤 */
 }
 
 h1 {
