@@ -131,8 +131,6 @@ const ProblemDetailPage: React.FC = () => {
           const result = res.data  // 응답 값이 0 또는 1이라고 가정
           if (result === 0) {
             navigate('/problems')
-          } else if (result === 1) {
-            navigate('/problems')
           } else {
             fetchProblem()
           }
