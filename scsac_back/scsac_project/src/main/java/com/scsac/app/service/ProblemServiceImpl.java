@@ -11,7 +11,9 @@ import java.util.Set;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.scsac.app.dto.Opinion;
@@ -123,7 +125,8 @@ public class ProblemServiceImpl implements ProblemService {
 	                problemsPage = pr.findByRateGreaterThanEqual(rate, pageable);
 	                break;
 	            case "category":
-	                problemsPage = pr.findProblemsByCategoryName(value, pageable);
+	            	Pageable unsortedPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.unsorted());
+	                problemsPage = pr.findProblemsByCategoryName(value, unsortedPageable);
 	                break;
 	            default:
 	                return Page.empty(); // 지원하지 않는 검색 조건
