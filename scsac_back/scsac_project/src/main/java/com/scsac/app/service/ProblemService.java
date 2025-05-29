@@ -12,7 +12,7 @@ public interface ProblemService {
 	List<Problem> selectAll();
 	public Page<Problem> selectPagedProblems(Pageable pageable);
 	Problem selectById(int id);
-	List<Problem> selectBySearchcondition(String condition, String value);
+	Page<Problem> searchPagedProblems(String searchCondition, String value, Pageable pageable);
 	int insertProblem(Problem problem);
 	int deleteProblem(int id);
 	int updateProblem(Problem problem);

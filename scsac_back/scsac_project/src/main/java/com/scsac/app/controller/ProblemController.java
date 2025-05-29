@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -35,7 +36,7 @@ public class ProblemController {
 	private final OpinionService os;
 	private final ProblemOpinionFacadeService pos;
 
-	@GetMapping
+	@GetMapping("/")
 	public ResponseEntity<Page<Problem>> getProblems(
 	        @RequestParam(defaultValue = "0") int page,
 	        @RequestParam(defaultValue = "10") int size) {
@@ -66,17 +67,20 @@ public class ProblemController {
 	}
 
 	@GetMapping("/search")
-	public ResponseEntity<?> searchProblems(@RequestParam String searchCondition, @RequestParam String value) {
+	public ResponseEntity<?> searchProblems(
+	        @RequestParam String searchCondition,
+	        @RequestParam String value,
+	        @RequestParam(defaultValue = "0") int page,
+	        @RequestParam(defaultValue = "10") int size) {
 
-		List<Problem> problems = ps.selectBySearchcondition(searchCondition, value);
-		for (Problem problem : problems) {
-			System.out.println(problem);
-		}
-		if (problems != null) {
-			return new ResponseEntity<List<Problem>>(problems, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
-		}
+	    Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+	    Page<Problem> problems = ps.searchPagedProblems(searchCondition, value, pageable);
+
+	    if (problems.hasContent()) {
+	        return new ResponseEntity<>(problems, HttpStatus.OK);
+	    } else {
+	        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	    }
 	}
 
 	@PostMapping("/")

@@ -3,12 +3,14 @@ package com.scsac.app.service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -80,6 +82,8 @@ public class ProblemServiceImpl implements ProblemService {
 	    });
 	}
 
+	
+	
 
 
 	@Override
@@ -101,51 +105,53 @@ public class ProblemServiceImpl implements ProblemService {
 		problem.setCategories(categoriesList);
 		return problem;
 	}
-	
-	
 	@Override
-	public List<Problem> selectBySearchcondition(String condition, String value) {
-		List<ProblemEntity> problems = new ArrayList<>();
-		try {
-			switch (condition) {
-				case ("problemNum"):
-					System.out.println(Integer.parseInt(value));
-					problems = pr.findByProblemNum(Integer.parseInt(value));
-					break;
-				case ("title"):
-					problems = pr.findByTitleContaining(value);
-					break;
-				case ("rate"):
-					problems = pr.findByRateGreaterThanEqual(Integer.parseInt(value));
-					break;
-				case ("category"):
-					problems = pr.findProblemsByCategoryName(value);
-					break;
-				default:
-					problems = null;
-			} 
-			if (problems == null)
-				return null;
-		}catch (Exception e){
-			return selectAll();
-		}
-		
-		List<Problem> ans = ProblemEntity.toDto(problems);
-		for (Problem problem : ans) {
-			List<OpinionEntity> e = or.findByProblemId(problem.getId());
-			List<Opinion> opinions = OpinionEntity.toDto(e);
-			Set<String> categories = new HashSet<>();
-			for (Opinion opinion : opinions) {
-				for (String category : opinion.getCategory()) {
-					categories.add(category);
-				}
-			}
-			List<String> categoriesList = new ArrayList<>(categories);
-			categoriesList.sort(null);
-			problem.setCategories(categoriesList);
-		}
-		
-		return ans;
+	public Page<Problem> searchPagedProblems(String condition, String value, Pageable pageable) {
+	    Page<ProblemEntity> problemsPage;
+
+	    try {
+	        switch (condition) {
+	            case "problemNum":
+	                int problemNum = Integer.parseInt(value);
+	                problemsPage = pr.findByProblemNum(problemNum, pageable);
+	                break;
+	            case "title":
+	                problemsPage = pr.findByTitleContaining(value, pageable);
+	                break;
+	            case "rate":
+	                int rate = Integer.parseInt(value);
+	                problemsPage = pr.findByRateGreaterThanEqual(rate, pageable);
+	                break;
+	            case "category":
+	                problemsPage = pr.findProblemsByCategoryName(value, pageable);
+	                break;
+	            default:
+	                return Page.empty(); // 지원하지 않는 검색 조건
+	        }
+	    } catch (Exception e) {
+	        // 기본 전체 조회
+	        List<Problem> all = selectAll(); // 전체 조회
+	        int start = (int) pageable.getOffset();
+	        int end = Math.min(start + pageable.getPageSize(), all.size());
+	        List<Problem> sublist = all.subList(start, end);
+	        return new PageImpl<>(sublist, pageable, all.size());
+	    }
+
+	    // DTO 변환 후 카테고리 수동 추가
+	    List<Problem> problemDtoList = ProblemEntity.toDto(problemsPage.getContent());
+	    for (Problem problem : problemDtoList) {
+	        List<OpinionEntity> e = or.findByProblemId(problem.getId());
+	        List<Opinion> opinions = OpinionEntity.toDto(e); 
+	        Set<String> categorySet = new HashSet<>();
+	        for (Opinion opinion : opinions) {
+	            categorySet.addAll(opinion.getCategory());
+	        }
+	        List<String> sortedCategories = new ArrayList<>(categorySet);
+	        Collections.sort(sortedCategories);
+	        problem.setCategories(sortedCategories);
+	    }
+
+	    return new PageImpl<>(problemDtoList, pageable, problemsPage.getTotalElements());
 	}
 
 	@Override
