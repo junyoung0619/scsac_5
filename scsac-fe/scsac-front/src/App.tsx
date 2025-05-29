@@ -1,7 +1,7 @@
 // 📁 src/App.tsx
 import Header from './components/Header'
 import LoginPage from './pages/LoginPage'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { HashRouter, Routes, Route } from 'react-router-dom'
 import MainPage from './pages/MainPage'
 import MyPage from './pages/MyPage'
 import EditProfile from './pages/EditProfilePage'
@@ -55,7 +55,7 @@ function App() {
 
   return (
     <>
-    <BrowserRouter>
+    <HashRouter>
       <Header />
       <Routes>
         <Route path="/" element={<LoginPage />} />
@@ -68,7 +68,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/admin" element={<AdminPage />} />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
     </>
   )
 }

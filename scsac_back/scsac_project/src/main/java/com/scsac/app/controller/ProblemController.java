@@ -34,6 +34,7 @@ public class ProblemController {
 
 	@GetMapping("/")
 	public ResponseEntity<?> selectAll() {
+		System.out.println("문제목록");
 		List<Problem> problems = ps.selectAll();
 		if (problems != null) {
 			return new ResponseEntity<List<Problem>>(problems, HttpStatus.OK);

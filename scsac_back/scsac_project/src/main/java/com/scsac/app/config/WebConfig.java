@@ -23,6 +23,7 @@ public class WebConfig {
 //                    .allowedHeaders("*")
 //                    .allowCredentials(true);
 //            }
+        	
         };
     }
 }
