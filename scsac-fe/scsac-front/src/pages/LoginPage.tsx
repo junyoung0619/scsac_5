@@ -5,7 +5,7 @@ import type { RootState } from '../store'
 import { login } from '../store/userSlice'
 
 import api from '../api/axios'
-import '../components/LoginPage.css'
+import './LoginPage.css'
 
 function LoginPage() {
   const isLoggedIn = useSelector((state: RootState) => state.user.isLoggedIn)
