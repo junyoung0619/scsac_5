@@ -111,7 +111,7 @@ const ProblemListPage: React.FC = () => {
         )}
 
         <button onClick={handleSearch}>검색</button>
-        <Link to="/problems/add" className="add-problem-button">문제 등록</Link>
+        <Link to="/add-problem" className="add-problem-button">문제 등록</Link>
       </div>
 
       <ul className="problem-table">

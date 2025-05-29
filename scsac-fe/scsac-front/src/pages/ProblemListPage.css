@@ -40,14 +40,20 @@
 .add-problem-button:hover {
   background-color: #1e3a8a;
 }
+.problem-search {
+  min-width: 700px;
+}
 
 .problem-search select,
 .problem-search input {
+  min-width: 160px; /* 고정된 최소 너비 */
+  width: 220px;     /* 동일한 너비로 설정 */
   padding: 6px 10px;
   font-size: 0.95rem;
   border: 1px solid #cbd5e1;
   border-radius: 6px;
   margin-right: 8px;
+  box-sizing: border-box;
 }
 
 .problem-search button {

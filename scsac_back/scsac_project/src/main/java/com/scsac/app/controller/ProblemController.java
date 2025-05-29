@@ -36,7 +36,7 @@ public class ProblemController {
 	private final OpinionService os;
 	private final ProblemOpinionFacadeService pos;
 
-	@GetMapping("/")
+	@GetMapping("")
 	public ResponseEntity<Page<Problem>> getProblems(
 	        @RequestParam(defaultValue = "0") int page,
 	        @RequestParam(defaultValue = "10") int size) {
