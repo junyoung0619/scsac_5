@@ -50,7 +50,7 @@ const MyPage: React.FC = () => {
             .filter(([key]) => !excludedKeys.includes(key))
             .map(([key, value]) => (
               <p key={key}>
-                <strong>{fieldNameMap[key] || key}:</strong> {value}
+                <strong>{fieldNameMap[key] || key}</strong> {value}
               </p>
             ))}
 
