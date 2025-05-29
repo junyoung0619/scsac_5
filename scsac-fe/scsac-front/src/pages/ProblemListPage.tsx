@@ -34,10 +34,12 @@ const ProblemListPage: React.FC = () => {
       const res = await api.get('/problem', {
         params: { page, size: 10 }
       })
-      setProblems(res.data.content)
-      setTotalPages(res.data.totalPages)
+      setProblems(Array.isArray(res.data.content) ? res.data.content : [])
+      setTotalPages(typeof res.data.totalPages === 'number' ? res.data.totalPages : 0)
     } catch (err) {
       console.error('문제 목록 로딩 실패:', err)
+      setProblems([])
+      setTotalPages(0)
     }
   }
 
@@ -52,12 +54,14 @@ const ProblemListPage: React.FC = () => {
           size: 10
         }
       })
-      setProblems(res.data.content)
-      setTotalPages(res.data.totalPages)
+      setProblems(Array.isArray(res.data.content) ? res.data.content : [])
+      setTotalPages(typeof res.data.totalPages === 'number' ? res.data.totalPages : 0)
       setPage(page)
       setIsSearchMode(true)
     } catch (err) {
       console.error('검색 실패:', err)
+      setProblems([])
+      setTotalPages(0)
     }
   }
 
@@ -121,24 +125,32 @@ const ProblemListPage: React.FC = () => {
           <span className="problem-col">분류</span>
           <span className="problem-col">링크</span>
         </li>
-        {problems.map(problem => (
-          <li key={problem.id} className="problem-row">
-            <Link to={`/problems/${problem.id}`} className="problem-col problem-title">
-              {problem.title}
-            </Link>
-            <span className="problem-col">{problem.problemNum}</span>
-            <span className="problem-col">{problem.rate}</span>
-            <span className="problem-col">{problem.categories?.join(', ')}</span>
-            <a
-              href={problem.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="problem-col problem-link"
-            >
-              링크
-            </a>
+        {Array.isArray(problems) && problems.length > 0 ? (
+          problems.map(problem => (
+            <li key={problem.id} className="problem-row">
+              <Link to={`/problems/${problem.id}`} className="problem-col problem-title">
+                {problem.title}
+              </Link>
+              <span className="problem-col">{problem.problemNum}</span>
+              <span className="problem-col">{problem.rate}</span>
+              <span className="problem-col">{problem.categories?.join(', ')}</span>
+              <a
+                href={problem.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="problem-col problem-link"
+              >
+                링크
+              </a>
+            </li>
+          ))
+        ) : (
+          <li className="problem-row">
+            <span className="problem-col" style={{ gridColumn: '1 / -1', textAlign: 'center' }}>
+              검색 결과가 없습니다.
+            </span>
           </li>
-        ))}
+        )}
       </ul>
 
       {totalPages > 1 && (

@@ -77,8 +77,10 @@ public class ProblemController {
 	    Page<Problem> problems = ps.searchPagedProblems(searchCondition, value, pageable);
 
 	    if (problems.hasContent()) {
+	    	System.out.println("성공");
 	        return new ResponseEntity<>(problems, HttpStatus.OK);
 	    } else {
+	    	System.out.println("이게 없네");
 	        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	    }
 	}
