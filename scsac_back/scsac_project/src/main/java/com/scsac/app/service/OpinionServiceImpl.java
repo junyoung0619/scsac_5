@@ -61,7 +61,7 @@ public class OpinionServiceImpl implements OpinionService {
 
 		Set<FeedbackCategoryEntity> feedbackCategories = opinion.getFeedbackCategory().stream().map(fcr::findByName)
 				.flatMap(Optional::stream).collect(Collectors.toSet());
-
+	
 		OpinionEntity entity = Opinion.toEntity(opinion, problem, user, categories, feedbackCategories);
 
 		return or.save(entity) != null ? 1 : 0;
@@ -72,7 +72,7 @@ public class OpinionServiceImpl implements OpinionService {
 	public int updateOpinion(Opinion opinion) {
 
 		Optional<OpinionEntity> oe = or.findById(opinion.getId());
-		if (oe.isPresent())
+		if (oe.isEmpty())
 			return 0;
 
 		OpinionEntity e = oe.get();
