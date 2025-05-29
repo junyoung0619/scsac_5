@@ -54,15 +54,17 @@ const MyPage: React.FC = () => {
               </p>
             ))}
 
-          <button className="edit-button" onClick={() => setShowModal(true)}>
-            회원정보 수정
-          </button>
+          <div className="button-row">
+            <button className="edit-button" onClick={() => setShowModal(true)}>
+              회원정보 수정
+            </button>
 
-          {user.authority === 1 && (
-            <div className="admin-buttons">
-              <button onClick={() => navigate('/admin')}>어드민 페이지</button>
-            </div>
-          )}
+            {user.authority === 1 && (
+              <button onClick={() => navigate('/admin')} className="admin-button">
+                어드민 페이지
+              </button>
+            )}
+          </div>
 
           {showModal && (
             <div className="modal-overlay">
