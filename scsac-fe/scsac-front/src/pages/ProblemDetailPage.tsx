@@ -132,7 +132,7 @@ const ProblemDetailPage: React.FC = () => {
           if (result === 0) {
             navigate('/problems')
           } else if (result === 1) {
-            navigate('/tmp')
+            navigate('/problems')
           } else {
             fetchProblem()
           }

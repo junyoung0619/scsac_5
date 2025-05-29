@@ -7,16 +7,18 @@
   font-family: 'Pretendard', sans-serif;
   border-top-left-radius: 1.5rem;
   border-top-right-radius: 1.5rem;
-  min-height: 60px;
+  min-height: 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  z-index: 1000; /* 충분히 큰 값 */
 
 }
 
 /* 문제 목록 페이지 헤더 너비 */
 .header.problem-list {
   max-width: 1200px;
+  height: 80px;
 }
 
 /* 그 외 페이지 헤더 너비 */
@@ -25,7 +27,7 @@
 }
 
 .header-title {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
   cursor: pointer;
 }

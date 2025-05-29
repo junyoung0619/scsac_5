@@ -38,7 +38,9 @@ function Header() {
             </div>
           </div>
         ) : (
-          <button onClick={() => navigate('/login')}>로그인</button>
+          <div className="header-buttons-vertical">
+          <button  onClick={() => navigate('/login')}>로그인</button>
+          </div>
         )}
       </div>
     </header>
