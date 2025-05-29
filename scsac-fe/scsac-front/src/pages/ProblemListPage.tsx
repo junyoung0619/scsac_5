@@ -1,9 +1,10 @@
+
 import React, { useEffect, useState } from 'react'
 import api from '../api/axios'
 import './ProblemListPage.css'
 import { Link } from 'react-router-dom'
 
-type Problem = {
+interface Problem {
   id: number
   url: string
   problemNum: number
@@ -27,6 +28,7 @@ const ProblemListPage: React.FC = () => {
   const [totalPages, setTotalPages] = useState(0)
   const [searchCondition, setSearchCondition] = useState('문제 번호')
   const [searchValue, setSearchValue] = useState('')
+  const [isSearchMode, setIsSearchMode] = useState(false)
 
   const fetchProblems = async (page: number) => {
     try {
@@ -40,36 +42,42 @@ const ProblemListPage: React.FC = () => {
     }
   }
 
-  const fetchSearchedProblems = async () => {
+  const fetchSearchedProblems = async (page: number = 0) => {
     const backendKey = conditionMap[searchCondition]
     try {
       const res = await api.get('/problem/search', {
         params: {
           searchCondition: backendKey,
-          value: searchValue
+          value: searchValue,
+          page,
+          size: 10
         }
       })
-      if (Array.isArray(res.data)) {
-        setProblems(res.data)
-        setTotalPages(1)
-        setPage(0)
-      } else {
-        setProblems([])
-        setTotalPages(0)
-      }
+      setProblems(res.data.content)
+      setTotalPages(res.data.totalPages)
+      setPage(page)
+      setIsSearchMode(true)
     } catch (err) {
       console.error('검색 실패:', err)
     }
   }
 
   useEffect(() => {
-    fetchProblems(page)
+    if (!isSearchMode) fetchProblems(page)
   }, [page])
 
   const handlePageChange = (newPage: number) => {
     if (newPage >= 0 && newPage < totalPages) {
-      setPage(newPage)
+      if (isSearchMode) {
+        fetchSearchedProblems(newPage)
+      } else {
+        setPage(newPage)
+      }
     }
+  }
+
+  const handleSearch = () => {
+    fetchSearchedProblems(0)
   }
 
   return (
@@ -77,41 +85,32 @@ const ProblemListPage: React.FC = () => {
       <h2 className="problem-list-title">문제 목록</h2>
 
       <div className="problem-search">
-        <div className="search-controls">
-          <select
-            value={searchCondition}
-            onChange={(e) => setSearchCondition(e.target.value)}
-          >
-            {searchConditions.map(cond => (
-              <option key={cond} value={cond}>{cond}</option>
+        <select value={searchCondition} onChange={e => setSearchCondition(e.target.value)}>
+          {searchConditions.map(cond => (
+            <option key={cond} value={cond}>{cond}</option>
+          ))}
+        </select>
+
+        {searchCondition === '알고리즘 분류' ? (
+          <select value={searchValue} onChange={e => setSearchValue(e.target.value)}>
+            <option value="">전체</option>
+            {allCategories.map(cat => (
+              <option key={cat} value={cat}>{cat}</option>
             ))}
           </select>
+        ) : (
+          <input
+            type="text"
+            value={searchValue}
+            onChange={e => setSearchValue(e.target.value)}
+            onKeyDown={e => {
+              if (e.key === 'Enter') handleSearch()
+            }}
+            placeholder="검색어 입력"
+          />
+        )}
 
-          {searchCondition === '알고리즘 분류' ? (
-            <select
-              value={searchValue}
-              onChange={(e) => setSearchValue(e.target.value)}
-            >
-              <option value="">전체</option>
-              {allCategories.map(cat => (
-                <option key={cat} value={cat}>{cat}</option>
-              ))}
-            </select>
-          ) : (
-            <input
-              type="text"
-              value={searchValue}
-              onChange={(e) => setSearchValue(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') fetchSearchedProblems()
-              }}
-              placeholder="검색어 입력"
-            />
-          )}
-
-          <button onClick={fetchSearchedProblems}>검색</button>
-        </div>
-
+        <button onClick={handleSearch}>검색</button>
         <Link to="/problems/add" className="add-problem-button">문제 등록</Link>
       </div>
 

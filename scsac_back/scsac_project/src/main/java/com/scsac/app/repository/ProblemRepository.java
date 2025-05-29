@@ -3,6 +3,8 @@ package com.scsac.app.repository;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -14,11 +16,11 @@ public interface ProblemRepository extends JpaRepository<ProblemEntity, Integer>
 	
 	Optional<ProblemEntity> findById(int id);
 	
-    List<ProblemEntity> findByProblemNum(int problemNum);
+    Page<ProblemEntity> findByProblemNum(int problemNum,Pageable pageable);
 
-    List<ProblemEntity> findByTitleContaining(String title);
+    Page<ProblemEntity> findByTitleContaining(String title,Pageable pageable);
 
-    List<ProblemEntity> findByRateGreaterThanEqual(int rate);
+    Page<ProblemEntity> findByRateGreaterThanEqual(int rate,Pageable pageable);
     
     @Query("""
     	    SELECT DISTINCT o.problem
@@ -26,7 +28,7 @@ public interface ProblemRepository extends JpaRepository<ProblemEntity, Integer>
     	    JOIN o.categories c
     	    WHERE c.name = :categoryName
     	""")
-    List<ProblemEntity> findProblemsByCategoryName(String categoryName);
+    Page<ProblemEntity> findProblemsByCategoryName(String categoryName,Pageable pageable);
     void deleteById(int id);
 
 }
